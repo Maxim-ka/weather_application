@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/current_frame_indent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/current_frame_city_text_size"
+                android:padding="@dimen/current_frame_indent"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/day_time"
+                app:layout_constraintVertical_chainStyle="spread"
+                />
+
+            <LinearLayout
+                android:id="@+id/day_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/city"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/icon">
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/current_frame_indent"
+                    android:paddingEnd="@dimen/current_frame_indent"
+                    android:textSize="@dimen/current_frame_datetime_text_size"
+                    />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/current_frame_indent"
+                    android:paddingEnd="@dimen/current_frame_indent"
+                    android:textSize="@dimen/current_frame_datetime_text_size"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/current_frame_size_image"
+                android:layout_height="@dimen/current_frame_size_image"
+                android:contentDescription="@string/str_image"
+                app:layout_constraintTop_toBottomOf="@id/day_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintBottom_toTopOf="@id/text"
+                app:layout_constraintHorizontal_chainStyle="spread"/>
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/current_frame_temp_text_size"
+                app:layout_constraintTop_toBottomOf="@id/day_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintBottom_toTopOf="@id/text"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/current_frame_indent"
+                android:gravity="center"
+                android:textSize="@dimen/current_frame_text_text_size"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                app:layout_constraintBottom_toTopOf="@id/properties"/>
+
+            <include layout="@layout/properties_weather"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

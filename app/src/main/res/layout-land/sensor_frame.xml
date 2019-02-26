@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/indent">
+
+    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.sensors.CustomView
+        android:id="@+id/customView_pressureMeter"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/indent"
+        android:padding="@dimen/half_an_indent"
+        app:cv_Color="@color/colorAccent"
+        app:cv_SensorName="@string/pressure_meter"
+        app:cv_SensorReadings="@string/absent" />
+
+    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.sensors.CustomView
+        android:id="@+id/customView_temperatureSensor"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/indent"
+        android:padding="@dimen/half_an_indent"
+        app:cv_Color="@color/colorAccent"
+        app:cv_SensorName="@string/temperature_sensor"
+        app:cv_SensorReadings="@string/absent" />
+
+    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.sensors.CustomView
+        android:id="@+id/customView_humiditySensor"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/indent"
+        android:padding="@dimen/half_an_indent"
+        app:cv_Color="@color/colorAccent"
+        app:cv_SensorName="@string/humidity_sensor"
+        app:cv_SensorReadings="@string/absent" />
+
+</LinearLayout>
+
+

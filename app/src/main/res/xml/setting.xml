@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <PreferenceCategory
+        android:title="@string/request">
+
+        <CheckBoxPreference
+            android:key="key lang"
+            android:title="@string/answer"
+            android:summaryOff="@string/str_EN"
+            android:summaryOn="@string/str_RU"
+            android:defaultValue="false"
+            />
+
+        <EditTextPreference
+            android:key="key APIUX"
+            android:title="@string/current_key"
+            android:dialogTitle="@string/change_current_key"
+            android:defaultValue="@string/key_apiux"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/request_geocoder">
+
+        <SwitchPreference
+            android:key="key onGeoCoder"
+            android:title="GeoCoder"
+            android:summaryOff="OFF"
+            android:summaryOn="ON"
+            android:defaultValue="false"
+            android:disableDependentsState="false"/>
+
+        <EditTextPreference
+            android:key="key OpenCage"
+            android:dependency="key onGeoCoder"
+            android:title="@string/title_key_OpenCage"
+            android:dialogTitle="@string/change_current_key"
+            android:defaultValue="@string/key_opencage"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

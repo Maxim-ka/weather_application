@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/indent"
+    android:gravity="center_vertical">
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/indent"
+        android:textSize="@dimen/progress_bar_chronometer_size"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressCircle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:indeterminate="true"
+        android:layout_margin="@dimen/indent"
+        style="@android:style/Widget.Holo.ProgressBar.Large"/>
+
+    <ProgressBar
+        android:id="@+id/progressLine"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:indeterminate="false"
+        android:layout_margin="@dimen/indent"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+</LinearLayout>

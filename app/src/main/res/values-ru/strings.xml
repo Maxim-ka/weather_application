@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">погода</string>
+    <string name="current_location">текущее местоположение</string>
+    <string name="title_me">"Немного обо мне. "</string>
+    <string name="no_permission_determine_location">"Нет разрешения на определение местоположения "</string>
+    <string name="unable_determine_coordinates">Не удалось определить координаты текущего места,\n
+        текущая точность %1$.2f м.\n Можете повторить попытку</string>
+    <string name="Unable_determine_Check_network">Не удалось определить координаты.\n
+        Проверьте наличие интернета и настройки геолокации.</string>
+    <string name="message_not_sent">Ошибка, сообщение не отправлено</string>
+    <string name="message_not_delivered">Ошибка, сообщение не доставлено</string>
+    <string name="delete_selected_cities">Удалить выбранные города?</string>
+    <string name="clear_all">Удалить все?</string>
+    <string name="place">район,город,регион,страна,континент</string>
+    <string name="city">город:</string>
+    <string name="region">регион:</string>
+    <string name="day">день:</string>
+    <string name="state">состояние:</string>
+    <string name="min_temp">мин температура:</string>
+    <string name="max_temp">макс температура:</string>
+    <string name="max_wind">макс ветер:</string>
+    <string name="aver_humidity">средняя влажность:</string>
+    <string name="rainfall">кол-во осадков:</string>
+    <string name="sunrise">восход:</string>
+    <string name="sunset">закат:</string>
+    <string name="moonrise">восход луны:</string>
+    <string name="moonset">закат луны:</string>
+    <string name="data_update">дата обновления:</string>
+    <string name="temp">температура:</string>
+    <string name="wind">"ветер: "</string>
+    <string name="humidity">влажность:</string>
+    <string name="pressure">давление:</string>
+    <string name="overcast">облачность:</string>
+    <string name="felt">ощущение:</string>
+    <string name="send_SMS">Отправить %1$d СМС?\n
+        Оператор может взымать дополнительную плату</string>
+    <string name="email">E-MAIL</string>
+    <string name="sun">восход солнце закат</string>
+    <string name="moon">восход луна закат</string>
+    <string name="set_city">определить город</string>
+    <string name="about_me">Клиентское приложение погоды v1 12.2018.\n
+        Автор Ресчиков Максим.\n
+        Это мое первое приложение на андроид.\n
+        2-ая четверть курса факультета андроид разработки GeekUniversity.\n
+        Приложение использует данные погоды полученные с https://www.apixu.com/,\n
+        координаты прямого геокодирования с https://opencagedata.com/</string>
+    <string name="disabling_location">отключено определение по сети местоположения</string>
+    <string name="no_network">Нет соединения</string>
+    <string name="message_sent">Сообщение отправлено</string>
+    <string name="message_delivered">Сообщение доставлено</string>
+    <string name="cities">Список городов</string>
+    <string name="preference">Настройки</string>
+    <string name="delete">Удаление</string>
+    <string name="how_to_send">Как отправить?</string>
+    <string name="out_date">данные устарели</string>
+    <string name="current_state">текущее состояние</string>
+    <string name="forecast">прогноз на 7 дней</string>
+    <string name="send_as_SMS">отправить как СМС</string>
+    <string name="send_by_email">отправить на E-MAIL</string>
+    <string name="enter_the_phone_of_the_recipient">телефонный номер получателя</string>
+    <string name="recipient_email">E-MAIL получателя</string>
+    <string name="SMS_sending">Отправка СМС</string>
+    <string name="settings">Настройки</string>
+    <string name="feedback_email">Обратная связь</string>
+    <string name="about_developer">О разработчике приложения</string>
+    <string name="location">Местоположение</string>
+    <string name="select_city">Выбрать город</string>
+    <string name="add_city">Добавить город</string>
+    <string name="remove">Удалить</string>
+    <string name="to_share">Поделиться</string>
+    <string name="sms">СМС</string>
+    <string name="menu_exit">Выход</string>
+    <string name="sender_email">E-Mail отправителя</string>
+    <string name="sender_mail_password">пароль</string>
+    <string name="topic_letter">Тема письма</string>
+    <string name="specify_place">Укажите место прогноза погоды</string>
+    <string name="request">Запрос погоды</string>
+    <string name="answer">Получить текущее состояние на: </string>
+    <string name="current_key">Текуший ключ APIUX</string>
+    <string name="latitude">широта:</string>
+    <string name="longitude">долгота:</string>
+    <string name="country">страна</string>
+    <string name="choice">Выбрать</string>
+    <string name="to_cancel">Отменить</string>
+<!--сенсоры-->
+    <string name="sensors">Использование внутренних датчиков</string>
+    <string name="pressure_meter">датчик давления</string>
+    <string name="temperature_sensor">датчик температуры</string>
+    <string name="humidity_sensor">датчик влажности</string>
+    <string name="absent">Отсутствует</string>
+<!--единицы измерения-->
+    <string name="pct"> %</string>
+    <string name="mm"> мм</string>
+    <string name="mm_Hg">"мм.рт.ст."</string>
+    <string name="m_c"> м/с</string>
+<!--Toast сообщения-->
+    <string name="saved">Сохранено</string>
+    <string name="not_saved">Не сохранено</string>
+    <string name="email_not_sent">письмо не отправлено</string>
+    <string name="email_sent">письмо отправлено</string>
+    <string name="toast_format_coordinates">широта: %1$f\nдолгота: %2$f\nточность: %3$.2f м</string>
+    <string name="enter_phone_number">Вы должны ввести номер телефона получателя, без пробелов и тире</string>
+    <string name="fill_contact">Вы должны заполнить контакт</string>
+    <string name="enter_recipient_email">Вы должны ввести адрес эл. почты получателя</string>
+    <string name="not_all_fields_filled">Не все поля заполнены для отправки письма</string>
+    <string name="enter_your_email">Вы должны ввести свой e-mail</string>
+    <string name="you_must_enter_place">Вы должны указать в порядке возрастания, через запятую
+        часть или все параметры места: район, город, регион, страна, континент. Без цифр</string>
+<!--ошибки Гугл-->
+    <string name="update_Google_service">Необходимо обновление Google сервиса. Продолжить без обновления?</string>
+    <string name="update_version_Google">Вы обязаны обновить версию Google сервиса. Продолжить без обновления?</string>
+    <string name="Google_disabled">Google сервис отключен. Все равно продолжить?</string>
+    <string name="Google_service_error">Ошибка Google сервиса. Все равно продолжить?</string>
+    <string name="Crash_service_google">Проблема с google сервис. Все равно продолжить?</string>
+    <string name="no_Google_service">У вас отстутвует Google сервис. Все равно продолжить?</string>
+
+    <string name="failure">Сервер, сбой:</string>
+    <string name="change_current_key">Сменить текущий ключ</string>
+    <string name="enter_city">Введите название города</string>
+    <string name="you_must_enter_city">Вы должны ввести название города</string>
+    <string name="district_city_region_country">указать в порядке возрастания
+        (от наименьшего до наибольшего), через запятую, часть или все параметры места:
+        район, город, регион, страна, континент.</string>
+    <string name="name_city">город</string>
+    <string name="request_geocoder">запрос geocoder</string>
+    <string name="title_key_OpenCage">текущий ключ OpenCage</string>
+    <string name="determine_location">Определить место прогноза погоды</string>
+    <string name="go_out">хотите выйти? двойное нажатие</string>
+    <string name="msg_limit_calls_geoservice">Превышен дневной лимит запросов в geocoder.\nСледующее обращение возможно %1$s</string>
+    <string name="msg_location_not_found">Указанное местоположение не найдено</string>
+    <string name="title_choose_place">Выберите ближайшее место</string>
+</resources>

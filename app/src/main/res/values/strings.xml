@@ -1,0 +1,171 @@
+<resources>
+    <string name="app_name">weather_application</string>
+    <string name="current_location">Current location</string>
+    <string name="set_city">Set city</string>
+    <string name="user_name" translatable="false">User name</string>
+    <string name="about_me">Weather client application v1 12.2018.\n
+         Author Reschikov Maxim.\n
+         This is my first android app.\n
+         2nd quarter of the course of the Faculty of android development GeekUniversity.\n
+         The application uses weather data obtained from https://www.apixu.com/,\n
+         coordinates of direct geocoding from https://opencagedata.com/</string>
+    <string name="title_me">a little about me</string>
+    <string name="disabling_location">disabling network location</string>
+    <string name="no_permission_determine_location">no permission to determine location</string>
+    <string name="no_network">no network connection</string>
+    <string name="unable_determine_coordinates">Unable to determine coordinates, current accuracy %1$.2f m. Can try again</string>
+    <string name="Unable_determine_Check_network">Unable to determine location. Check network and geolocation settings</string>
+    <string name="message_not_sent">error message not sent</string>
+    <string name="message_sent">Message sent</string>
+    <string name="message_not_delivered">error message not delivered</string>
+    <string name="message_delivered">Message delivered</string>
+    <string name="cities">list of cities</string>
+    <string name="preference">preference</string>
+    <string name="delete_selected_cities">Delete selected cities?</string>
+    <string name="clear_all">Clear all?</string>
+    <string name="delete">Delete</string>
+    <string name="how_to_send">how to send</string>
+    <string name="place">district,city,region,country,continent</string>
+    <string name="city">city:</string>
+    <string name="region">region:</string>
+    <string name="day">day:</string>
+    <string name="state">state:</string>
+    <string name="min_temp">min temperature:</string>
+    <string name="max_temp">max temperature:</string>
+    <string name="max_wind">max wind:</string>
+    <string name="aver_humidity">average humidity:</string>
+    <string name="rainfall">rainfall:</string>
+    <string name="sunrise">sunrise:</string>
+    <string name="sunset">sunset:</string>
+    <string name="moonrise">moonrise:</string>
+    <string name="moonset">moonset:</string>
+    <string name="out_date">data is out of date</string>
+    <string name="data_update">data update:</string>
+    <string name="temp">temperature:</string>
+    <string name="wind">wind: </string>
+    <string name="humidity">humidity:</string>
+    <string name="pressure">pressure:</string>
+    <string name="overcast">overcast:</string>
+    <string name="felt">felt:</string>
+    <string name="current_state">current state</string>
+    <string name="forecast">7 day forecast</string>
+    <string name="send_as_SMS">send as SMS</string>
+    <string name="send_by_email">send by email</string>
+    <string name="enter_the_phone_of_the_recipient">Enter the phone of the recipient</string>
+    <string name="recipient_email">enter the recipient\'s e-mail</string>
+    <string name="SMS_sending">SMS sending</string>
+    <string name="send_SMS">Send %1$d SMS? Operator may charge extra</string>
+    <string name="settings">settings</string>
+    <string name="feedback_email">feedback email</string>
+    <string name="about_developer">about developer</string>
+    <string name="location">Location</string>
+    <string name="select_city">Select city</string>
+    <string name="add_city">Add city</string>
+    <string name="remove">Remove</string>
+    <string name="to_share">to share</string>
+    <string name="sms">SMS</string>
+    <string name="email">EMAIL</string>
+    <string name="menu_exit">EXIT</string>
+    <string name="sun">sunrise sun sunset</string>
+    <string name="moon">moonrise moonset</string>
+    <string name="sender_email">Sender\'s e-mail</string>
+    <string name="sender_mail_password">Sender mail password</string>
+    <string name="topic_letter">Topic of the letter</string>
+    <string name="specify_place">Specify the location of the weather forecast</string>
+    <string name="request">request weather</string>
+    <string name="answer">to answer, use the russian language</string>
+    <string name="current_key">current key APIUX</string>
+    <string name="country">country</string>
+    <string name="latitude">latitude:</string>
+    <string name="longitude">longitude:</string>
+    <string name="choice">Choice</string>
+<!--сенсоры-->
+    <string name="sensors">Use of internal sensors</string>
+    <string name="pressure_meter">Pressure meter</string>
+    <string name="temperature_sensor">Temperature sensor</string>
+    <string name="humidity_sensor">Humidity sensor</string>
+    <string name="absent">Absent</string>
+<!--единицы измерения-->
+    <string name="mm_Hg"> mmHg</string>
+    <string name="pct"> %</string>
+    <string name="m_c">m/c</string>
+    <string name="mm">mm</string>
+<!--Toast сообщения-->
+    <string name="saved">Saved</string>
+    <string name="not_saved">Not saved</string>
+    <string name="toast_format_coordinates">lat: %1$f lon: %2$f acc: %3$.2f m</string>
+    <string name="email_not_sent">EMAIL NOT SENT</string>
+    <string name="email_sent">EMAIL SENT</string>
+    <string name="fill_contact">you must fill the contact</string>
+    <string name="enter_phone_number">you must enter the recipient\'s phone number, only numbers</string>
+    <string name="enter_recipient_email">you must enter the recipient\'s e-mail</string>
+    <string name="not_all_fields_filled">not all sender fields are filled in to send emails</string>
+    <string name="enter_your_email">you must enter the your e-mail</string>
+    <string name="you_must_enter_place">You must specify in ascending order (from the smallest to the largest),
+        separated by commas, part or all of the parameters of the place:
+        district, city, region, country, continent. Without numbers.</string>
+<!--ошибки Гугл-->
+    <string name="no_Google_service">There is no Google service. Continue anyway?</string>
+    <string name="update_Google_service">It is necessary to update the Google service. Continue without updating?</string>
+    <string name="update_version_Google">You need to update the version of Google service. Continue without updating?</string>
+    <string name="Google_disabled">Google service is disabled. Continue anyway?</string>
+    <string name="Google_service_error">Google service error. Continue anyway?</string>
+    <string name="Crash_service_google">Crash service google. Continue anyway?</string>
+
+    <string name="failure">ServerResponse, failure:</string>
+<!--параметры-->
+    <string name="int_navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="int_navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+<!--кнопки-->
+    <string name="ok" translatable="false">OK</string>
+    <string name="cancel" translatable="false">Cancel</string>
+
+<!--формат строки-->
+    <string name="fractional_number" translatable="false">%1$.4f</string>
+    <string name="percentage" translatable="false">%1$.2f %%</string>
+    <string name="format_one_string" translatable="false">%1$s</string>
+
+<!--база данных-->
+    <string name="request_one_parameter" translatable="false">%1$s = ?</string>
+    <string name="request_two_parameters" translatable="false">%1$s = ? AND %2$s = ?</string>
+    <string name="request_inner_join" translatable="false">%1$s INNER JOIN %2$s ON %3$s = %2$s.%4$s</string>
+    <string name="vacuum" translatable="false">VACUUM</string>
+
+<!--шаблон сравнения-->
+    <string name="numbers" translatable="false">^\\+?\\d+$</string>
+    <string name="not_number" translatable="false">\\D+</string>
+    <string name="reg_email" translatable="false">^\.+@\\w+\\.[a-z]{2,}$</string>
+    <string name="pattern_H_mm" translatable="false">H:mm</string>
+    <string name="pattern_h_mm_a" translatable="false">h:mm a</string>
+
+    <string name="type_image" translatable="false">image/*</string>
+    <string name="type_text_plain" translatable="false">text/plain</string>
+
+    <string name="str_content" translatable="false">content</string>
+    <string name="str_en" translatable="false">en</string>
+    <string name="str_RU" translatable="false">RU</string>
+    <string name="str_EN" translatable="false">EN</string>
+    <string name="str_https" translatable="false">https:</string>
+    <string name="str_add" translatable="false">ADD</string>
+    <string name="str_avatar" translatable="false">avatar</string>
+    <string name="str_image" translatable="false">image</string>
+
+    <string name="email_author" translatable="false">Reschikov@list.ru</string>
+    <string name="change_current_key">change current key</string>
+    <string name="key_apiux" translatable="false">5b1abda94fd34660b7381734181110</string>
+    <string name="key_opencage" translatable="false">1bea667f6b844b63bdf66998c94a1920</string>
+    <string name="enter_city">Enter the name of the city</string>
+    <string name="you_must_enter_city">you must enter the city name</string>
+    <string name="district_city_region_country">specify in ascending order (from the smallest to the largest), comma-separated, a part or all of the parameters of the place: district, city, region, country, continent.</string>
+    <string name="name_city">name city</string>
+    <string name="request_geocoder">request geocoder</string>
+    <string name="title_key_OpenCage">current key OpenCage</string>
+    <string name="determine_location">determine the location of the weather forecast</string>
+    <string name="go_out">want to go out? double tap</string>
+    <string name="msg_limit_calls_geoservice">Daily limit of calls to geoservice is exceeded. The following appeal is possible %1$s</string>
+    <string name="msg_location_not_found">specified location not found</string>
+    <string name="title_choose_place">Choose the nearest place</string>
+    <string name="to_cancel">to cancel</string>
+
+</resources>

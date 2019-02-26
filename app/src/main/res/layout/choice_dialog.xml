@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/choice_dialog_padding">
+
+    <RadioButton
+        android:id="@+id/current_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/current_location"
+        android:textSize="@dimen/choice_dialog_text_size"
+        android:textAlignment="center"
+        android:button="@null"
+        android:drawableEnd="@android:drawable/btn_radio"
+        android:layout_margin="8dp"
+        android:layout_weight="1"/>
+
+    <RadioButton
+        android:id="@+id/set_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_city"
+        android:textSize="@dimen/choice_dialog_text_size"
+        android:textAlignment="center"
+        android:button="@null"
+        android:drawableEnd="@android:drawable/btn_radio"
+        android:layout_margin="8dp"
+        android:layout_weight="1"/>
+
+</RadioGroup>

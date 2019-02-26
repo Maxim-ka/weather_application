@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="@dimen/item_message_cardElevation_value"
+    card_view:cardBackgroundColor="@color/sms">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/msg"
+        android:inputType="textMultiLine"
+        android:textSize="@dimen/item_message_text_size"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        />
+
+</reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    android:layout_width = "match_parent"
+    android:layout_height = "wrap_content"
+    android:background="@android:color/background_light"
+    app:cardCornerRadius = "20dp"
+    app:cardElevation = "@dimen/item_city_cardElevation_value"
+    app:contentPadding="4dp"
+    >
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        app:columnCount="4"
+        app:columnOrderPreserved="true"
+        >
+
+        <TextView
+            android:id="@+id/title"
+            android:textSize="@dimen/item_city_title_text_size"
+            app:layout_gravity="center"
+            app:layout_columnSpan="4"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:visibility="gone"
+            android:scaleX="@dimen/item_city_scale_checkbox"
+            android:scaleY="@dimen/item_city_scale_checkbox"
+            android:layout_margin="@dimen/item_city_margin_checkbox"
+            app:layout_gravity="center_vertical|end"
+            app:layout_column="3"
+            app:layout_row="0"/>
+
+        <TextView
+            android:text="@string/region"
+            android:textSize="@dimen/item_city_name_text_size"
+            app:layout_gravity="center_horizontal"
+            app:layout_columnWeight="1"
+            app:layout_columnSpan="2"/>
+
+        <TextView
+            android:text="@string/country"
+            android:textSize="@dimen/item_city_name_text_size"
+            app:layout_gravity="center_horizontal"
+            app:layout_columnWeight="1"
+            app:layout_columnSpan="2"/>
+
+        <TextView
+            android:id="@+id/region"
+            android:textSize="@dimen/item_city_value_text_size"
+            app:layout_gravity="center"
+            app:layout_columnWeight="1"
+            app:layout_columnSpan="2"/>
+
+        <TextView
+            android:id="@+id/country"
+            android:textSize="@dimen/item_city_value_text_size"
+            app:layout_gravity="center"
+            app:layout_columnWeight="1"
+            app:layout_columnSpan="2"/>
+
+        <TextView
+            android:text="@string/latitude"
+            android:textSize="@dimen/item_city_name_text_size"
+            app:layout_gravity="start|bottom"
+            app:layout_columnWeight="1"/>
+
+        <TextView
+            android:id="@+id/lat"
+            android:textSize="@dimen/item_city_value_text_size"
+            app:layout_gravity="center_horizontal|bottom"
+            app:layout_columnWeight="1"/>
+
+        <TextView
+            android:text="@string/longitude"
+            android:textSize="@dimen/item_city_name_text_size"
+            app:layout_gravity="start|bottom"
+            app:layout_columnWeight="1"/>
+
+        <TextView
+            android:id="@+id/lon"
+            android:textSize="@dimen/item_city_value_text_size"
+            app:layout_gravity="center_horizontal|bottom"
+            app:layout_columnWeight="1"/>
+
+    </android.support.v7.widget.GridLayout>
+
+</reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView>
