@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 import static reschikov.geekbrains.androidadvancedlevel.weatherapplication.Rules.KEY_ERR_SERVER;
 
 public class RequestGeoCoordinates {

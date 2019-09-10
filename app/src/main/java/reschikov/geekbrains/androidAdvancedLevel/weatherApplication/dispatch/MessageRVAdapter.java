@@ -1,9 +1,9 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.dispatch;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;

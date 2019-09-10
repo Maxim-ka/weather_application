@@ -3,7 +3,7 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.pushnotific
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -15,8 +15,8 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R;
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.Rules;
 
 import static android.content.ContentValues.TAG;
-import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
-import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
+import static androidx.core.app.NotificationCompat.PRIORITY_MAX;
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

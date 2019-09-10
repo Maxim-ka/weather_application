@@ -2,8 +2,8 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import androidx.cardview.widget.CardView;
+
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R;
 
-public class MyCardView extends android.support.v7.widget.CardView {
+public class MyCardView extends CardView {
 
     private enum Indent{
 

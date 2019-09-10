@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/pages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:tabIndicatorHeight="6dp"
             />
 
-        <android.support.v4.view.PagerTitleStrip
+        <androidx.viewpager.widget.PagerTitleStrip
             android:id="@+id/pagerTitleStrip"
             android:layout_width= "match_parent"
             android:layout_height= "wrap_content"
@@ -33,9 +33,9 @@
             android:visibility="gone"
             />
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,4 +44,4 @@
         app:fabSize="auto"
         app:srcCompat="@drawable/ic_action_refresh"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

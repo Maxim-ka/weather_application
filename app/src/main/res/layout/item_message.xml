@@ -8,7 +8,7 @@
     card_view:cardElevation="@dimen/item_message_cardElevation_value"
     card_view:cardBackgroundColor="@color/sms">
 
-    <android.support.v7.widget.AppCompatEditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/msg"
         android:inputType="textMultiLine"
         android:textSize="@dimen/item_message_text_size"

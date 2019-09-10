@@ -9,7 +9,7 @@
     <include layout="@layout/app_bar_main"
         android:id="@+id/bar"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toBottomOf="@id/guideline">
         </FrameLayout>
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +38,6 @@
 
         </FrameLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

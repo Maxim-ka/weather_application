@@ -2,14 +2,14 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v14.preference.SwitchPreference;
-import android.support.v7.preference.CheckBoxPreference;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.PreferenceFragmentCompat;
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R;
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.Rules;
 
-import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PreferredSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
