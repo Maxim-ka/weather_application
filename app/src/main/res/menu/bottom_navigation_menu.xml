@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/fragmentWeather"
+        android:icon="@drawable/ic_update_alt"
+        android:title="update"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/nav_places"
+        android:icon="@drawable/ic_action_cities"
+        android:title="@string/select_city"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_action_setting"
+        android:title="@string/settings"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/feedback"
+        android:icon="@drawable/ic_action_email"
+        android:title="@string/feedback_email"
+        app:showAsAction="withText"
+        />
+</menu>

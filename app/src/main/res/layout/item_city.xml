@@ -1,91 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView
+<layout
     xmlns:android = "http://schemas.android.com/apk/res/android"
     xmlns:app = "http://schemas.android.com/apk/res-auto"
-    android:layout_width = "match_parent"
-    android:layout_height = "wrap_content"
-    android:background="@android:color/background_light"
-    app:cardCornerRadius = "20dp"
-    app:cardElevation = "@dimen/item_city_cardElevation_value"
-    app:contentPadding="4dp"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="place"
+            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place.Result" />
+    </data>
 
-    <androidx.gridlayout.widget.GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        app:columnCount="4"
-        app:columnOrderPreserved="true"
-        >
+    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView.MyCardView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:background="@android:color/background_light"
+        android:layout_margin="8dp"
+        app:cardCornerRadius= "4dp"
+        app:cardElevation= "@dimen/item_city_cardElevation_value"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
 
-        <TextView
-            android:id="@+id/title"
-            android:textSize="@dimen/item_city_title_text_size"
-            app:layout_gravity="center"
-            app:layout_columnSpan="4"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:visibility="gone"
-            android:scaleX="@dimen/item_city_scale_checkbox"
-            android:scaleY="@dimen/item_city_scale_checkbox"
-            android:layout_margin="@dimen/item_city_margin_checkbox"
-            app:layout_gravity="center_vertical|end"
-            app:layout_column="3"
-            app:layout_row="0"/>
+            <TextView
+                android:id="@+id/tv_title"
+                android:text='@{place.name}'
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textAlignment="gravity"
+                tools:text="Иркутск, ru"/>
 
-        <TextView
-            android:text="@string/region"
-            android:textSize="@dimen/item_city_name_text_size"
-            app:layout_gravity="center_horizontal"
-            app:layout_columnWeight="1"
-            app:layout_columnSpan="2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
 
-        <TextView
-            android:text="@string/country"
-            android:textSize="@dimen/item_city_name_text_size"
-            app:layout_gravity="center_horizontal"
-            app:layout_columnWeight="1"
-            app:layout_columnSpan="2"/>
+                <TextView
+                    android:text="@string/latitude"
+                    android:textSize="20sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/region"
-            android:textSize="@dimen/item_city_value_text_size"
-            app:layout_gravity="center"
-            app:layout_columnWeight="1"
-            app:layout_columnSpan="2"/>
+                <TextView
+                    android:text="@string/longitude"
+                    android:textSize="20sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/country"
-            android:textSize="@dimen/item_city_value_text_size"
-            app:layout_gravity="center"
-            app:layout_columnWeight="1"
-            app:layout_columnSpan="2"/>
+            </LinearLayout>
 
-        <TextView
-            android:text="@string/latitude"
-            android:textSize="@dimen/item_city_name_text_size"
-            app:layout_gravity="start|bottom"
-            app:layout_columnWeight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lat"
-            android:textSize="@dimen/item_city_value_text_size"
-            app:layout_gravity="center_horizontal|bottom"
-            app:layout_columnWeight="1"/>
+                <TextView
+                    android:id="@+id/tv_lat"
+                    android:text="@{String.valueOf(place.lat)}"
+                    android:textSize="20sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="000,000000"/>
 
-        <TextView
-            android:text="@string/longitude"
-            android:textSize="@dimen/item_city_name_text_size"
-            app:layout_gravity="start|bottom"
-            app:layout_columnWeight="1"/>
+                <TextView
+                    android:id="@+id/tv_lon"
+                    android:text="@{String.valueOf(place.lon)}"
+                    android:textSize="20sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    tools:text="000,000000"/>
 
-        <TextView
-            android:id="@+id/lon"
-            android:textSize="@dimen/item_city_value_text_size"
-            app:layout_gravity="center_horizontal|bottom"
-            app:layout_columnWeight="1"/>
+            </LinearLayout>
 
-    </androidx.gridlayout.widget.GridLayout>
+        </LinearLayout>
 
-</reschikov.geekbrains.androidadvancedlevel.weatherapplication.myView.MyCardView>
+    </reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView.MyCardView>
+
+</layout>

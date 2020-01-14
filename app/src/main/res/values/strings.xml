@@ -13,7 +13,7 @@
     <string name="disabling_location">disabling network location</string>
     <string name="no_permission_determine_location">no permission to determine location</string>
     <string name="no_network">no network connection</string>
-    <string name="unable_determine_coordinates">Unable to determine coordinates, current accuracy %1$.2f m. Can try again</string>
+    <string name="unable_determine_coordinates">Unable to determine coordinates. Can try again</string>
     <string name="Unable_determine_Check_network">Unable to determine location. Check network and geolocation settings</string>
     <string name="message_not_sent">error message not sent</string>
     <string name="message_sent">Message sent</string>
@@ -47,8 +47,8 @@
     <string name="pressure">pressure:</string>
     <string name="overcast">overcast:</string>
     <string name="felt">felt:</string>
-    <string name="current_state">current state</string>
-    <string name="forecast">7 day forecast</string>
+    <string name="current_state">currentTable state</string>
+    <string name="forecast">forecast</string>
     <string name="send_as_SMS">send as SMS</string>
     <string name="send_by_email">send by email</string>
     <string name="enter_the_phone_of_the_recipient">Enter the phone of the recipient</string>
@@ -74,7 +74,7 @@
     <string name="specify_place">Specify the location of the weather forecast</string>
     <string name="request">request weather</string>
     <string name="answer">to answer, use the russian language</string>
-    <string name="current_key">current key APIUX</string>
+    <string name="current_key">currentTable key APIUX</string>
     <string name="country">country</string>
     <string name="latitude">latitude:</string>
     <string name="longitude">longitude:</string>
@@ -103,7 +103,7 @@
     <string name="enter_your_email">you must enter the your e-mail</string>
     <string name="you_must_enter_place">You must specify in ascending order (from the smallest to the largest),
         separated by commas, part or all of the parameters of the place:
-        district, city, region, country, continent. Without numbers.</string>
+        district, city, region, country. Without numbers.</string>
 <!--ошибки Гугл-->
     <string name="no_Google_service">There is no Google service. Continue anyway?</string>
     <string name="update_Google_service">It is necessary to update the Google service. Continue without updating?</string>
@@ -152,7 +152,7 @@
     <string name="str_image" translatable="false">image</string>
 
     <string name="email_author" translatable="false">Reschikov@list.ru</string>
-    <string name="change_current_key">change current key</string>
+    <string name="change_current_key">change currentTable key</string>
     <string name="key_apiux" translatable="false">5b1abda94fd34660b7381734181110</string>
     <string name="key_opencage" translatable="false">1bea667f6b844b63bdf66998c94a1920</string>
     <string name="enter_city">Enter the name of the city</string>
@@ -160,12 +160,19 @@
     <string name="district_city_region_country">specify in ascending order (from the smallest to the largest), comma-separated, a part or all of the parameters of the place: district, city, region, country, continent.</string>
     <string name="name_city">name city</string>
     <string name="request_geocoder">request geocoder</string>
-    <string name="title_key_OpenCage">current key OpenCage</string>
+    <string name="title_key_OpenCage">currentTable key OpenCage</string>
     <string name="determine_location">determine the location of the weather forecast</string>
     <string name="go_out">want to go out? double tap</string>
     <string name="msg_limit_calls_geoservice">Daily limit of calls to geoservice is exceeded. The following appeal is possible %1$s</string>
     <string name="msg_location_not_found">specified location not found</string>
     <string name="title_choose_place">Choose the nearest place</string>
     <string name="to_cancel">to cancel</string>
+    <string name="caution">Caution!</string>
+    <string name="warning">Warning</string>
+    <string name="error_writing_database">Error writing to database</string>
+    <string name="error_deleting_database">error deleting from the database</string>
+    <string name="database_error">Database Error</string>
+    <string name="exit">exit</string>
+    <string name="get_data">to get data</string>
 
 </resources>

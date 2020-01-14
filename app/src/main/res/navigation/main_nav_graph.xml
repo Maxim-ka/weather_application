@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main_activity"
+    android:label="main"
+    app:startDestination="@id/fragmentWeather">
+    <fragment
+        android:id="@+id/fragmentWeather"
+        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.FragmentWeather"
+        android:label="FragmentWeather"
+        app:launchSingleTop="true">
+        <action
+            android:id="@+id/action_fragmentWeather_to_fragmentOfListOfPlaces"
+            app:destination="@id/nav_places"
+
+            />
+    </fragment>
+    <navigation
+        android:id="@+id/nav_places"
+        android:label="places"
+        app:startDestination="@id/fragmentOfListOfPlaces" >
+        <fragment
+            android:id="@+id/fragmentOfListOfPlaces"
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.FragmentOfListOfPlaces"
+            android:label="FragmentOfListOfPlaces">
+            <action
+                android:id="@+id/action_fragmentOfListOfPlaces_to_placeNameInputDialog"
+                app:destination="@id/placeNameInputDialog" />
+            <action
+                android:id="@+id/action_fragmentOfListOfPlaces_to_choiceOfActionDialog"
+                app:destination="@id/choiceOfActionDialog" />
+            <action
+                android:id="@+id/action_fragmentOfListOfPlaces_to_fragmentWeather"
+                app:destination="@id/fragmentWeather"
+                app:popUpTo="@id/fragmentWeather" />
+        </fragment>
+        <dialog
+            android:id="@+id/choiceOfActionDialog"
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.ChoiceOfActionDialog"
+            android:label="ChoiceOfActionDialog"
+            tools:layout="@layout/choice_dialog">
+            <action
+                android:id="@+id/action_choiceOfActionDialog_to_placeNameInputDialog"
+                app:destination="@id/placeNameInputDialog" />
+            <action
+                android:id="@+id/action_choiceOfActionDialog_to_fragmentOfListOfPlaces"
+                app:destination="@id/fragmentOfListOfPlaces"
+                app:popUpTo="@id/fragmentOfListOfPlaces" />
+        </dialog>
+        <dialog
+            android:id="@+id/placeNameInputDialog"
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.PlaceNameInputDialog"
+            android:label="PlaceNameInputDialog"
+            tools:layout="@layout/city_input_dialog">
+            <action
+                android:id="@+id/action_placeNameInputDialog_to_choicePlaceDialog"
+                app:destination="@id/choicePlaceDialog" />
+        </dialog>
+        <dialog
+            android:id="@+id/choicePlaceDialog"
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.ChoicePlaceDialog"
+            android:label="ChoicePlaceDialog">
+            <action
+                android:id="@+id/action_choicePlaceDialog_to_fragmentOfListOfPlaces"
+                app:destination="@id/fragmentOfListOfPlaces"
+                app:popUpTo="@id/fragmentOfListOfPlaces" />
+        </dialog>
+    </navigation>
+    <dialog
+        android:id="@+id/warningDialog"
+        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.WarningDialog"
+        android:label="WarningDialog" />
+    <action
+        android:id="@+id/action_global_warningDialog2"
+        app:destination="@id/warningDialog" />
+</navigation>

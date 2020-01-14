@@ -16,17 +16,18 @@
 
     <application
         android:minSdkVersion="17"
-        android:targetSdkVersion="28"
+        android:targetSdkVersion="29"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_weather_app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_weather_app_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme"
+        android:name=".WeatherApp"
         android:installLocation="auto">
 
         <activity
-            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.MainActivity"
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,87 +35,68 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".settings.Settings">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SETTING_LIST_OF_CITIES"/>
-            </intent-filter>
-        </activity>
+<!--        <activity android:name=".settings.Settings">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SETTING_LIST_OF_CITIES"/>-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
-        <activity android:name=".dispatch.Sender"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_WRITE_LETTER"/>
-            </intent-filter>
-        </activity>
+<!--        <activity android:name=".dispatch.Sender"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEND"/>-->
+<!--                <category android:name="android.intent.category.DEFAULT"/>-->
+<!--                <data android:mimeType="text/plain"/>-->
+<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_WRITE_LETTER"/>-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
-        <service
-            android:name=".network.NetworkService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
+<!--        <service android:name=".network.SenderService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false">-->
+<!--        </service>-->
 
-        <service
-            android:name=".database.DatabaseService"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.RECORD"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.GET_ALL_CITIES"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.CLEAR"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.REMOVE"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.GET_WEATHER_DB"/>
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name=".sms.SmsService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" >-->
+<!--        </service>-->
 
-        <service android:name=".network.SenderService"
-            android:enabled="true"
-            android:exported="false">
-        </service>
+<!--        <service-->
+<!--            android:name=".pushnotifications.MyFirebaseMessagingService"-->
+<!--            android:enabled="false"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="firebase_messaging_auto_init_enabled"-->
+<!--                android:value="false" />-->
+<!--            <meta-data-->
+<!--                android:name="firebase_analytics_collection_enabled"-->
+<!--                android:value="false" />-->
+<!--            <meta-data-->
+<!--                android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--                android:resource="@drawable/ic_stat_notifications" />-->
+<!--            <meta-data-->
+<!--                android:name="com.google.firebase.messaging.default_notification_color"-->
+<!--                android:resource="@color/colorAccent" />-->
+<!--        </service>-->
 
-        <service
-            android:name=".sms.SmsService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
-
-        <service
-            android:name=".pushnotifications.MyFirebaseMessagingService"
-            android:enabled="false"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-            <meta-data
-                android:name="firebase_messaging_auto_init_enabled"
-                android:value="false" />
-            <meta-data
-                android:name="firebase_analytics_collection_enabled"
-                android:value="false" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/ic_stat_notifications" />
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/colorAccent" />
-        </service>
-
-        <receiver
-            android:name=".sms.SmsReceiver"
-            android:permission="android.permission.BROADCAST_SMS"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter android:priority="999">
-                <!--<action android:name="android.provider.Telephony.SMS_DELIVER"/>-->
-                <!--<action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SENT_SMS"/>
-                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_DELIVERED_SMS"/>
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".sms.SmsReceiver"-->
+<!--            android:permission="android.permission.BROADCAST_SMS"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" >-->
+<!--            <intent-filter android:priority="999">-->
+<!--                &lt;!&ndash;<action android:name="android.provider.Telephony.SMS_DELIVER"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<action android:name="android.provider.Telephony.SMS_RECEIVED"/>&ndash;&gt;-->
+<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SENT_SMS"/>-->
+<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_DELIVERED_SMS"/>-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
     </application>
 </manifest>

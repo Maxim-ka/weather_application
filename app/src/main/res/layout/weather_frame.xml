@@ -6,16 +6,17 @@
     android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pages"
+        android:id="@+id/vp_pages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/sliding_tabs"
+            android:id="@+id/tl_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="fixed"
+            android:layout_gravity="top"
+            app:tabGravity="fill"
             app:tabBackground="?attr/colorPrimary"
             app:tabRippleColor="@color/colorAccent"
             app:tabTextColor="@color/black"
@@ -25,23 +26,6 @@
             app:tabIndicatorHeight="6dp"
             />
 
-        <androidx.viewpager.widget.PagerTitleStrip
-            android:id="@+id/pagerTitleStrip"
-            android:layout_width= "match_parent"
-            android:layout_height= "wrap_content"
-            android:layout_gravity= "bottom"
-            android:visibility="gone"
-            />
-
     </androidx.viewpager.widget.ViewPager>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/floatingActionButton_margin"
-        android:layout_gravity="bottom|end"
-        app:fabSize="auto"
-        app:srcCompat="@drawable/ic_action_refresh"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

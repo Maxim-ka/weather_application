@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/current_frame_indent">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel" />
+    </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
-        >
+        android:orientation="vertical"
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:background="@{model.fieldCurrentState.tempColor}">
+
+            <ProgressBar
+                android:id="@+id/pb_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{model.isProgressVisible() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:visibility="visible"/>
 
             <TextView
                 android:id="@+id/city"
+                android:text="@{model.fieldCurrentState.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/current_frame_city_text_size"
@@ -27,72 +44,91 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/day_time"
                 app:layout_constraintVertical_chainStyle="spread"
-                />
+                tools:text="Иркутск"/>
 
-            <LinearLayout
+            <include layout="@layout/block_current_date_time"
                 android:id="@+id/day_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                app:model="@{model}"
                 app:layout_constraintTop_toBottomOf="@id/city"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/icon">
+                app:layout_constraintBottom_toTopOf="@id/divider_up"/>
 
-                <TextView
-                    android:id="@+id/day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/current_frame_indent"
-                    android:paddingEnd="@dimen/current_frame_indent"
-                    android:textSize="@dimen/current_frame_datetime_text_size"
-                    />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/current_frame_indent"
-                    android:paddingEnd="@dimen/current_frame_indent"
-                    android:textSize="@dimen/current_frame_datetime_text_size"/>
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/current_frame_size_image"
-                android:layout_height="@dimen/current_frame_size_image"
-                android:contentDescription="@string/str_image"
+            <View
+                android:id="@+id/divider_up"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="@dimen/current_frame_indent"
+                android:background="?attr/colorPrimaryDark"
                 app:layout_constraintTop_toBottomOf="@id/day_time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintBottom_toTopOf="@id/temperature"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:padding="4dp"
+                android:contentDescription="@{model.fieldCurrentState.weather.icon}"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/text"
-                app:layout_constraintHorizontal_chainStyle="spread"/>
+                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_up"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:src="@{model.fieldCurrentState.weather.icon}" />
 
             <TextView
                 android:id="@+id/temperature"
+                android:text='@{String.valueOf(model.fieldCurrentState.main.temp) + " ℃"}'
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:gravity="center"
                 android:textSize="@dimen/current_frame_temp_text_size"
-                app:layout_constraintTop_toBottomOf="@id/day_time"
+                app:layout_constraintTop_toBottomOf="@id/divider_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintBottom_toTopOf="@id/text"/>
+                app:layout_constraintBottom_toTopOf="@id/text"
+                tools:text="-00,0 ℃" />
 
             <TextView
                 android:id="@+id/text"
+                android:text='@{model.fieldCurrentState.weather.description}'
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/current_frame_indent"
                 android:gravity="center"
                 android:textSize="@dimen/current_frame_text_text_size"
-                app:layout_constraintTop_toBottomOf="@id/icon"
+                app:layout_constraintTop_toBottomOf="@id/temperature"
+                app:layout_constraintBottom_toTopOf="@id/divider_down"
+                tools:text="солнечно"/>
+
+            <View
+                android:id="@+id/divider_down"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_margin="@dimen/current_frame_indent"
+                android:background="?attr/colorPrimaryDark"
+                app:layout_constraintTop_toBottomOf="@id/text"
                 app:layout_constraintBottom_toTopOf="@id/properties"/>
 
-            <include layout="@layout/properties_weather"/>
+            <include layout="@layout/properties_weather"
+                android:id="@+id/properties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:model="@{model}"
+                app:layout_constraintTop_toBottomOf="@id/divider_down"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+
+
+
+
