@@ -25,7 +25,7 @@
             tools:text="воскресенье, ХХ месяц ХХХХ"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/time"
             app:current_time="@{model.fieldCurrentState.dt}"
             android:layout_width="wrap_content"

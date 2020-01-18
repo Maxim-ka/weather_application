@@ -8,9 +8,10 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.DataWeather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
+import timber.log.Timber
 
 class Repository(private val mapping: Mapping,
                  val storable: Storable,
@@ -28,11 +29,11 @@ class Repository(private val mapping: Mapping,
     }
 
     /*Получение погоды текущего места*/
-    override suspend fun getStateCurrentPlace(): DataWeather {
+    override suspend fun getStateCurrentPlace(): Weather.Data {
         return issuedCoordinates.getCoordinatesCurrentPlace().run{
             coord?.let {
                 getWeather(requestedWeather.requestServerAsync(it.lat, it.lon))
-            } ?: DataWeather.Error(error!!)
+            } ?: Weather.Data(null, error)
         }
     }
 
@@ -72,50 +73,54 @@ class Repository(private val mapping: Mapping,
     override suspend fun loadLastPlace(): CityTable? = storable.getLastPlace()
 
     /*Получение данных погоды из базы, если устаревшие > 3 часов запрос на сервер*/
-    override suspend fun getDataWeather(lat: Double, lon: Double): DataWeather {
-        return storable.getData(lat, lon).run {
-            takeIf { it is DataWeather.Data &&
-                System.currentTimeMillis() - it.currentTable.dt > THREE_HOURS }?.let {
-                requestedWeather.requestServerAsync(lat, lon).takeIf {
-                    it is DataWeather.ServerResponse
-                }?.let { getWeather(it)}
-            } ?: this
+    override suspend fun getDataWeather(lat: Double, lon: Double): Weather.Data {
+        return storable.getData(lat, lon).apply {
+            weather?.let {saved ->
+                takeIf {saved is Weather.Saved && (System.currentTimeMillis() -  saved.currentTable.dt > THREE_HOURS)
+                }?.let { requestedWeather.requestServerAsync(lat, lon).also {received ->
+                        received.weather?.let { getWeather(received) }
+                        received.error?.let { error = it }
+                    }
+                }
+            }
         }
     }
 
     /*получение погоды с последнего просмотра*/
-    override suspend fun getStateLastPlace(): DataWeather? {
+    override suspend fun getStateLastPlace(): Weather.Data? {
         return loadLastPlace()?.let {
+            Timber.i("LastPlace $it")
             getDataWeather(it.coord.lat, it.coord.lon)
         }
     }
 
-    private suspend fun getWeather(dataWeather: DataWeather): DataWeather{
-        return dataWeather.run{
-            takeIf { it is  DataWeather.ServerResponse}?.let {
-                it as DataWeather.ServerResponse
+    private suspend fun getWeather(data: Weather.Data): Weather.Data{
+        return data.apply{
+            weather?.let {
+                it as Weather.Received
                 val currentTable = mapping.createCurrentTable(it.current)
                 val cityTable = mapping.createCityTable(it.current)
                 val forecastsTable = mapping.createListForecastTable(it.forecastList,it.current.coord)
                 writeToDatabase(cityTable, currentTable, forecastsTable)?.let { baseException ->
-                    DataWeather.Error(baseException)
-                } ?: DataWeather.Data(currentTable, forecastsTable)
-            } ?: this
+                    weather = null
+                    error = baseException
+                } ?: apply { weather = Weather.Saved(currentTable, forecastsTable) }
+            }
         }
     }
 
-    private suspend fun updateListPlace(dataWeather: DataWeather): Place.Places{
-        return when(dataWeather){
-            is DataWeather.ServerResponse ->  dataWeather.run{
+    private suspend fun updateListPlace(data: Weather.Data): Place.Places{
+        return data.run {
+            weather?.let {
+                it as Weather.Received
                 val lastShowTime = storable.getLastTimeShow()
-                val currentTable = mapping.createCurrentTable(current)
-                val cityTable = mapping.createCityTable(current, lastShowTime)
-                val forecastsTable = mapping.createListForecastTable(forecastList, current.coord)
-                writeToDatabase(cityTable, currentTable, forecastsTable)?.let {
-                    Place.Places(null, it)
+                val currentTable = mapping.createCurrentTable(it.current)
+                val cityTable = mapping.createCityTable(it.current, lastShowTime)
+                val forecastsTable = mapping.createListForecastTable(it.forecastList, it.current.coord)
+                writeToDatabase(cityTable, currentTable, forecastsTable)?.let {baseException ->
+                    Place.Places(null, baseException)
                 } ?: getListCities()
-            }
-            else -> Place.Places(null, (dataWeather as DataWeather.Error).error)
+            } ?: Place.Places(null, error)
         }
     }
 

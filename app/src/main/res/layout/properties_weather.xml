@@ -18,15 +18,15 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/feeling"
             android:text='@{model.fieldCurrentState.main.feelsLike + " ℃"}'
             android:textSize="@dimen/properties_weather_value_text_size"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
-            android:drawableStart="@drawable/ic_hand"
-            android:drawablePadding="16dp"/>
+            android:drawablePadding="16dp"
+            app:drawableStartCompat="@drawable/ic_hand"/>
 
         <View
             android:layout_width="match_parent"
@@ -37,15 +37,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/direction"
             android:text='@{model.fieldCurrentState.directionWind + " " + model.fieldCurrentState.speedWind + " " + @string/m_c}'
             android:textSize="@dimen/properties_weather_value_text_size"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
-            android:drawableStart="@drawable/ic_wind"
-            android:drawablePadding="16dp"/>
+            android:drawablePadding="16dp"
+            app:drawableStartCompat="@drawable/ic_wind"/>
 
         <View
             android:layout_width="match_parent"
@@ -56,15 +56,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/humidity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{model.fieldCurrentState.main.humidity + @string/pct}"
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_humidity"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_humidity"
             tools:text="00 %"/>
 
         <View
@@ -76,15 +76,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/pressure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text='@{model.fieldCurrentState.pressure + " " + @string/mm_Hg}'
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_atmospheric_pressure"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_atmospheric_pressure"
             tools:text="000,00 мм.рт.ст"/>
 
         <View
@@ -96,15 +96,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/overcast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text='@{model.fieldCurrentState.cloud + " " + @string/pct}'
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_clouds"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_clouds"
             tools:text="00 %"/>
 
         <View
@@ -116,15 +116,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/rainfall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text='@{model.fieldCurrentState.precipitation + " " + @string/mm}'
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_umbrella"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_umbrella"
             tools:text="00,00 мм"/>
 
         <View
@@ -136,15 +136,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sunrise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:time="@{model.fieldCurrentState.sunrise}"
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_sunrise"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_sunrise"
             tools:text="00:00"/>
 
         <View
@@ -156,15 +156,15 @@
             android:layout_marginBottom="8dp"
             android:background="?attr/colorPrimaryDark"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sunset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:time="@{model.fieldCurrentState.sunset}"
             android:textSize="@dimen/properties_weather_value_text_size"
-            android:drawableStart="@drawable/ic_sunset"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_sunset"
             tools:text="00:00"/>
 
     </LinearLayout>

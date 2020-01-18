@@ -1,6 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding
 
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 
 interface DisplayedDateTime {
@@ -9,7 +10,7 @@ interface DisplayedDateTime {
     fun setDate(textView: TextView, dt: Long)
 
     @BindingAdapter("current_time")
-    fun setCurrentTime(textView: TextView, dt: Long)
+    fun setCurrentTime(textView: AppCompatTextView, dt: Long)
 
     @BindingAdapter("time")
     fun setTime(textView: TextView, dt: Long)

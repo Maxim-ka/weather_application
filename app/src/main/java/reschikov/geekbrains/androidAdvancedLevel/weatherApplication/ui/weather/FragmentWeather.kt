@@ -1,5 +1,8 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather
 
+import android.content.Context.SENSOR_SERVICE
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -60,6 +63,17 @@ class FragmentWeather : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_update, menu)
+        menu.findItem(R.id.sensors).isVisible = areThereSensors()
+    }
+
+    private fun areThereSensors(): Boolean{
+        activity?.let {
+            val sm = it.getSystemService(SENSOR_SERVICE) as SensorManager
+            Timber.i("SensorList ${sm.getSensorList(Sensor.TYPE_ALL)}")
+            return sm.getDefaultSensor(Sensor.TYPE_PRESSURE) != null ||
+                    sm.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null ||
+                    sm.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY) != null
+        } ?: return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,9 +85,10 @@ class FragmentWeather : BaseFragment() {
             R.id.to_share ->
                 //TODO запустить активити передачи данных
                 return true
-            R.id.sensors ->
-                //Todo запустить фрагмент с сенсорами
+            R.id.sensors ->{
+                navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
                 return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -87,6 +102,7 @@ class FragmentWeather : BaseFragment() {
     override fun renderSuccess (success: Success){
         success.run {
             takeIf { this is Success.LastPlace && city == null }?.let {
+                Timber.i("Success.LastPlace && city == null")
                 navController.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
             }
         }

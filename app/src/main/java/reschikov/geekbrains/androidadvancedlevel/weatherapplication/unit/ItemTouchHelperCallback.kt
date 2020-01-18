@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.ItemTouchHelper.END
 import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.RecyclerView
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.PlugInButton
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.Removable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView.PlugInButton
 
 private const val SWIPE_THRESHOLD = 0.75f
 

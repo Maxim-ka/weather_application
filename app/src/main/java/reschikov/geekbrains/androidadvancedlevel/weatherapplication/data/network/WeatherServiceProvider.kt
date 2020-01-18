@@ -10,7 +10,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapCurrent
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapForecast
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.DataWeather
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,16 +35,19 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
         key = BuildConfig.OPEN_WEATHER_KEY
     }
 
-    override suspend fun requestServerAsync(lat: Double, lon: Double): DataWeather {
+    override suspend fun requestServerAsync(lat: Double, lon: Double): Weather.Data {
         return coroutineScope {
-            val deferredCurrent = async { requestCurrent(lat, lon) }
-            val deferredForecast = async { requestForecast(lat, lon) }
             try {
-                val current = deferredCurrent.await()
-                val forecasts = deferredForecast.await()
-                DataWeather.ServerResponse(current, forecasts)
+                takeIf { checkLackOfNetwork()} ?.run { throw BaseException.NoNetwork()
+                } ?: run {
+                    val deferredCurrent = async { requestCurrent(lat, lon) }
+                    val deferredForecast = async { requestForecast(lat, lon) }
+                    val current = deferredCurrent.await()
+                    val forecasts = deferredForecast.await()
+                    Weather.Data(Weather.Received(current, forecasts), null)
+                }
             } catch (e: Throwable) {
-                DataWeather.Error(e)
+                Weather.Data(null, e)
             }
         }
     }
@@ -52,7 +55,6 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
 
     private suspend fun requestCurrent(lat: Double, lon: Double): Current {
         return suspendCoroutine{continuation ->
-            takeIf { checkLackOfNetwork()} ?.run { continuation.resumeWithException(BaseException.NoNetwork()) } ?:
             requestCurrent.loadCurrentWeather(lat, lon, key, UNITS_METRIC, lang)
                 .enqueue(object : Callback<Current> {
                     override fun onFailure(call: Call<Current>, t: Throwable) {
@@ -73,7 +75,6 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
 
     private suspend fun requestForecast(lat: Double, lon: Double): ForecastList {
         return suspendCoroutine{continuation ->
-            takeIf { checkLackOfNetwork()} ?.run { continuation.resumeWithException(BaseException.NoNetwork()) } ?:
             requestForecast.loadForecastWeather(lat, lon, key, UNITS_METRIC, lang)
                 .enqueue(object : Callback<ForecastList> {
                     override fun onFailure(call: Call<ForecastList>, t: Throwable) {

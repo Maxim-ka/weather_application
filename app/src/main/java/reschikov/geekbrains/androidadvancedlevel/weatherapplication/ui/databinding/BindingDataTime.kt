@@ -2,7 +2,8 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databind
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
@@ -19,10 +20,10 @@ class BindingDataTime : DisplayedDateTime {
     }
 
     @BindingAdapter("current_time")
-    override fun setCurrentTime(textView: TextView, dt: Long){
+    override fun setCurrentTime(textView: AppCompatTextView, dt: Long){
         var warning: Drawable? = null
         if (System.currentTimeMillis() - dt >= THREE_HOURS){
-            warning = ContextCompat.getDrawable(textView.context, R.drawable.ic_warning)
+            warning = getDrawable(textView.context, R.drawable.ic_warning)
             textView.text = textView.context.getString(R.string.out_date)
         } else {
             setTime(textView, dt)

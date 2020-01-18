@@ -22,11 +22,13 @@ const val ARIFICATION = 10
 
 const val MILLI_SEC = 1_000L
 const val THREE_HOURS = 10_800_000
+const val SCALE = 2
 
 const val X_SINGLE_BYTE_CHAR = 127;
 const val X_LEN_SMS_EN = 140;
 const val X_LEN_SMS_RU = 70;
 
+const val FROM_HPA_IN_MMHG = 0.750064f
 const val HALF = 0.5f
 
 const val KEY_LAT = "key lat"

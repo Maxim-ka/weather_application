@@ -5,7 +5,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.DataWeather
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 
 class DataBaseProvider(private val appDatabase: AppDatabase) : Storable {
 
@@ -13,11 +13,11 @@ class DataBaseProvider(private val appDatabase: AppDatabase) : Storable {
 
     override suspend fun getLastPlace(): CityTable? = appDatabase.weatherDataDao().getLastCity()
 
-    override suspend fun getData(lat: Double, lon: Double): DataWeather {
+    override suspend fun getData(lat: Double, lon: Double): Weather.Data {
         return try {
-                    appDatabase.stateWeatherDao().getStateWeather(lat, lon)
+                    Weather.Data(appDatabase.stateWeatherDao().getStateWeather(lat, lon), null)
                 } catch (e: Throwable){
-                    DataWeather.Error(BaseException.Database(e.message))
+                    Weather.Data(null, BaseException.Database(e.message))
                 }
     }
 

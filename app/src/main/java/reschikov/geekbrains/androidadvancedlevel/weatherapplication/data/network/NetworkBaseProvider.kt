@@ -3,16 +3,8 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.networ
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
-abstract class NetworkBaseProvider(private val context: Context) : CoroutineScope {
-
-    override val coroutineContext: CoroutineContext by lazy {
-        Dispatchers.IO + Job()
-    }
+abstract class NetworkBaseProvider(private val context: Context)  {
 
     protected fun checkLackOfNetwork(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

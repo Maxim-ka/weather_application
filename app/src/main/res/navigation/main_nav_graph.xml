@@ -12,9 +12,10 @@
         app:launchSingleTop="true">
         <action
             android:id="@+id/action_fragmentWeather_to_fragmentOfListOfPlaces"
-            app:destination="@id/nav_places"
-
-            />
+            app:destination="@id/nav_places"/>
+        <action
+            android:id="@+id/action_fragmentWeather_to_fragmentSensors"
+            app:destination="@id/fragmentSensors" />
     </fragment>
     <navigation
         android:id="@+id/nav_places"
@@ -74,4 +75,13 @@
     <action
         android:id="@+id/action_global_warningDialog2"
         app:destination="@id/warningDialog" />
+    <fragment
+        android:id="@+id/fragmentSensors"
+        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sensors.FragmentSensors"
+        android:label="FragmentSensors" >
+        <action
+            android:id="@+id/action_fragmentSensors_to_fragmentWeather"
+            app:destination="@id/fragmentWeather"
+            app:popUpTo="@id/fragmentWeather"/>
+    </fragment>
 </navigation>

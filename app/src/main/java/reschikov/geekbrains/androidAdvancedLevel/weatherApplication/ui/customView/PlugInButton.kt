@@ -1,4 +1,4 @@
-package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView
+package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView
 
 import android.graphics.Canvas
 import android.graphics.Paint

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,8 +27,8 @@
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:focusable="true"
-            android:drawableStart="@drawable/ic_my_location_black"
             android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_my_location_black"
             tools:checked="true"/>
 
         <androidx.appcompat.widget.AppCompatCheckedTextView
@@ -41,8 +42,8 @@
             android:checkMark="?android:attr/textCheckMark"
             android:layout_marginTop="16dp"
             android:focusable="true"
-            android:drawableStart="@drawable/ic_location_city_black"
             android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_location_city_black"
             android:layout_weight="1"/>
 
     </RadioGroup>

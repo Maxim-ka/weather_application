@@ -10,7 +10,7 @@
             type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place.Result" />
     </data>
 
-    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView.MyCardView
+    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.MyCardView
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:background="@android:color/background_light"
@@ -91,6 +91,6 @@
 
         </LinearLayout>
 
-    </reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.myView.MyCardView>
+    </reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.MyCardView>
 
 </layout>

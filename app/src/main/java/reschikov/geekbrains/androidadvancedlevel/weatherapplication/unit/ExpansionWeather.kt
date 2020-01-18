@@ -1,12 +1,11 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit
 
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.FROM_HPA_IN_MMHG
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.RU
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCALE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Wind
 import java.math.RoundingMode
 import java.util.*
-
-private const val FROM_HPA_IN_MMHG = 0.750064f
-private const val SCALE = 2
 
 fun setPressure(press: Int)= (press * FROM_HPA_IN_MMHG).convertToSize(SCALE).toString()
 

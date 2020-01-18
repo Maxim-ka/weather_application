@@ -5,9 +5,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Current
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 
-sealed class DataWeather{
+sealed class Weather{
 
-    data class ServerResponse(val current: Current, val forecastList: ForecastList): DataWeather()
-    data class Data(val currentTable: CurrentTable, val forecasts: List<ForecastTable>) : DataWeather()
-    data class Error (val error: Throwable) : DataWeather()
+    data class Received(val current: Current, val forecastList: ForecastList): Weather()
+    data class Saved(val currentTable: CurrentTable, val forecasts: List<ForecastTable>) : Weather()
+    data class Data (var weather: Weather?, var error: Throwable?) : Weather()
 }

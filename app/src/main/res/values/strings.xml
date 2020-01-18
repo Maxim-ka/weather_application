@@ -81,9 +81,9 @@
     <string name="choice">Choice</string>
 <!--сенсоры-->
     <string name="sensors">Use of internal sensors</string>
-    <string name="pressure_meter">Pressure meter</string>
-    <string name="temperature_sensor">Temperature sensor</string>
-    <string name="humidity_sensor">Humidity sensor</string>
+    <string name="pressure_meter">Pressure</string>
+    <string name="temperature_sensor">Temperature</string>
+    <string name="humidity_sensor">Humidity</string>
     <string name="absent">Absent</string>
 <!--единицы измерения-->
     <string name="mm_Hg"> mmHg</string>

@@ -64,7 +64,7 @@
                 android:weightSum="3"
                 android:orientation="horizontal">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_image"
                     app:src="@{forecast.weather.icon}"
                     android:layout_width="@dimen/item_forecast_image_size"
@@ -83,7 +83,7 @@
                     android:weightSum="2"
                     android:layout_gravity="center">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_maxTemp"
                         android:text='@{forecast.main.tempMax + " ℃"}'
                         android:textSize="24sp"
@@ -91,11 +91,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:layout_gravity="center"
-                        android:drawableStart="@drawable/ic_thermometer_high_temperature"
                         android:drawablePadding="8dp"
+                        app:drawableStartCompat="@drawable/ic_thermometer_high_temperature"
                         tools:text="-00.0 ℃"/>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_minTemp"
                         android:text='@{forecast.main.tempMin + " ℃"}'
                         android:textSize="24sp"
@@ -103,8 +103,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:layout_gravity="center"
-                        android:drawableStart="@drawable/ic_thermometer_low_temperature"
                         android:drawablePadding="8dp"
+                        app:drawableStartCompat="@drawable/ic_thermometer_low_temperature"
                         tools:text="-00.0 ℃"/>
 
                 </LinearLayout>
@@ -124,7 +124,7 @@
                 android:weightSum="3"
                 android:orientation="horizontal">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_humidity"
                     android:text='@{forecast.main.humidity + " " + @string/pct}'
                     android:textSize="22sp"
@@ -134,11 +134,11 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
                     android:gravity="center"
-                    android:drawableTop="@drawable/ic_humidity"
                     android:drawablePadding="4dp"
+                    app:drawableTopCompat="@drawable/ic_humidity"
                     tools:text="00 %"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_precip_mm"
                     android:text='@{forecast.precipitation + " " + @string/mm}'
                     android:textSize="22sp"
@@ -148,11 +148,11 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
                     android:gravity="center"
-                    android:drawableTop="@drawable/ic_umbrella"
                     android:drawablePadding="4dp"
+                    app:drawableTopCompat="@drawable/ic_umbrella"
                     tools:text="00,00 мм"/>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_clouds"
                     android:text='@{forecast.clouds + " " + @string/pct}'
                     android:textSize="22sp"
@@ -162,8 +162,8 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
                     android:gravity="center"
-                    android:drawableTop="@drawable/ic_clouds"
                     android:drawablePadding="4dp"
+                    app:drawableTopCompat="@drawable/ic_clouds"
                     tools:text="00 %"/>
 
             </LinearLayout>
@@ -174,16 +174,16 @@
                 android:layout_margin="8dp"
                 android:background="?attr/colorPrimaryDark"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/direction"
                 android:text='@{forecast.directionWind + "  " + forecast.speedWind + " " + @string/m_c}'
                 android:textSize="@dimen/properties_weather_value_text_size"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
-                android:drawableStart="@drawable/ic_wind"
                 android:layout_marginStart="16dp"
-                android:drawablePadding="16dp"/>
+                android:drawablePadding="16dp"
+                app:drawableStartCompat="@drawable/ic_wind"/>
 
             <View
                 android:layout_width="match_parent"
@@ -191,16 +191,16 @@
                 android:layout_margin="8dp"
                 android:background="?attr/colorPrimaryDark"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/pressure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text='@{forecast.pressure + " " + @string/mm_Hg}'
                 android:textSize="@dimen/properties_weather_value_text_size"
-                android:drawableStart="@drawable/ic_atmospheric_pressure"
                 android:layout_marginStart="16dp"
                 android:drawablePadding="16dp"
                 android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/ic_atmospheric_pressure"
                 tools:text="000,00 мм.рт.ст"/>
 
         </LinearLayout>

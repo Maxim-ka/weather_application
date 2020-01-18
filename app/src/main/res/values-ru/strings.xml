@@ -84,9 +84,9 @@
     <string name="to_cancel">Отменить</string>
 <!--сенсоры-->
     <string name="sensors">Использование внутренних датчиков</string>
-    <string name="pressure_meter">датчик давления</string>
-    <string name="temperature_sensor">датчик температуры</string>
-    <string name="humidity_sensor">датчик влажности</string>
+    <string name="pressure_meter">давление</string>
+    <string name="temperature_sensor">температура</string>
+    <string name="humidity_sensor">влажность</string>
     <string name="absent">Отсутствует</string>
 <!--единицы измерения-->
     <string name="pct"> %</string>

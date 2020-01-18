@@ -622,3 +622,11 @@
 /.idea/libraries/Gradle__org_hamcrest_hamcrest_library_1_3_jar.xml
 /.idea/workspace.xml
 /gradle.properties
+/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_2_0_1_jar.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml
+/.idea/weather_application.iml
+/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup/outputFiles.bin
