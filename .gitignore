@@ -630,3 +630,6 @@
 /.idea/weather_application.iml
 /.gradle/buildOutputCleanup/buildOutputCleanup.lock
 /.gradle/buildOutputCleanup/outputFiles.bin
+/.idea/libraries/Gradle__androidx_preference_preference_ktx_1_1_0_aar.xml
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/buildOutputCleanup/cache.properties

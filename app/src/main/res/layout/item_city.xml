@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:text='@{place.name}'
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:text="@string/latitude"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -52,7 +52,7 @@
 
                 <TextView
                     android:text="@string/longitude"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -69,7 +69,7 @@
                 <TextView
                     android:id="@+id/tv_lat"
                     android:text="@{String.valueOf(place.lat)}"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,7 +79,7 @@
                 <TextView
                     android:id="@+id/tv_lon"
                     android:text="@{String.valueOf(place.lon)}"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

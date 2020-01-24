@@ -1,7 +1,9 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base
 
 import androidx.databinding.ObservableArrayList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 abstract class BaseListViewModel<T> : BaseViewModel()  {
 
     val observableList = ObservableArrayList<T>()

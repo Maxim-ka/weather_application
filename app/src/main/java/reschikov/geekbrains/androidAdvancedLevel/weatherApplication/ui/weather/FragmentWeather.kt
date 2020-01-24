@@ -12,7 +12,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LAT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Success
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.current.FragmentCurrentDisplay
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.forecast.FragmentForecastDisplay
@@ -69,7 +68,6 @@ class FragmentWeather : BaseFragment() {
     private fun areThereSensors(): Boolean{
         activity?.let {
             val sm = it.getSystemService(SENSOR_SERVICE) as SensorManager
-            Timber.i("SensorList ${sm.getSensorList(Sensor.TYPE_ALL)}")
             return sm.getDefaultSensor(Sensor.TYPE_PRESSURE) != null ||
                     sm.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null ||
                     sm.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY) != null
@@ -99,12 +97,10 @@ class FragmentWeather : BaseFragment() {
         outState.putDouble(KEY_LON, lon)
     }
 
-    override fun renderSuccess (success: Success){
-        success.run {
-            takeIf { this is Success.LastPlace && city == null }?.let {
-                Timber.i("Success.LastPlace && city == null")
-                navController.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
-            }
+    override fun renderHaveCities (hasCity: Boolean){
+        hasCity.takeUnless { it }?.let {
+            navController.takeIf { it.currentDestination?.id == R.id.fragmentWeather
+            }?.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
         }
     }
 

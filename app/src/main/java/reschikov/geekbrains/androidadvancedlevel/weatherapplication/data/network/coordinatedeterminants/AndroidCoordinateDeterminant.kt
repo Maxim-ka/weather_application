@@ -10,7 +10,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import androidx.core.app.ActivityCompat
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -32,7 +32,7 @@ class AndroidCoordinateDeterminant(private val context: Context) : BaseCoordinat
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                continuation.resumeWithException(BaseException.NoPermission())
+                continuation.resumeWithException(AppException.NoPermission())
             } else {
                 locationListener = object : LocationListener {
                     override fun onLocationChanged(location: Location?) {
@@ -52,7 +52,7 @@ class AndroidCoordinateDeterminant(private val context: Context) : BaseCoordinat
                     override fun onProviderDisabled(provider: String) {
                         if (provider == LocationManager.NETWORK_PROVIDER) {
                             lm.removeUpdates(this)
-                            continuation.resumeWithException(BaseException.NoNetwork())
+                            continuation.resumeWithException(AppException.NoNetwork())
                         }
                     }
                 }

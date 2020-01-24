@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/fragmentWeather"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.FragmentWeather"
-        android:label="FragmentWeather"
-        app:launchSingleTop="true">
+        android:label="FragmentWeather">
         <action
             android:id="@+id/action_fragmentWeather_to_fragmentOfListOfPlaces"
             app:destination="@id/nav_places"/>
@@ -57,6 +56,10 @@
             <action
                 android:id="@+id/action_placeNameInputDialog_to_choicePlaceDialog"
                 app:destination="@id/choicePlaceDialog" />
+            <action
+                android:id="@+id/action_placeNameInputDialog_to_fragmentOfListOfPlaces"
+                app:destination="@id/fragmentOfListOfPlaces"
+                app:popUpTo="@id/fragmentOfListOfPlaces"/>
         </dialog>
         <dialog
             android:id="@+id/choicePlaceDialog"
@@ -68,13 +71,6 @@
                 app:popUpTo="@id/fragmentOfListOfPlaces" />
         </dialog>
     </navigation>
-    <dialog
-        android:id="@+id/warningDialog"
-        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.WarningDialog"
-        android:label="WarningDialog" />
-    <action
-        android:id="@+id/action_global_warningDialog2"
-        app:destination="@id/warningDialog" />
     <fragment
         android:id="@+id/fragmentSensors"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sensors.FragmentSensors"
@@ -84,4 +80,8 @@
             app:destination="@id/fragmentWeather"
             app:popUpTo="@id/fragmentWeather"/>
     </fragment>
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.settings.FragmentSettings"
+        android:label="FragmentSettings" />
 </navigation>

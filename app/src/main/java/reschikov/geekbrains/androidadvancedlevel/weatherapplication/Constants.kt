@@ -1,4 +1,4 @@
-package reschikov.geekbrains.androidadvancedlevel.weatherapplication;
+package reschikov.geekbrains.androidadvancedlevel.weatherapplication
 
 
 const val REQUEST_MY_PERMISSIONS_ACCESS_LOCATION = 10
@@ -31,15 +31,28 @@ const val X_LEN_SMS_RU = 70;
 const val FROM_HPA_IN_MMHG = 0.750064f
 const val HALF = 0.5f
 
+const val PREFERENCE_OPEN_WEATHER = "OpenWeatherMap"
+const val PREFERENCE_OPEN_CAGE = "OpenCage"
+const val PREFERENCE_REQUEST = "Request"
+
 const val KEY_LAT = "key lat"
 const val KEY_LON = "key lon"
 const val KEY_PLACE = "key place"
 const val KEY_CODE = "key code"
 const val KEY_MESSAGE = "key message"
-const val KEY_HAS_ACTION = "key hasAction"
+
+const val KEY_WEATHER = "key weather"
+
+const val KEY_OPEN_CAGE = "key OpenCage"
+const val KEY_BALANCE_OF_REQUESTS = "key balance of requests"
+const val NUMBER_REQUESTS_PER_DAY = 2500
+const val KEY_RESET_DATE = "key reset date"
+const val NUMBER_MILLISECONDS_PER_DAY = 86_400_000L
+
+const val KEY_REQUEST_SELECTION = "key request selection"
 
 const val KEY_NO_GOOGLE = "key no google";
-const val KEY_WEATHER = "key weather";
+
 const val KEY_USER_NAME = "key user name";
 const val KEY_USER_IMAGE = "key image user";
 const val KEY_ERR_SERVER = "key err server";

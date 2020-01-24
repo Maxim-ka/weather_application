@@ -1,13 +1,10 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
@@ -19,11 +16,34 @@ class Repository(private val mapping: Mapping,
                  private val geocoded: Geocoded,
                  private val issuedCoordinates: IssuedCoordinates) : Derivable{
 
+    /*Добавление по названию города*/
+    override suspend fun addPlaceByName(name: String): Place.Places {
+        return try {
+            updateListPlace(requestedWeather.requestServerByNameAsync(name))
+        } catch (e: Throwable) {
+            Place.Places(null, e)
+        }
+    }
+
+    /*Добавление по почтовому индексу*/
+    override suspend fun addPlaceByZipCode(postCode: String): Place.Places {
+        return try {
+            updateListPlace(requestedWeather.requestServerByIndexAsync(postCode))
+        } catch (e: Throwable){
+            Timber.i(e)
+            Place.Places(null, e)
+        }
+    }
+
     /*добавление текущего места в список городов*/
     override suspend fun addCurrentPlace(): Place.Places {
         return issuedCoordinates.getCoordinatesCurrentPlace().run {
             coord?.let {
-                updateListPlace(requestedWeather.requestServerAsync(it.lat, it.lon))
+                try {
+                    updateListPlace(requestedWeather.requestServerByCoordinatesAsync(it.lat, it.lon))
+                } catch (e: Throwable) {
+                    Place.Places(null, e)
+                }
             } ?: Place.Places(null, error)
         }
     }
@@ -32,7 +52,11 @@ class Repository(private val mapping: Mapping,
     override suspend fun getStateCurrentPlace(): Weather.Data {
         return issuedCoordinates.getCoordinatesCurrentPlace().run{
             coord?.let {
-                getWeather(requestedWeather.requestServerAsync(it.lat, it.lon))
+                try {
+                    getWeather(requestedWeather.requestServerByCoordinatesAsync(it.lat, it.lon))
+                } catch (e: Throwable) {
+                    Weather.Data(null, e)
+                }
             } ?: Weather.Data(null, error)
         }
     }
@@ -48,7 +72,11 @@ class Repository(private val mapping: Mapping,
 
     /*Получение данных с сервиса погоды по выбранному варианту из геокодирования*/
     override suspend fun addSelectedPlace(lat: Double, lon: Double): Place.Places {
-        return updateListPlace(requestedWeather.requestServerAsync(lat, lon))
+        return try {
+            updateListPlace(requestedWeather.requestServerByCoordinatesAsync(lat, lon))
+        } catch (e: Exception) {
+            Place.Places( null, e)
+        }
     }
 
     /*Получение списка городов из базы*/
@@ -69,65 +97,69 @@ class Repository(private val mapping: Mapping,
         }
     }
 
-    /*Загрузка последнего просмотренного города*/
-    override suspend fun loadLastPlace(): CityTable? = storable.getLastPlace()
-
     /*Получение данных погоды из базы, если устаревшие > 3 часов запрос на сервер*/
     override suspend fun getDataWeather(lat: Double, lon: Double): Weather.Data {
-        return storable.getData(lat, lon).apply {
-            weather?.let {saved ->
-                takeIf {saved is Weather.Saved && (System.currentTimeMillis() -  saved.currentTable.dt > THREE_HOURS)
-                }?.let { requestedWeather.requestServerAsync(lat, lon).also {received ->
-                        received.weather?.let { getWeather(received) }
-                        received.error?.let { error = it }
+        Timber.i("getDataWeather")
+        return try {
+            val saved = storable.getData(lat, lon)
+            takeIf {(System.currentTimeMillis() -  saved.currentTable.dt > THREE_HOURS)}?.let {
+                try {
+                    getWeather(requestedWeather.requestServerByCoordinatesAsync(lat, lon)).run {
+                        weather?.let { return this }
+                        error?.let { return Weather.Data(saved, it) }
                     }
+                } catch (e: Throwable) {
+                    return Weather.Data(saved, e)
                 }
             }
+            Weather.Data(saved, null)
+        } catch (e: Throwable) {
+            Weather.Data(null, AppException.Database(e.message))
         }
     }
 
     /*получение погоды с последнего просмотра*/
     override suspend fun getStateLastPlace(): Weather.Data? {
-        return loadLastPlace()?.let {
-            Timber.i("LastPlace $it")
+        Timber.i("getStateLastPlace")
+        return  storable.getLastPlace()?.let {
+            Timber.i("$it")
             getDataWeather(it.coord.lat, it.coord.lon)
         }
     }
 
-    private suspend fun getWeather(data: Weather.Data): Weather.Data{
-        return data.apply{
-            weather?.let {
-                it as Weather.Received
-                val currentTable = mapping.createCurrentTable(it.current)
-                val cityTable = mapping.createCityTable(it.current)
-                val forecastsTable = mapping.createListForecastTable(it.forecastList,it.current.coord)
-                writeToDatabase(cityTable, currentTable, forecastsTable)?.let { baseException ->
-                    weather = null
-                    error = baseException
-                } ?: apply { weather = Weather.Saved(currentTable, forecastsTable) }
+    private suspend fun getWeather(received: Weather.Received): Weather.Data{
+        Timber.i("getWeather $received")
+        return received.run{
+            val currentTable = mapping.createCurrentTable(current)
+            val cityTable = mapping.createCityTable(current)
+            val forecastsTable = mapping.createListForecastTable(forecastList,current.coord)
+            try {
+                writeToDatabase(cityTable, currentTable, forecastsTable)
+                Weather.Data(Weather.Saved(currentTable, forecastsTable), null)
+            } catch (e: Throwable) {
+                Weather.Data(null, AppException.Saved(e.message))
             }
         }
     }
 
-    private suspend fun updateListPlace(data: Weather.Data): Place.Places{
-        return data.run {
-            weather?.let {
-                it as Weather.Received
-                val lastShowTime = storable.getLastTimeShow()
-                val currentTable = mapping.createCurrentTable(it.current)
-                val cityTable = mapping.createCityTable(it.current, lastShowTime)
-                val forecastsTable = mapping.createListForecastTable(it.forecastList, it.current.coord)
-                writeToDatabase(cityTable, currentTable, forecastsTable)?.let {baseException ->
-                    Place.Places(null, baseException)
-                } ?: getListCities()
-            } ?: Place.Places(null, error)
+    private suspend fun updateListPlace(received: Weather.Received): Place.Places{
+        return received.run {
+            val lastShowTime = storable.getLastTimeShow()
+            val currentTable = mapping.createCurrentTable(current)
+            val cityTable = mapping.createCityTable(current, lastShowTime)
+            val forecastsTable = mapping.createListForecastTable(forecastList, current.coord)
+            try {
+                writeToDatabase(cityTable, currentTable, forecastsTable)
+                getListCities()
+            } catch (e: Throwable) {
+                Place.Places(null, AppException.Saved(e.message))
+            }
         }
     }
 
     /*Запись в базу данных*/
-    private suspend fun writeToDatabase(cityTable: CityTable, currentTable: CurrentTable, forecastsTable: List<ForecastTable>): BaseException?{
-        return withContext(Dispatchers.IO + Job()) {
-                    storable.save(cityTable,currentTable, forecastsTable)
-                }
+    @Throws
+    private suspend fun writeToDatabase(cityTable: CityTable, currentTable: CurrentTable, forecastsTable: List<ForecastTable>){
+        storable.save(cityTable,currentTable, forecastsTable)
     }
 }

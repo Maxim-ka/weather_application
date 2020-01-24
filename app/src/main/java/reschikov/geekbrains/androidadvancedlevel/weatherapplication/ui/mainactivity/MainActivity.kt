@@ -14,9 +14,13 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_GOOGLE_COORDINATE
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_MY_PERMISSIONS_ACCESS_LOCATION
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
 import timber.log.Timber
 
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private var isNoPermission: Boolean = false
     private val navController: NavController by lazy { Navigation.findNavController(this, R.id.frame_master) }
+    @ExperimentalCoroutinesApi
     private val model: WeatherViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +36,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setNavController()
-//        PreferenceManager.setDefaultValues(baseContext, R.xml.setting, false)
 
 //        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(baseContext) == ConnectionResult.SUCCESS){
 //            FirebaseMessaging.getInstance().isAutoInitEnabled = true
@@ -44,6 +48,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setupActionBarWithNavController(navController, AppBarConfiguration.Builder(navController.graph).build())
     }
 
+    @ExperimentalCoroutinesApi
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
         if(destination.id == R.id.fragmentWeather && arguments == null){
             model.getStateLastPlace()
@@ -80,10 +85,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onPostResume() {
         super.onPostResume()
         if (isNoPermission) {
-            navController.navigate(R.id.action_global_warningDialog2, Bundle().apply {
-                putInt(KEY_TITLE, R.string.disabling_location)
-                putInt(KEY_MESSAGE, R.string.no_permission_determine_location)
-            })
+            supportFragmentManager.fragments.last().showAlertDialog(R.string.disabling_location, getString(R.string.no_permission_determine_location))
             isNoPermission = false
         }
     }

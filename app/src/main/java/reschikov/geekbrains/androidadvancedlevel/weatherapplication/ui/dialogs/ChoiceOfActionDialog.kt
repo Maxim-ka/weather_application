@@ -126,7 +126,6 @@ class ChoiceOfActionDialog : DialogFragment(){
 
     private fun determineCurrentLocation(){
         model.addCurrentPlace()
-        navController.navigate(R.id.action_choiceOfActionDialog_to_fragmentOfListOfPlaces)
     }
 
     private fun addCity(){

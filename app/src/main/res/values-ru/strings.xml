@@ -76,7 +76,7 @@
     <string name="specify_place">Укажите место прогноза погоды</string>
     <string name="request">Запрос погоды</string>
     <string name="answer">Получить текущее состояние на: </string>
-    <string name="current_key">Текуший ключ APIUX</string>
+    <string name="current_key">текущий ключ для получения состояния погоды</string>
     <string name="latitude">широта:</string>
     <string name="longitude">долгота:</string>
     <string name="country">страна</string>
@@ -104,9 +104,13 @@
     <string name="enter_recipient_email">Вы должны ввести адрес эл. почты получателя</string>
     <string name="not_all_fields_filled">Не все поля заполнены для отправки письма</string>
     <string name="enter_your_email">Вы должны ввести свой e-mail</string>
-    <string name="you_must_enter_place">Вы должны указать в порядке возрастания, через запятую
-        часть или все параметры места: район, город, регион, страна, континент. Без цифр</string>
-
+    <string name="zip_code">почтовый индекс</string>
+    <string name="city_name">название города</string>
+    <string name="specify_place_name">Указать название места</string>
+    <string name="specify_place_zip_code">Указать почтовый индекс места</string>
+    <string name="indicate_in_ascending_order">Указать в порядке возрастания, через запятую
+        часть или все параметры места: улица,район,город,регион,страна. Без цифр</string>
+    <string name="street_district_city_region_country">улица,район,город,регион,страна</string>
 
 
     <string name="failure">Сервер, сбой:</string>

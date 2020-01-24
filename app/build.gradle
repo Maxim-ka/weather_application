@@ -55,6 +55,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.1.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.1.0"
     //androidx
+    implementation "androidx.preference:preference-ktx:1.1.0"
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-runtime:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'

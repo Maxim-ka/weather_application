@@ -4,5 +4,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weath
 
 interface RequestedWeather {
 
-    suspend fun requestServerAsync(lat: Double, lon: Double): Weather.Data
+    suspend fun requestServerByCoordinatesAsync(lat: Double, lon: Double): Weather.Received
+    suspend fun requestServerByNameAsync(q: String): Weather.Received
+    suspend fun requestServerByIndexAsync(zip: String): Weather.Received
 }

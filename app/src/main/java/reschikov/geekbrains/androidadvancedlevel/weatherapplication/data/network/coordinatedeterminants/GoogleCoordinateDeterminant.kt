@@ -7,7 +7,7 @@ import android.location.Location
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -35,7 +35,7 @@ class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinate
             taskSetting.addOnSuccessListener {
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    continuation.resumeWithException(BaseException.NoPermission())
+                    continuation.resumeWithException(AppException.NoPermission())
                 } else {
                     lcb = object : LocationCallback() {
                         override fun onLocationResult(locationResult: LocationResult?) {

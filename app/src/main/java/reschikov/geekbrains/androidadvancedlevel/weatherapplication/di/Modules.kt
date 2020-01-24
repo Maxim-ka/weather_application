@@ -1,6 +1,8 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.di
 
 import androidx.room.Room
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -38,8 +40,9 @@ val appModule = module {
     }
 }
 
+@ExperimentalCoroutinesApi
 val viewModelModule = module {
-    viewModel { WeatherViewModel(get(), Channel(), Channel()) }
+    viewModel { WeatherViewModel(get(), BroadcastChannel(Channel.CONFLATED), BroadcastChannel(Channel.CONFLATED)) }
     single { ListPlaceModelFactory(get()) }
 }
 

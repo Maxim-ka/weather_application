@@ -1,7 +1,6 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base
 
 import android.Manifest
-import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -10,12 +9,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ResolvableApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Success
+import kotlinx.coroutines.channels.consumeEach
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_GOOGLE_COORDINATE
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_MY_PERMISSIONS_ACCESS_LOCATION
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext by lazy {
@@ -31,61 +34,60 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     override fun onStart() {
         super.onStart()
         successJob = launch {
-            renderSuccess(model.getSuccessChannel().receive())
+            model.getBooleanChannel().consumeEach {
+                renderHaveCities(it)
+            }
         }
         errorJob = launch{
-            renderError(model.getErrorChannel().receive())
-        }
-    }
-
-    abstract fun renderSuccess (success: Success)
-
-    private fun renderError (error: Throwable) {
-        error.run {
-            when (this) {
-                is ResolvableApiException ->{
-                    activity?.let { startResolutionForResult(it, REQUEST_GOOGLE_COORDINATE) }
-                    null
-                }
-                is BaseException.NoPermission ->{
-                    activity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_MY_PERMISSIONS_ACCESS_LOCATION)
-                    }
-                    showErrorNotification(getString(R.string.warning)+"\n"+getString(R.string.no_permission_determine_location))
-                    null
-                }
-                is BaseException.NoNetwork -> {
-                    createBundle(R.string.warning, R.string.no_network)
-                }
-                is TimeoutCancellationException -> {
-                    createBundle(R.string.caution, R.string.unable_determine_coordinates)
-                }
-                is BaseException.Saved -> {
-                    showErrorNotification(message)
-                    createBundle(R.string.caution, R.string.error_writing_database)
-                }
-                is BaseException.Deleted -> {
-                    showErrorNotification(message)
-                    createBundle(R.string.caution, R.string.error_deleting_database)
-                }
-                is BaseException.Database -> {
-                    createBundle(R.string.caution, R.string.database_error)
-                }
-                else -> {
-                    showErrorNotification(message)
-                    null
-                }
-            } ?.let {
-                navController.navigate(R.id.action_global_warningDialog2, it)
+            model.getErrorChannel().consumeEach {
+                renderError(it)
             }
         }
     }
 
-    private fun createBundle(title: Int, message: Int): Bundle {
-        return Bundle().apply {
-            putInt(KEY_TITLE, title)
-            putInt(KEY_MESSAGE, message)
+    abstract fun renderHaveCities (hasCity: Boolean)
+
+    private fun renderError (error: Throwable) {
+        error.run {
+            when (this) {
+                is AppException.Response ->{
+                    showAlertDialog(R.string.warning, "server response\n ${(error as AppException.Response).error}")
+                }
+                is ResolvableApiException ->{
+                    activity?.let { startResolutionForResult(it, REQUEST_GOOGLE_COORDINATE) }
+                }
+                is AppException.NoPermission ->{
+                    activity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_MY_PERMISSIONS_ACCESS_LOCATION)
+                    }
+                    showErrorNotification(getString(R.string.warning)+"\n"+getString(R.string.no_permission_determine_location))
+                }
+                is AppException.NoNetwork -> {
+                    showAlertDialog(R.string.warning, getString(R.string.no_network))
+                }
+                is TimeoutCancellationException -> {
+                    showAlertDialog(R.string.caution, getString(R.string.unable_determine_coordinates))
+                }
+                is AppException.Saved -> {
+                    showErrorNotification(message)
+                    showAlertDialog(R.string.caution, getString(R.string.error_writing_database))
+                }
+                is AppException.Deleted -> {
+                    showErrorNotification(message)
+                    showAlertDialog(R.string.caution, getString(R.string.error_deleting_database))
+                }
+                is AppException.Database -> {
+                    showAlertDialog(R.string.caution, getString(R.string.database_error))
+                }
+                else -> {
+                    showErrorNotification(message)
+                }
+            }
         }
+    }
+
+    private fun showAlertDialog(title: Int, message: String) {
+        activity?.supportFragmentManager?.fragments?.last()?.showAlertDialog(title, message)
     }
 
     private fun showErrorNotification(message: String?){

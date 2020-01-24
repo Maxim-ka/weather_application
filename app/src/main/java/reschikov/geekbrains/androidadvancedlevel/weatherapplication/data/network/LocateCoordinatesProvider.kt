@@ -7,7 +7,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.IssuedCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants.DeterminedCoordinates
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.BaseException
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 
 class LocateCoordinatesProvider(private val context: Context, vararg determinedCoordinates: DeterminedCoordinates) :
@@ -24,7 +24,7 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
     }
 
     override suspend fun getCoordinatesCurrentPlace(): Place.Coordinates {
-        if (checkLackOfNetwork()) return Place.Coordinates(null, BaseException.NoNetwork())
+        if (checkLackOfNetwork()) return Place.Coordinates(null, AppException.NoNetwork())
         if(hasDetermineGoogle() && googleQualifier.isNotEmpty()){
             getGoogleCoordinates()?.let { return it }
         }
@@ -47,7 +47,7 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
     }
 
     private fun hasPlace(coordinates: Place.Coordinates): Boolean{
-        return (coordinates.coord != null || coordinates.error is BaseException.NoPermission ||
+        return (coordinates.coord != null || coordinates.error is AppException.NoPermission ||
                 coordinates.error is ResolvableApiException)
     }
 

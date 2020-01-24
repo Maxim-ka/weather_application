@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import kotlinx.android.synthetic.main.place_frame.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
 import org.koin.android.ext.android.get
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_CODE
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_PLACE
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -25,6 +29,8 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
     override val coroutineContext: CoroutineContext by lazy {
         Dispatchers.Main + SupervisorJob()
     }
+    private val navController : NavController by lazy { findNavController() }
+    @ExperimentalCoroutinesApi
     private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
     private val resultPlacesRVAdapter: ResultPlacesRVAdapter by lazy { ResultPlacesRVAdapter(this) }
     private var resultJob: Job? = null
@@ -64,19 +70,17 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
     @ExperimentalCoroutinesApi
     private suspend fun findPlaces(place: String, code: String){
         model.findPlaces(place, code).consumeEach {
+            Timber.i("findPlaces $it")
             showAnswer(it)
-            Timber.i("findPlaces %s", it)
         }
     }
 
-    private fun showAnswer(places: List<Place.Result>){
-        if (places.isEmpty()) {
-            findNavController().navigate(R.id.action_global_warningDialog2, Bundle().apply {
-                putInt(KEY_TITLE, R.string.caution)
-                putInt(KEY_MESSAGE, R.string.msg_location_not_found)
-                putBoolean(KEY_HAS_ACTION, false)
-            })
-        } else setResult(places)
+    private fun showAnswer(places: List<Place.Result>?){
+        Timber.i("showAnswer $places")
+        places?.let {
+            if (it.isEmpty()) showAlertDialog(R.string.caution, getString(R.string.msg_location_not_found))
+            else setResult(it)
+        } ?: navController.popBackStack()
     }
 
     override fun onStop() {
@@ -88,9 +92,10 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
         resultPlacesRVAdapter.list = results.toMutableList()
     }
 
+    @ExperimentalCoroutinesApi
     override fun onItemClick(item: Place.Result) {
-        model.addPlace(item.lat, item.lon)
-        findNavController(). navigate(R.id.action_choicePlaceDialog_to_fragmentOfListOfPlaces)
+        model.addPlaceByCoordinates(item.lat, item.lon)
+        navController.navigate(R.id.action_choicePlaceDialog_to_fragmentOfListOfPlaces)
     }
 
     override fun onDestroy () {

@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/indent"
         android:textAlignment="center"
-        android:hint="country, region, city, district"
         app:errorEnabled="true"
         app:errorTextColor="@color/colorAccent"
         app:errorTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
@@ -23,7 +22,6 @@
         app:errorIconTint="@color/colorAccent"
         app:helperTextEnabled="true"
         app:helperTextTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-        app:helperText="russia,irkutsk region,irkutsk"
         app:hintEnabled="true"
         app:hintTextAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         app:hintAnimationEnabled="true">

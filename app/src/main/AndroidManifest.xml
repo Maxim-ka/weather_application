@@ -35,14 +35,6 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".settings.Settings">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SETTING_LIST_OF_CITIES"/>-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
 <!--        <activity android:name=".dispatch.Sender"-->
 <!--            android:exported="false">-->
 <!--            <intent-filter>-->

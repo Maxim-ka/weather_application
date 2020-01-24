@@ -74,7 +74,7 @@
     <string name="specify_place">Specify the location of the weather forecast</string>
     <string name="request">request weather</string>
     <string name="answer">to answer, use the russian language</string>
-    <string name="current_key">currentTable key APIUX</string>
+    <string name="current_key">current key for obtaining weather conditions </string>
     <string name="country">country</string>
     <string name="latitude">latitude:</string>
     <string name="longitude">longitude:</string>
@@ -101,16 +101,16 @@
     <string name="enter_recipient_email">you must enter the recipient\'s e-mail</string>
     <string name="not_all_fields_filled">not all sender fields are filled in to send emails</string>
     <string name="enter_your_email">you must enter the your e-mail</string>
-    <string name="you_must_enter_place">You must specify in ascending order (from the smallest to the largest),
-        separated by commas, part or all of the parameters of the place:
-        district, city, region, country. Without numbers.</string>
-<!--ошибки Гугл-->
-    <string name="no_Google_service">There is no Google service. Continue anyway?</string>
-    <string name="update_Google_service">It is necessary to update the Google service. Continue without updating?</string>
-    <string name="update_version_Google">You need to update the version of Google service. Continue without updating?</string>
-    <string name="Google_disabled">Google service is disabled. Continue anyway?</string>
-    <string name="Google_service_error">Google service error. Continue anyway?</string>
-    <string name="Crash_service_google">Crash service google. Continue anyway?</string>
+    <string name="zip_code">zip code</string>
+    <string name="zip_code_example" translatable="false">664049</string>
+    <string name="city_name">city name</string>
+    <string name="specify_place_name">Specify place name</string>
+    <string name="specify_place_zip_code">Specify a place zip code</string>
+    <string name="indicate_in_ascending_order">Indicate in ascending order, separated by commas
+         part or all of the location parameters: street,district,city,region,country.
+        Without numbers.</string>
+    <string name="street_district_city_region_country">street,district,city,region,country</string>
+
 
     <string name="failure">ServerResponse, failure:</string>
 <!--параметры-->

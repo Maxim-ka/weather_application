@@ -17,7 +17,7 @@
         app:showAsAction="withText"/>
 
     <item
-        android:id="@+id/settings"
+        android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_action_setting"
         android:title="@string/settings"
         app:showAsAction="withText"/>

@@ -11,13 +11,13 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.PlaceFrameBinding
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Success
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.ItemTouchHelperCallback
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 class FragmentOfListOfPlaces : BaseFragment(),
         OnItemClickListener<Place.Result>,
         RemotelyStored<Place.Result>{
@@ -65,14 +65,15 @@ class FragmentOfListOfPlaces : BaseFragment(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun renderSuccess (success: Success){
-        success.run {
-            takeIf { this is Success.LastPlace && city == null} ?.also {
-                navController.run {
-                    takeIf { currentDestination?.id  == R.id.fragmentOfListOfPlaces
-                    }?.navigate(R.id.action_fragmentOfListOfPlaces_to_choiceOfActionDialog)  }
+    @ExperimentalCoroutinesApi
+    override fun renderHaveCities (hasCity: Boolean){
+        if (hasCity) {
+            when(navController.currentDestination?.id){
+                R.id.choiceOfActionDialog -> navController.navigate(R.id.action_choiceOfActionDialog_to_fragmentOfListOfPlaces)
+                R.id.placeNameInputDialog -> navController.navigate(R.id.action_placeNameInputDialog_to_fragmentOfListOfPlaces)
             }
-        }
+        } else navController.takeIf{ it.currentDestination?.id  == R.id.fragmentOfListOfPlaces
+            } ?.navigate(R.id.action_fragmentOfListOfPlaces_to_choiceOfActionDialog)
     }
 
     @ExperimentalCoroutinesApi

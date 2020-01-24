@@ -3,19 +3,20 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.launch
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Success
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 class WeatherViewModel(private var derivable: Derivable?,
-                       override val errorChannel: Channel<Throwable>,
-                       override val successChannel: Channel<Success>) :
+                       override val errorChannel: BroadcastChannel<Throwable>,
+                       override val booleanChannel: BroadcastChannel<Boolean>) :
         BaseListViewModel<ForecastTable>() {
 
     val fieldCurrentState = ObservableField<CurrentTable>()
@@ -39,15 +40,13 @@ class WeatherViewModel(private var derivable: Derivable?,
 
     fun getStateLastPlace(){
         viewModelScope.launch(Dispatchers.IO){
-            Timber.i("getStateLastPlace")
             isProgressVisible.set(true)
             val data= derivable?.getStateLastPlace()
-            if (data != null) {
-                data.weather?.let {state-> setWeather(state) }
-                data.error?.let {e -> setError(e)  }
-            } else {
-                setSuccess(Success.LastPlace(null))
+            data?.let{
+                it.weather?.let {state-> setWeather(state) }
+                it.error?.let {e -> setError(e)  }
             }
+            hasCities(data != null)
             isProgressVisible.set(false)
         }
     }

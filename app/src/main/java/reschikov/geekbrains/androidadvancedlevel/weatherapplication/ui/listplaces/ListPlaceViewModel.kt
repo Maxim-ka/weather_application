@@ -3,20 +3,20 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplac
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Success
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 import timber.log.Timber
 
 
+@ExperimentalCoroutinesApi
 class ListPlaceViewModel(private var derivable: Derivable?,
-                         override val errorChannel: Channel<Throwable>,
-                         override val successChannel: Channel<Success>) :
+                         override val errorChannel: BroadcastChannel<Throwable>,
+                         override val booleanChannel: BroadcastChannel<Boolean>) :
         BaseListViewModel<Place.Result>(),
         AddablePlace{
 
@@ -34,38 +34,64 @@ class ListPlaceViewModel(private var derivable: Derivable?,
             isProgressVisible.set(true)
             derivable?.let {derivable ->
                 derivable.getListCities().run {
-                    list?.let {
-                        if (it.isEmpty()) setSuccess(Success.LastPlace(null))
-                        else setObservableList(it)
-                    } ?: error?.let {
-                        setError(it)
-                    }
+                   toDistribute(list, error)
                 }
             }
             isProgressVisible.set(false)
         }
     }
 
+    override fun addPlaceByName(name: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isProgressVisible.set(true)
+                derivable?.let {derivable ->
+                    derivable.addPlaceByName(name).run {
+                        toDistribute(list, error)
+                    }
+                }
+            } finally {
+                finish()
+            }
+        }
+    }
+
+    override fun addPlaceByZipCode(postCode: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isProgressVisible.set(true)
+                derivable?.let {derivable ->
+                    derivable.addPlaceByZipCode(postCode).run {
+                        toDistribute(list, error)
+                    }
+                }
+            } finally {
+                finish()
+            }
+        }
+    }
+
     @ExperimentalCoroutinesApi
-    override fun findPlaces(place: String, code: String): ReceiveChannel<List<Place.Result>> {
+    override fun findPlaces(place: String, code: String): ReceiveChannel<List<Place.Result>?> {
         return viewModelScope.produce(Dispatchers.IO) {
             takeIf {results.isEmpty() && !foundPlace.equals(place) && !foundCode.equals(code) }?.run {
                 derivable?.let {derivable ->
                     derivable.determineLocationCoordinates(place, code).run {
+                        Timber.i("findPlaces $this")
                         list?.let {
                             send(it)
                             results = it
                         } ?: error?.let {
+                            send(null)
                             setError(it)
                         }
                     }
                 }
             } ?: send(results)
-            Timber.i("results $results")
         }
     }
 
-    override fun addPlace(lat: Double, lon: Double) {
+    override fun addPlaceByCoordinates(lat: Double, lon: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isProgressVisible.set(true)
@@ -86,6 +112,7 @@ class ListPlaceViewModel(private var derivable: Derivable?,
                 isProgressVisible.set(true)
                 derivable?.let {derivable ->
                     derivable.addCurrentPlace().run {
+                        Timber.i("$this")
                         toDistribute(list, error)
                     }
                 }
@@ -111,13 +138,9 @@ class ListPlaceViewModel(private var derivable: Derivable?,
     }
 
     private suspend fun toDistribute(list: List<Place.Result>?, error: Throwable?){
-        list?.let {
-            setObservableList(it)
-        }
-        if (observableList.isEmpty()) setSuccess(Success.LastPlace(null))
-        error?.let {
-            setError(it)
-        }
+        list?.let { setObservableList(it) }
+        hasCities(observableList.isNotEmpty())
+        error?.let { setError(it) }
     }
 
     private fun finish(){
