@@ -15,7 +15,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapCurrent
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapForecast
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,9 +43,9 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     }
 
     @Throws
-    override suspend fun requestServerByCoordinatesAsync(lat: Double, lon: Double): Weather.Received {
+    override suspend fun requestServerByCoordinatesAsync(lat: Double, lon: Double): Pair<Current, ForecastList> {
         return coroutineScope {
-            Timber.i("requestServerByCoordinatesAsync ${checkLackOfNetwork()}")
+            Timber.i("no connection ${checkLackOfNetwork()}")
             takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
             } ?: run {
                 getKey()
@@ -57,7 +56,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     }
 
     @Throws
-    override suspend fun requestServerByNameAsync(q: String): Weather.Received {
+    override suspend fun requestServerByNameAsync(q: String): Pair<Current, ForecastList> {
         return coroutineScope {
             takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
             } ?: run {
@@ -69,7 +68,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     }
 
     @Throws
-    override suspend fun requestServerByIndexAsync(zip: String): Weather.Received {
+    override suspend fun requestServerByIndexAsync(zip: String): Pair<Current, ForecastList> {
         return coroutineScope {
             takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
             } ?: run {
@@ -81,10 +80,10 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     }
 
     @Throws
-    private suspend fun getAnswer(deferredCurrent: Deferred<Current>, deferredForecast: Deferred<ForecastList>) : Weather.Received{
+    private suspend fun getAnswer(deferredCurrent: Deferred<Current>, deferredForecast: Deferred<ForecastList>) : Pair<Current, ForecastList>{
         val current = deferredCurrent.await()
         val forecasts = deferredForecast.await()
-        return Weather.Received(current, forecasts)
+        return Pair(current, forecasts)
     }
 
     private suspend fun requestCurrentByCoordinates(lat: Double, lon: Double): Current {

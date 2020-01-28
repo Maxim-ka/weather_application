@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import kotlinx.android.synthetic.main.button.*
 import kotlinx.android.synthetic.main.choice_dialog.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
@@ -24,6 +25,7 @@ class ChoiceOfActionDialog : DialogFragment(){
 
     private val rectLocation : RectF = RectF()
     private val rectCity : RectF = RectF()
+    @ExperimentalCoroutinesApi
     private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
     private val navController : NavController by lazy { findNavController() }
     private val gestureDetector : GestureDetectorCompat by lazy { GestureDetectorCompat(context, createGesture()) }
@@ -85,6 +87,7 @@ class ChoiceOfActionDialog : DialogFragment(){
         outState.putBoolean(KEY_SET, choiceSet)
     }
 
+    @ExperimentalCoroutinesApi
     private fun createGesture(): GestureDetector.SimpleOnGestureListener{
         return object : GestureDetector.SimpleOnGestureListener(){
             override fun onSingleTapUp(e: MotionEvent?): Boolean {
@@ -124,6 +127,7 @@ class ChoiceOfActionDialog : DialogFragment(){
         choiceSet = set_city.isChecked
     }
 
+    @ExperimentalCoroutinesApi
     private fun determineCurrentLocation(){
         model.addCurrentPlace()
     }

@@ -3,7 +3,7 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplac
 import androidx.recyclerview.widget.DiffUtil
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 
-class ListPlacesDiffUtilCallback(private val oldList: List<Place.Result>, private val newList: List<Place.Result>) : DiffUtil.Callback() {
+class ListPlacesDiffUtilCallback(private val oldList: List<Place>, private val newList: List<Place>) : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].lat == newList[newItemPosition].lat &&

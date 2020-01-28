@@ -5,7 +5,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 
 @Dao
 abstract class StateWeatherDao {
@@ -18,10 +17,10 @@ abstract class StateWeatherDao {
     abstract fun setTimeShow(lat: Double, lon: Double, showTime: Long)
 
     @Transaction
-    open fun getStateWeather(lat: Double, lon: Double): Weather.Saved{
+    open fun getStateWeather(lat: Double, lon: Double): Pair<CurrentTable, List<ForecastTable>>{
         val currentTable = getCurrentState(lat, lon)
         val forecasts = getForecastList(lat, lon)
         setTimeShow(lat, lon, System.currentTimeMillis())
-        return Weather.Saved(currentTable, forecasts)
+        return Pair(currentTable, forecasts)
     }
 }

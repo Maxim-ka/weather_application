@@ -4,7 +4,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.Storabl
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 
 class DataBaseProvider(private val appDatabase: AppDatabase) : Storable{
 
@@ -13,7 +12,7 @@ class DataBaseProvider(private val appDatabase: AppDatabase) : Storable{
     override suspend fun getLastPlace(): CityTable? = appDatabase.weatherDataDao().getLastCity()
 
     @Throws
-    override suspend fun getData(lat: Double, lon: Double): Weather.Saved {
+    override suspend fun getData(lat: Double, lon: Double): Pair<CurrentTable, List<ForecastTable>> {
         return appDatabase.stateWeatherDao().getStateWeather(lat, lon)
     }
 

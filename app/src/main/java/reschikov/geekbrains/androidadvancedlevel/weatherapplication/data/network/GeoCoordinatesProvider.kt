@@ -2,6 +2,7 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.networ
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.google.gson.Gson
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -81,10 +82,9 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
     }
 
     private fun saveRequestParameters(rate: Rate){
-        sp.edit().run {
+        sp.edit {
             putInt(KEY_BALANCE_OF_REQUESTS, rate.remaining)
             putLong(KEY_RESET_DATE, rate.reset * MILLI_SEC)
-            apply()
         }
     }
 
@@ -101,10 +101,7 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
     private fun getTimeReset(): String{
         val defaultTimeReset = System.currentTimeMillis() + NUMBER_MILLISECONDS_PER_DAY
         val reset = sp.getLong(KEY_RESET_DATE, defaultTimeReset)
-        if (reset == defaultTimeReset) sp.edit().run {
-            putLong(KEY_RESET_DATE, reset)
-            apply()
-        }
+        if (reset == defaultTimeReset) sp.edit { putLong(KEY_RESET_DATE, reset)}
         val timeReset = DateFormat.getDateTimeInstance().format(Date(reset))
         return "the number of requests per day is exceeded, you can re-request after $timeReset"
     }

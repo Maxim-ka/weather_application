@@ -7,7 +7,7 @@
     <data>
         <variable
             name="place"
-            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place.Result" />
+            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place" />
     </data>
 
     <reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.MyCardView

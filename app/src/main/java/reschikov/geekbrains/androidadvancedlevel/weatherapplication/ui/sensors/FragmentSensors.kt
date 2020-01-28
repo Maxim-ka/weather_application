@@ -18,7 +18,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.FROM_HPA_IN_
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCALE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.convertToSize
-import timber.log.Timber
 
 
 private const val INTERVAL_MIC_SEC = 15_000_000
@@ -47,14 +46,10 @@ class FragmentSensors : Fragment(R.layout.sensor_frame), SensorEventListener {
         sm?.let {
             pressureMeter = it.getDefaultSensor(Sensor.TYPE_PRESSURE)
             cv_pressureMeter.setMissing(pressureMeter == null)
-            Timber.i("pressureMeter $pressureMeter")
             temperatureSensor = it.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
             cv_temperatureSensor.setMissing(temperatureSensor == null)
-            Timber.i("temperatureSensor $temperatureSensor")
             humiditySensor = it.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
             cv_humiditySensor.setMissing(humiditySensor == null)
-            Timber.i("humiditySensor $humiditySensor")
-            Timber.i("SensorList ${it.getSensorList(Sensor.TYPE_ALL)}")
         }
     }
 

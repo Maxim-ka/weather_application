@@ -8,6 +8,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.weather_frame.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LAT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
@@ -17,6 +18,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.c
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.forecast.FragmentForecastDisplay
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 class FragmentWeather : BaseFragment() {
 
     override val model: WeatherViewModel by sharedViewModel()
@@ -30,7 +32,7 @@ class FragmentWeather : BaseFragment() {
             lat = it.getDouble(KEY_LAT, 0.0)
             lon = it.getDouble(KEY_LON, 0.0)
         }
-        Timber.i("onCreateView")
+        Timber.i("onCreateView ${System.identityHashCode(this)}")
         return view
     }
 
@@ -47,7 +49,7 @@ class FragmentWeather : BaseFragment() {
             }
         }
         createReportWeather()
-        Timber.i("onActivityCreated")
+        Timber.i("onActivityCreated ${System.identityHashCode(this)}")
     }
 
     private fun createReportWeather(){
@@ -75,20 +77,20 @@ class FragmentWeather : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        return when(item.itemId){
             R.id.locate ->{
                 model.getStateCurrentPlace()
-                return true
+                true
             }
             R.id.to_share ->
                 //TODO запустить активити передачи данных
-                return true
+                true
             R.id.sensors ->{
                 navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
-                return true
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -118,13 +120,24 @@ class FragmentWeather : BaseFragment() {
 //        }
 //    }
 
+    @ExperimentalCoroutinesApi
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart ${System.identityHashCode(this)}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop ${System.identityHashCode(this)}")
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.i("onDestroyView")
+        Timber.i("onDestroyView ${System.identityHashCode(this)}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy")
+        Timber.i("onDestroy ${System.identityHashCode(this)}")
     }
 }

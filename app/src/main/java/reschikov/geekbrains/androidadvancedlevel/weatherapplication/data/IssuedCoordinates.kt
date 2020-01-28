@@ -1,7 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
+import android.location.Location
 
 interface IssuedCoordinates {
-    suspend fun getCoordinatesCurrentPlace(): Place.Coordinates
+    suspend fun getCoordinatesCurrentPlace(): Pair<Location?, Throwable?>
 }

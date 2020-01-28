@@ -15,7 +15,7 @@
     <string name="city">город:</string>
     <string name="region">регион:</string>
     <string name="day">день:</string>
-    <string name="state">состояние:</string>
+    <string name="state">состояние</string>
     <string name="min_temp">мин температура:</string>
     <string name="max_temp">макс температура:</string>
     <string name="max_wind">макс ветер:</string>

@@ -68,29 +68,34 @@ class SensorView : View {
     }
 
     private fun initAttr(context: Context, attrs: AttributeSet?) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SensorView, 0, 0)
-        cvSensorName = typedArray.getString(R.styleable.SensorView_cv_SensorName)
-        cvSensorValue = typedArray.getString(R.styleable.SensorView_cv_SensorValue) ?: resources.getString(R.string.absent)
-        val resId = typedArray.getResourceId(R.styleable.SensorView_cv_srcDrawable, NAN)
-        if (resId != NAN)  cvSensorDrawable = getDrawable(context, resId)
-        cvSensorDrawable?.let { it.bounds = Rect() }
-        cvTextSize = typedArray.getDimension(R.styleable.SensorView_cv_textSize, DEFAULT_TEXT_SIZE)
-        cvStrokeWidth = typedArray.getDimension(R.styleable.SensorView_cv_widthStroke, 0.0f)
-        cvTextColor = typedArray.getColor(R.styleable.SensorView_cv_textColor, Color.BLACK)
-        cvActiveColor = typedArray.getColor(R.styleable.SensorView_cv_activeColor, Color.WHITE)
-        cvDisableColor = typedArray.getColor(R.styleable.SensorView_cv_disableColor, Color.BLACK)
-        typedArray.recycle()
+        context.obtainStyledAttributes(attrs, R.styleable.SensorView, 0, 0).run {
+            cvSensorName = getString(R.styleable.SensorView_cv_SensorName)
+            cvSensorValue = getString(R.styleable.SensorView_cv_SensorValue) ?: resources.getString(R.string.absent)
+            val resId = getResourceId(R.styleable.SensorView_cv_srcDrawable, NAN)
+            if (resId != NAN)  cvSensorDrawable = getDrawable(context, resId)
+            cvSensorDrawable?.let { it.bounds = Rect() }
+            cvTextSize = getDimension(R.styleable.SensorView_cv_textSize, DEFAULT_TEXT_SIZE)
+            cvStrokeWidth = getDimension(R.styleable.SensorView_cv_widthStroke, 0.0f)
+            cvTextColor = getColor(R.styleable.SensorView_cv_textColor, Color.BLACK)
+            cvActiveColor = getColor(R.styleable.SensorView_cv_activeColor, Color.WHITE)
+            cvDisableColor = getColor(R.styleable.SensorView_cv_disableColor, Color.BLACK)
+            recycle()
+        }
     }
 
     private fun init() {
         inPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        pText.textSize = cvTextSize
-        pText.style = Paint.Style.FILL
-        pText.isAntiAlias = true
-        pText.textAlign = Paint.Align.CENTER
-        pFrame.color = Color.BLACK
-        pFrame.style = Paint.Style.STROKE
-        pFrame.strokeWidth = cvStrokeWidth
+        pText.apply {
+            textSize = cvTextSize
+            style = Paint.Style.FILL
+            isAntiAlias = true
+            textAlign = Paint.Align.CENTER
+        }
+        pFrame.apply {
+            color = Color.BLACK
+            style = Paint.Style.STROKE
+            strokeWidth = cvStrokeWidth
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

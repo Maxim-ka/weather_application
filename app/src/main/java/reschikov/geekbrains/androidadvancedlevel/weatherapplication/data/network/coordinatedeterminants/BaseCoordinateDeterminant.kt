@@ -1,8 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants
 
+import android.location.Location
 import kotlinx.coroutines.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Coord
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
@@ -16,22 +15,19 @@ abstract class BaseCoordinateDeterminant : DeterminedCoordinates, CoroutineScope
     protected var setPeriod = INTERVAL_UPDATE
     protected var setAccuracy = MIN_ACCURACY
 
-    override suspend fun getCoordinates(): Place.Coordinates {
+    override suspend fun getCoordinates(): Pair<Location?, Throwable?> {
         return withContext(coroutineContext){
             try {
                 withTimeout(SEARCH_TIME){
                     try {
-                        val location = determineCoordinates()
-                        Timber.i("location ${location.latitude}, ${location.longitude}")
-                        Place.Coordinates(Coord(location.longitude, location.latitude), null)
+                        Pair(determineCoordinates(), null)
                     } catch (e: Throwable) {
-                        Timber.i(e)
-                        Place.Coordinates(null, e)
+                        Pair(null, e)
                     }
                 }
             } catch (e: TimeoutCancellationException) {
                 Timber.i("TimeoutCancellationException %s", e.message.toString())
-                Place.Coordinates(null, e)
+                Pair(null, e)
             }
         }
     }

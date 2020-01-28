@@ -18,7 +18,6 @@ const val EAKING = -1
 const val ORDINATE_DETERMINATION_REQUEST = 4
 const val FNIITION = 25
 const val RO = 0
-const val ARIFICATION = 10
 
 const val MILLI_SEC = 1_000L
 const val THREE_HOURS = 10_800_000
@@ -30,6 +29,8 @@ const val X_LEN_SMS_RU = 70;
 
 const val FROM_HPA_IN_MMHG = 0.750064f
 const val HALF = 0.5f
+
+const val CHANNEL_ID_PUSH = "2"
 
 const val PREFERENCE_OPEN_WEATHER = "OpenWeatherMap"
 const val PREFERENCE_OPEN_CAGE = "OpenCage"

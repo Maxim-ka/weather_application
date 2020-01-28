@@ -6,12 +6,12 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnIt
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.ResultPlacesRVAdapter
 import kotlin.properties.Delegates
 
-class PlacesRVAdapter (private val remotelyStored: RemotelyStored<Place.Result>,
-                       onItemClickListener: OnItemClickListener<Place.Result>) :
+class PlacesRVAdapter (private val remotelyStored: RemotelyStored<Place>,
+                       onItemClickListener: OnItemClickListener<Place>) :
         ResultPlacesRVAdapter(onItemClickListener),
         Removable {
 
-    override var list: MutableList<Place.Result> by Delegates.observable(mutableListOf()){
+    override var list: MutableList<Place> by Delegates.observable(mutableListOf()){
         _, oldValue, newValue ->
         run {
             val diffUtilCallback = ListPlacesDiffUtilCallback(oldValue, newValue)

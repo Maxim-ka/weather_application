@@ -15,12 +15,11 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.Base
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.ItemTouchHelperCallback
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class FragmentOfListOfPlaces : BaseFragment(),
-        OnItemClickListener<Place.Result>,
-        RemotelyStored<Place.Result>{
+        OnItemClickListener<Place>,
+        RemotelyStored<Place>{
 
     override val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){ get<ListPlaceModelFactory>()}
     private lateinit var binding: PlaceFrameBinding
@@ -39,7 +38,6 @@ class FragmentOfListOfPlaces : BaseFragment(),
         super.onActivityCreated(savedInstanceState)
         activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.cities) }
         ItemTouchHelperCallback(binding.rvItems)
-        Timber.i("onActivityCreated")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -48,21 +46,21 @@ class FragmentOfListOfPlaces : BaseFragment(),
 
     @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home ->{
                 navController.navigate(R.id.action_fragmentOfListOfPlaces_to_fragmentWeather)
-                return true
+                true
             }
             R.id.locate ->{
                 model.addCurrentPlace()
-                return true
+                true
             }
             R.id.placeNameInputDialog -> {
                 navController.navigate(R.id.action_fragmentOfListOfPlaces_to_placeNameInputDialog)
-                return true
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     @ExperimentalCoroutinesApi
@@ -77,7 +75,7 @@ class FragmentOfListOfPlaces : BaseFragment(),
     }
 
     @ExperimentalCoroutinesApi
-    override fun onItemClick(item: Place.Result) {
+    override fun onItemClick(item: Place) {
         showStateWeather(item.lat, item.lon)
     }
 
@@ -88,38 +86,7 @@ class FragmentOfListOfPlaces : BaseFragment(),
         })
     }
 
-    override fun remove(item: Place.Result) {
+    override fun remove(item: Place) {
         model.remove(item)
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onStart() {
-        super.onStart()
-        Timber.i("onStart()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.i("onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.i("onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.i("onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("onDestroy")
     }
 }

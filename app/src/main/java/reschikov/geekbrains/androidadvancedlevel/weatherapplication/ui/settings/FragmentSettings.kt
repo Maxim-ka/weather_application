@@ -6,6 +6,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.edit
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.EditTextPreference
@@ -76,24 +77,18 @@ class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         when (key) {
             KEY_WEATHER -> textKeyWeather?.let{
                 it.takeIf { it.text.isNotBlank() } ?.let {editText ->
-                    val editor = spWeather.edit()
-                    editor.putString(KEY_WEATHER, editText.text)
-                    editor.apply()
+                    spWeather.edit{ putString(KEY_WEATHER, editText.text) }
                     editText.summary = editText.text
                 }
             }
             KEY_OPEN_CAGE -> textKeyOpenCage?.let{
                 it.takeIf { it.text.isNotBlank() } ?.let {editText ->
-                    val editor = spCage.edit()
-                    editor.putString(KEY_OPEN_CAGE, editText.text)
-                    editor.apply()
+                    spCage.edit{putString(KEY_OPEN_CAGE, editText.text)}
                     editText.summary = editText.text
                 }
             }
             KEY_REQUEST_SELECTION -> listPreference?.let {
-                val editor = spRequest.edit()
-                editor.putString(KEY_REQUEST_SELECTION, it.value)
-                editor.apply()
+                spRequest.edit{putString(KEY_REQUEST_SELECTION, it.value)}
                 it.summary = it.value
             }
         }

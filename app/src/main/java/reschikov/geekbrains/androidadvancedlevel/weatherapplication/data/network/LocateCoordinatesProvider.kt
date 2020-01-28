@@ -1,6 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 
 import android.content.Context
+import android.location.Location
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.CommonStatusCodes.SUCCESS
 import com.google.android.gms.common.api.ResolvableApiException
@@ -8,7 +9,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.IssuedCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants.DeterminedCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 
 class LocateCoordinatesProvider(private val context: Context, vararg determinedCoordinates: DeterminedCoordinates) :
         NetworkBaseProvider(context), IssuedCoordinates {
@@ -23,8 +23,8 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
         }
     }
 
-    override suspend fun getCoordinatesCurrentPlace(): Place.Coordinates {
-        if (checkLackOfNetwork()) return Place.Coordinates(null, AppException.NoNetwork())
+    override suspend fun getCoordinatesCurrentPlace(): Pair<Location?, Throwable?> {
+        if (checkLackOfNetwork()) return Pair(null, AppException.NoNetwork())
         if(hasDetermineGoogle() && googleQualifier.isNotEmpty()){
             getGoogleCoordinates()?.let { return it }
         }
@@ -37,7 +37,7 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
                 .isGooglePlayServicesAvailable(context) == SUCCESS
     }
 
-    private suspend fun getGoogleCoordinates(): Place.Coordinates? {
+    private suspend fun getGoogleCoordinates(): Pair<Location?, Throwable?>? {
         for(google in googleQualifier){
             google.getCoordinates().also {
                 if (hasPlace(it)) return it
@@ -46,12 +46,14 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
         return null
     }
 
-    private fun hasPlace(coordinates: Place.Coordinates): Boolean{
-        return (coordinates.coord != null || coordinates.error is AppException.NoPermission ||
-                coordinates.error is ResolvableApiException)
+    private fun hasPlace(coordinates: Pair<Location?, Throwable?>): Boolean{
+        return coordinates.run {
+            first != null || second is AppException.NoPermission ||
+                    second is ResolvableApiException
+        }
     }
 
-    private suspend fun getDeterminantsCoordinates(): Place.Coordinates{
+    private suspend fun getDeterminantsCoordinates(): Pair<Location?, Throwable?>{
         if (determinants.isNotEmpty()){
             for (determinant in determinants){
                 determinant.getCoordinates().also {
@@ -59,6 +61,6 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
                 }
             }
         }
-        return Place.Coordinates(null, Throwable(context.getString(R.string.unable_determine_coordinates)))
+        return Pair(null, Throwable(context.getString(R.string.unable_determine_coordinates)))
     }
 }

@@ -29,7 +29,7 @@
     <string name="city">city:</string>
     <string name="region">region:</string>
     <string name="day">day:</string>
-    <string name="state">state:</string>
+    <string name="state">state</string>
     <string name="min_temp">min temperature:</string>
     <string name="max_temp">max temperature:</string>
     <string name="max_wind">max wind:</string>

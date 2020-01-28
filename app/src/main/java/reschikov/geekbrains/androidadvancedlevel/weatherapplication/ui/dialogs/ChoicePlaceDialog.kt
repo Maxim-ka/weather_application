@@ -24,7 +24,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAle
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<Place.Result>  {
+class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<Place>  {
 
     override val coroutineContext: CoroutineContext by lazy {
         Dispatchers.Main + SupervisorJob()
@@ -75,7 +75,7 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
         }
     }
 
-    private fun showAnswer(places: List<Place.Result>?){
+    private fun showAnswer(places: List<Place>?){
         Timber.i("showAnswer $places")
         places?.let {
             if (it.isEmpty()) showAlertDialog(R.string.caution, getString(R.string.msg_location_not_found))
@@ -88,12 +88,12 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
         resultJob?.cancel()
     }
 
-    private fun setResult(results: List<Place.Result>){
+    private fun setResult(results: List<Place>){
         resultPlacesRVAdapter.list = results.toMutableList()
     }
 
     @ExperimentalCoroutinesApi
-    override fun onItemClick(item: Place.Result) {
+    override fun onItemClick(item: Place) {
         model.addPlaceByCoordinates(item.lat, item.lon)
         navController.navigate(R.id.action_choicePlaceDialog_to_fragmentOfListOfPlaces)
     }

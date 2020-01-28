@@ -73,23 +73,23 @@ class Mapping(val tintable: TintableTemperature) {
         )
     }
 
-    fun createListPlaceCity(list: List<CityTable>): List<Place.Result>{
+    fun createListPlaceCity(list: List<CityTable>): List<Place>{
         return list.map {getPlace(it)}
     }
 
-    fun createListPlaceResult(list: List<Result>): List<Place.Result>{
+    fun createListPlaceResult(list: List<Result>): List<Place>{
         return list.map { getPlace(it) }
     }
 
-    private fun getPlace(cityTable: CityTable): Place.Result {
-        return Place.Result(name = cityTable.name,
-                             lat = cityTable.coord.lat,
-                             lon = cityTable.coord.lon)
+    private fun getPlace(cityTable: CityTable): Place {
+        return Place(name = cityTable.name,
+                     lat = cityTable.coord.lat,
+                     lon = cityTable.coord.lon)
     }
 
-    private fun getPlace(result: Result): Place.Result {
-        return Place.Result(name = result.formatted,
-                             lat = result.geometry.lat,
-                             lon = result.geometry.lng)
+    private fun getPlace(result: Result): Place {
+        return Place(name = result.formatted,
+                     lat = result.geometry.lat,
+                     lon = result.geometry.lng)
     }
 }

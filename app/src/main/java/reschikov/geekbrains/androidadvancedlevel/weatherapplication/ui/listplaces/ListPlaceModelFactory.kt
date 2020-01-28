@@ -12,6 +12,6 @@ class ListPlaceModelFactory(private val derivable: Derivable) : ViewModelProvide
     @ExperimentalCoroutinesApi
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(Derivable::class.java, BroadcastChannel::class.java, BroadcastChannel::class.java)
-                .newInstance(derivable, BroadcastChannel<Throwable>(Channel.CONFLATED), BroadcastChannel<Boolean>(Channel.CONFLATED))
+                .newInstance(derivable, BroadcastChannel<Throwable?>(Channel.CONFLATED), BroadcastChannel<Boolean>(Channel.CONFLATED))
     }
 }

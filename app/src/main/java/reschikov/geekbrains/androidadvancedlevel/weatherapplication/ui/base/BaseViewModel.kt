@@ -9,14 +9,14 @@ import kotlinx.coroutines.channels.ReceiveChannel
 @ExperimentalCoroutinesApi
 abstract class BaseViewModel : ViewModel(){
 
-    abstract val errorChannel : BroadcastChannel<Throwable>
+    abstract val errorChannel : BroadcastChannel<Throwable?>
     abstract val booleanChannel : BroadcastChannel<Boolean>
     val isProgressVisible = ObservableBoolean()
 
     fun getBooleanChannel(): ReceiveChannel<Boolean> = booleanChannel.openSubscription()
-    fun getErrorChannel(): ReceiveChannel<Throwable> = errorChannel.openSubscription()
+    fun getErrorChannel(): ReceiveChannel<Throwable?> = errorChannel.openSubscription()
 
-    protected suspend fun setError (e : Throwable) {
+    protected suspend fun setError (e : Throwable?) {
         errorChannel.send(e)
     }
 

@@ -16,6 +16,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_MY_P
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
@@ -39,8 +40,8 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
             }
         }
         errorJob = launch{
-            model.getErrorChannel().consumeEach {
-                renderError(it)
+            model.getErrorChannel().consumeEach {e ->
+                e?.let { renderError(it) }
             }
         }
     }
@@ -48,6 +49,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     abstract fun renderHaveCities (hasCity: Boolean)
 
     private fun renderError (error: Throwable) {
+        Timber.i("renderError $error")
         error.run {
             when (this) {
                 is AppException.Response ->{
