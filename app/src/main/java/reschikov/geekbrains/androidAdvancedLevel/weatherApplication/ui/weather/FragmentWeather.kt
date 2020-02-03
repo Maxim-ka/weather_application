@@ -1,14 +1,17 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather
 
 import android.content.Context.SENSOR_SERVICE
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.weather_frame.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LAT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
@@ -19,11 +22,25 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.f
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
-class FragmentWeather : BaseFragment() {
+class FragmentWeather : BaseFragment(), Collectable {
 
     override val model: WeatherViewModel by sharedViewModel()
+    private val listenerPage: ViewPager.SimpleOnPageChangeListener by lazy {
+        object : ViewPager.SimpleOnPageChangeListener(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val adapter = vp_pages.adapter as FragmentAdapter
+                takeUnless { adapter.getItem(position) is FragmentForecastDisplay }?.let{
+                    adapter.findFragment(titleForecast)?.let { (it as AvailableActionMode).checkAndClose() }
+                }
+            }
+        }
+    }
+    private val titleCurrent: String by lazy { getString(R.string.current_state) }
+    private val titleForecast: String by lazy { getString(R.string.forecast) }
     private var lat: Double = 0.0
     private var lon: Double = 0.0
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.weather_frame, container, false)
@@ -32,7 +49,7 @@ class FragmentWeather : BaseFragment() {
             lat = it.getDouble(KEY_LAT, 0.0)
             lon = it.getDouble(KEY_LON, 0.0)
         }
-        Timber.i("onCreateView ${System.identityHashCode(this)}")
+        Timber.i("TAG onCreateView ${System.identityHashCode(this)}")
         return view
     }
 
@@ -49,22 +66,32 @@ class FragmentWeather : BaseFragment() {
             }
         }
         createReportWeather()
-        Timber.i("onActivityCreated ${System.identityHashCode(this)}")
+        Timber.i("TAG onActivityCreated ${System.identityHashCode(this)}")
     }
 
+    /*При возникновении проблем просто перейти на Viewpager2*/
     private fun createReportWeather(){
-        val listFragment = ArrayList<Fragment>()
-        listFragment.add(FragmentCurrentDisplay())
-        listFragment.add(FragmentForecastDisplay())
-        context?.let {
-            vp_pages.adapter = FragmentAdapter(childFragmentManager, listFragment, it)
-        }
+        vp_pages.adapter = FragmentAdapter(childFragmentManager, mutableListOf<Pair<String, Fragment>>().apply {
+            takeIf { childFragmentManager.fragments.isEmpty() }?.let {
+                add(Pair(titleCurrent, FragmentCurrentDisplay()))
+                add(Pair(titleForecast, FragmentForecastDisplay()))
+            } ?: apply {
+                for (frag: Fragment in childFragmentManager.fragments){
+                    when(frag){
+                        is FragmentCurrentDisplay -> add(Pair(titleCurrent, frag))
+                        is FragmentForecastDisplay -> add(Pair(titleForecast, frag))
+                    }
+                }
+            }
+        })
         tl_tabs.setupWithViewPager(vp_pages)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_update, menu)
-        menu.findItem(R.id.sensors).isVisible = areThereSensors()
+        launch {
+            inflater.inflate(R.menu.menu_update, menu)
+            menu.findItem(R.id.sensors).isVisible = areThereSensors()
+        }
     }
 
     private fun areThereSensors(): Boolean{
@@ -82,15 +109,36 @@ class FragmentWeather : BaseFragment() {
                 model.getStateCurrentPlace()
                 true
             }
-            R.id.to_share ->
-                //TODO запустить активити передачи данных
+            R.id.to_share -> {
+                toShare()
                 true
+            }
             R.id.sensors ->{
                 navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun toShare(){
+        ((vp_pages.adapter as FragmentAdapter)
+            .getItem(vp_pages.currentItem) as Spreadable).toShare(this@FragmentWeather)
+    }
+
+    override fun collectData(string: String) {
+        startActivity(Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = getString(R.string.type_text_plain)
+            putExtra(Intent.EXTRA_TEXT, string)
+        }, getString(R.string.how_to_send)))
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onStart() {
+        super.onStart()
+        vp_pages.addOnPageChangeListener(listenerPage)
+        Timber.i("TAG onStart ${System.identityHashCode(this)}")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -106,38 +154,19 @@ class FragmentWeather : BaseFragment() {
         }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.to_share -> {
-//                val intent = Intent()
-//                intent.action = Intent.ACTION_SEND
-//                intent.type = getString(R.string.type_text_plain)
-//                intent.putExtra(Intent.EXTRA_TEXT, (fragAdapter!!.getItem(pager!!.currentItem) as Collectable).collectData(context, response))
-//                startActivity(Intent.createChooser(intent, getString(R.string.how_to_send)))
-//                return true
-//            }
-//            else -> return super.onOptionsItemSelected(item)
-//        }
-//    }
-
-    @ExperimentalCoroutinesApi
-    override fun onStart() {
-        super.onStart()
-        Timber.i("onStart ${System.identityHashCode(this)}")
-    }
-
     override fun onStop() {
         super.onStop()
-        Timber.i("onStop ${System.identityHashCode(this)}")
+        vp_pages.removeOnPageChangeListener(listenerPage)
+        Timber.i("TAG onStop ${System.identityHashCode(this)}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.i("onDestroyView ${System.identityHashCode(this)}")
+        Timber.i("TAG onDestroyView ${System.identityHashCode(this)}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy ${System.identityHashCode(this)}")
+        Timber.i("TAG onDestroy ${System.identityHashCode(this)}")
     }
 }

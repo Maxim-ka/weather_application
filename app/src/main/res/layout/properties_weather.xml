@@ -20,7 +20,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/feeling"
-            android:text='@{model.fieldCurrentState.main.feelsLike + " ℃"}'
+            android:text='@{model.fieldCurrentState.feelsLike + " ℃"}'
             android:textSize="@dimen/properties_weather_value_text_size"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -38,8 +38,8 @@
             android:background="?attr/colorPrimaryDark"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/direction"
-            android:text='@{model.fieldCurrentState.directionWind + " " + model.fieldCurrentState.speedWind + " " + @string/m_c}'
+            android:id="@+id/wind"
+            android:text='@{model.fieldCurrentState.wind + " " + @string/m_c}'
             android:textSize="@dimen/properties_weather_value_text_size"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:id="@+id/humidity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{model.fieldCurrentState.main.humidity + @string/pct}"
+            android:text="@{model.fieldCurrentState.humidity + @string/pct}"
             android:textSize="@dimen/properties_weather_value_text_size"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"

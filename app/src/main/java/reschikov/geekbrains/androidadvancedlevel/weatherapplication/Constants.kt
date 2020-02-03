@@ -88,4 +88,3 @@ const val Q = "q"
 const val RU = "ru"
 const val C = " \u2103"
 const val STRING_2F_S = "%.2f %s"
-

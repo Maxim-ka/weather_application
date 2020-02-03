@@ -125,13 +125,10 @@ class Repository(private val mapping: Mapping,
     }
 
     private suspend fun getWeather(received: Pair<Current, ForecastList>): Weather{
-        return received.run{
-            val currentTable = mapping.createCurrentTable(first)
-            val cityTable = mapping.createCityTable(first)
-            val forecastsTable = mapping.createListForecastTable(second, first.coord)
+        return transform(received, null).run{
             try {
-                writeToDatabase(cityTable, currentTable, forecastsTable)
-                Weather(Pair(currentTable, forecastsTable), null)
+                writeToDatabase(first, second, third)
+                Weather(Pair(second, third), null)
             } catch (e: Throwable) {
                 Weather(null, AppException.Saved(e.message))
             }
@@ -139,17 +136,23 @@ class Repository(private val mapping: Mapping,
     }
 
     private suspend fun updateListPlace(received: Pair<Current, ForecastList>): Pair<List<Place>?, Throwable?>{
-        return received.run {
-            val lastShowTime = storable.getLastTimeShow()
-            val currentTable = mapping.createCurrentTable(first)
-            val cityTable = mapping.createCityTable(first, lastShowTime)
-            val forecastsTable = mapping.createListForecastTable(second, first.coord)
-            try {
-                writeToDatabase(cityTable, currentTable, forecastsTable)
-                getListCities()
-            } catch (e: Throwable) {
-                Pair(null, AppException.Saved(e.message))
+        return transform(received, storable.getLastTimeShow()).run {
+                try {
+                    writeToDatabase(first, second, third)
+                    getListCities()
+                } catch (e: Throwable) {
+                    Pair(null, AppException.Saved(e.message))
+                }
             }
+    }
+
+    private fun transform(received: Pair<Current, ForecastList>, lastShowTime: Long?): Triple<CityTable, CurrentTable, List<ForecastTable>>{
+        return received.run {
+            Triple(
+                mapping.createCityTable(first, lastShowTime),
+                mapping.createCurrentTable(first),
+                mapping.createListForecastTable(second, first)
+            )
         }
     }
 

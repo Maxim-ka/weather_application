@@ -36,4 +36,9 @@ class BindingDataTime : DisplayedDateTime {
     override fun setTime(textView: TextView, dt: Long){
         textView.text = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(Date(dt))
     }
+
+    @BindingAdapter("date_time")
+    override fun setDataTime(textView: TextView, dt: Long){
+        textView.text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(Date(dt))
+    }
 }

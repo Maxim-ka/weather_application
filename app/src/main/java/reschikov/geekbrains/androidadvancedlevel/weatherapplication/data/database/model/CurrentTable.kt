@@ -3,22 +3,22 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databa
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Coord
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Main
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Weather
 
 @Entity(foreignKeys = [ForeignKey(entity = CityTable::class, parentColumns = ["lat", "lon"], childColumns = ["lat", "lon"], onDelete = CASCADE)],
         indices = [Index("lat", "lon")])
 data class CurrentTable(@PrimaryKey(autoGenerate = true) val id: Long = 0,
-                        @Embedded val weather: Weather,
-                        @Embedded val main: Main,
-                        val cloud: Int,
-                        val dt: Long,
+                        val tempColor: Int,
                         val name: String,
-                        val directionWind: String?,
-                        val speedWind: Float,
+                        val dt: Long,
+                        @Embedded val weather: Weather,
+                        val temp: Double,
+                        val feelsLike: Double,
+                        val wind: String,
+                        val humidity: Int,
                         val pressure: String,
+                        val cloud: Int,
                         val precipitation: Int,
                         val sunrise: Long,
                         val sunset: Long,
-                        val tempColor: Int,
                         @Embedded val coord: Coord)

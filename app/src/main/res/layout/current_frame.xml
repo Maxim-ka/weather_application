@@ -81,7 +81,7 @@
 
             <TextView
                 android:id="@+id/temperature"
-                android:text='@{String.valueOf(model.fieldCurrentState.main.temp) + " ℃"}'
+                android:text='@{String.valueOf(model.fieldCurrentState.temp) + " ℃"}'
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"

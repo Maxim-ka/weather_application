@@ -5,6 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="isDisplaySelecting"
+            type="androidx.databinding.ObservableBoolean" />
         <variable
             name="forecast"
             type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable" />
@@ -16,6 +20,7 @@
         android:layout_margin="8dp"
         app:cardBackgroundColor="@{forecast.temperatureColor}"
         app:cardCornerRadius = "4dp"
+        app:contentPadding="8dp"
         app:cardElevation = "@dimen/item_forecast_cardElevation_value"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">
@@ -27,21 +32,27 @@
 
             <TextView
                 android:id="@+id/tv_day"
-                app:date="@{forecast.dt}"
+                app:date_time="@{forecast.dt}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:gravity="center"
-                tools:text="понедельник, 00 месяц 0000 г"/>
+                android:singleLine="false"
+                tools:text="понедельник, 00 месяц 0000 г 00:00:00"/>
 
-            <TextView
-                android:id="@+id/tv_time"
-                android:text="@{forecast.dt_txt}"
+            <CheckedTextView
+                android:id="@+id/ctv_select"
+                android:text="@string/select"
+                android:textSize="24sp"
+                android:textAlignment="gravity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:visibility="@{isDisplaySelecting ? View.VISIBLE : View.GONE}"
                 android:gravity="center"
-                tools:text="00:00.0000"/>
+                android:checkMark="?android:attr/textCheckMark"
+                android:checked="@{forecast.selected}"
+                tools:visibility="visible"
+                tools:checked="true"/>
 
             <TextView
                 android:id="@+id/tv_state"
@@ -49,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 tools:text="переменная облачность"/>
 
             <View
@@ -85,7 +96,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_maxTemp"
-                        android:text='@{forecast.main.tempMax + " ℃"}'
+                        android:text='@{forecast.tempMax + " ℃"}'
                         android:textSize="24sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -97,7 +108,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_minTemp"
-                        android:text='@{forecast.main.tempMin + " ℃"}'
+                        android:text='@{forecast.tempMin + " ℃"}'
                         android:textSize="24sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,7 +137,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_humidity"
-                    android:text='@{forecast.main.humidity + " " + @string/pct}'
+                    android:text='@{forecast.humidity + " " + @string/pct}'
                     android:textSize="22sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -175,8 +186,8 @@
                 android:background="?attr/colorPrimaryDark"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/direction"
-                android:text='@{forecast.directionWind + "  " + forecast.speedWind + " " + @string/m_c}'
+                android:id="@+id/wind"
+                android:text='@{forecast.wind + " " + @string/m_c}'
                 android:textSize="@dimen/properties_weather_value_text_size"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

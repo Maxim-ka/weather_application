@@ -15,14 +15,17 @@ class TemperatureColor (val context: Context) : TintableTemperature{
         VERY_HOT(40, R.color.very_hot)
     }
 
+    private val averageTemp = {temperatures: DoubleArray ->
+        temperatures.run { takeIf { it.size > 1}?.let{
+            it.sum() / it.size} ?: first() }
+    }
+
     override fun getTemperatureColor(vararg temperatures: Double): Int{
         return ContextCompat.getColor(context, getResourceTemperatureColor(temperatures))
     }
 
     private fun getResourceTemperatureColor(temperatures: DoubleArray): Int {
-        val temp: Double = if (temperatures.size > 1){
-            temperatures.sum() / temperatures.size
-        } else temperatures.first()
+        val temp = averageTemp.invoke(temperatures)
         for (i in Temperature.values().indices) {
             if (temp <= Temperature.values()[i].temp)
                 return Temperature.values()[i].color

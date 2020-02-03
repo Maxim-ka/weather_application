@@ -14,4 +14,7 @@ interface DisplayedDateTime {
 
     @BindingAdapter("time")
     fun setTime(textView: TextView, dt: Long)
+
+    @BindingAdapter("date_time")
+    fun setDataTime(textView: TextView, dt: Long)
 }

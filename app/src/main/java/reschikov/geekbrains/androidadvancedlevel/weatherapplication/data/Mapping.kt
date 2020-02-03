@@ -5,8 +5,8 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.opencage.Result
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Coord
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Current
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Wind
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.Forecast
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
@@ -16,61 +16,62 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.setWind
 
 class Mapping(val tintable: TintableTemperature) {
 
-    fun createCityTable(current: Current, lastShowTime: Long?): CityTable {
-        return CityTable(
-            name = "${current.name}, ${current.sys.country}",
-            coord = current.coord,
-            showTime = lastShowTime?.let { it - 1} ?: System.currentTimeMillis())
+    private val identifyWind = {wind: Wind? ->
+        "${wind?.let { setWindDirection(it) }} ${wind?.speed ?: 0.0f}"
     }
 
-    fun createCityTable(current: Current): CityTable {
-        return CityTable(
-                name = "${current.name}, ${current.sys.country}",
-                coord = current.coord,
-                showTime = System.currentTimeMillis())
+    fun createCityTable(current: Current, lastShowTime: Long?): CityTable {
+        return current.run {
+            CityTable(
+                name = "${name}, ${sys.country}",
+                coord = coord,
+                showTime = lastShowTime?.let { it - 1} ?: System.currentTimeMillis())
+        }
     }
 
     fun createCurrentTable(current: Current): CurrentTable {
-        return CurrentTable(
-            coord = current.coord,
-            weather = current.weather[0],
-            main = current.main,
-            cloud = current.cloud?.all ?: 0,
-            dt = current.dt * MILLI_SEC,
-            name = "${current.name}, ${current.sys.country}",
-            speedWind = current.wind?.speed ?: 0.0f,
-            directionWind = current.wind?.let { setWindDirection(it) },
-            pressure = setPressure(current.main.pressure),
-            precipitation = with(current){
-                rain?.rainH ?: snow?.snowH ?: 0
-            },
-            sunrise = current.sys.sunrise * MILLI_SEC,
-            sunset = current.sys.sunset * MILLI_SEC,
-            tempColor = tintable.getTemperatureColor(current.main.temp))
+        return current.run {
+            CurrentTable(
+                tempColor = tintable.getTemperatureColor(main.temp),
+                name = "${name}, ${sys.country}",
+                dt = dt * MILLI_SEC,
+                weather = weather[0],
+                temp = main.temp,
+                feelsLike = main.feelsLike,
+                wind = identifyWind.invoke(wind),
+                humidity = main.humidity,
+                pressure = setPressure(main.pressure),
+                cloud = cloud?.all ?: 0,
+                precipitation = rain?.rainH ?: snow?.snowH ?: 0,
+                sunrise = sys.sunrise * MILLI_SEC,
+                sunset = sys.sunset * MILLI_SEC,
+                coord = coord
+            )
+        }
     }
 
-    fun createListForecastTable(forecastList: ForecastList, coord: Coord): List<ForecastTable>{
+    fun createListForecastTable(forecastList: ForecastList, current: Current): List<ForecastTable>{
         return forecastList.list.map {
-           forecast -> getForecastTable(forecast, coord)
+           forecast -> getForecastTable(forecast, current)
        }
     }
 
-    private fun getForecastTable(forecast: Forecast, coord: Coord): ForecastTable{
-        return ForecastTable(
-            coord = coord,
-            dt = forecast.dt * MILLI_SEC,
-            main = forecast.main,
-            weather = forecast.weather[0],
-            clouds = forecast.clouds?.all ?: 0,
-            dt_txt = forecast.dt_txt,
-            speedWind = forecast.wind.speed,
-            directionWind = setWindDirection(forecast.wind),
-            pressure = setPressure(forecast.main.pressure),
-            precipitation = with(forecast){
-                rain?.rain3H ?: snow?.snow3H ?: 0
-            },
-            temperatureColor = tintable.getTemperatureColor(forecast.main.tempMin, forecast.main.tempMax)
-        )
+    private fun getForecastTable(forecast: Forecast, current: Current): ForecastTable{
+        return forecast.run {
+            ForecastTable(
+                temperatureColor = tintable.getTemperatureColor(main.tempMin, main.tempMax),
+                dt = dt * MILLI_SEC,
+                weather = weather[0],
+                tempMin = main.tempMin,
+                tempMax = main.tempMax,
+                humidity = main.humidity,
+                precipitation = rain?.rain3H ?: snow?.snow3H ?: 0,
+                clouds = clouds?.all ?: 0,
+                wind = identifyWind.invoke(wind),
+                pressure = setPressure(main.pressure),
+                coord = current.coord
+            )
+        }
     }
 
     fun createListPlaceCity(list: List<CityTable>): List<Place>{
@@ -82,14 +83,18 @@ class Mapping(val tintable: TintableTemperature) {
     }
 
     private fun getPlace(cityTable: CityTable): Place {
-        return Place(name = cityTable.name,
-                     lat = cityTable.coord.lat,
-                     lon = cityTable.coord.lon)
+        return cityTable.run {
+            Place(name = name,
+                lat = coord.lat,
+                lon = coord.lon)
+        }
     }
 
     private fun getPlace(result: Result): Place {
-        return Place(name = result.formatted,
-                     lat = result.geometry.lat,
-                     lon = result.geometry.lng)
+        return result.run {
+            Place(name = formatted,
+                lat = geometry.lat,
+                lon = geometry.lng)
+        }
     }
 }

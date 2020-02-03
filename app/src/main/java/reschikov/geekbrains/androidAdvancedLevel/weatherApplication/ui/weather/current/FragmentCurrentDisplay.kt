@@ -6,39 +6,57 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.CurrentFrameBinding
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding.DataBindingAdapter
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Collectable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Spreadable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
+import timber.log.Timber
 
-class FragmentCurrentDisplay : Fragment(){
+class FragmentCurrentDisplay : Fragment(), Spreadable{
 
+    @ExperimentalCoroutinesApi
     private val model: WeatherViewModel by sharedViewModel()
     private val dataBindingAdapter by inject<DataBindingAdapter>()
+    private lateinit var binding : CurrentFrameBinding
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding : CurrentFrameBinding = DataBindingUtil.inflate(inflater, R.layout.current_frame, container, false, dataBindingAdapter)
+        binding = DataBindingUtil.inflate(inflater, R.layout.current_frame, container, false, dataBindingAdapter)
         binding.model = model
+        Timber.i("TAG onCreateView ${System.identityHashCode(this)}")
         return binding.root
     }
 
-    //    override fun collectData(context: Context, response: ServerResponse): String {
-//        val location = response.location
-//        val fieldCurrentState = response.fieldCurrentState
-//        return context.getString(R.string.city) + location.name + "\n" +
-//                context.getString(R.string.region) + location.region + "\n" +
-//                context.getString(R.string.data_update) +
-//                DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.getDefault())
-//                        .format(Date(fieldCurrentState.lastUpdatedEpoch!! * Rules.IN_MILLISEC)) + "\n" +
-//                context.getString(R.string.temp) + setTemp(fieldCurrentState) + "\n" +
-//                context.getString(R.string.state) + fieldCurrentState.condition.text + "\n" +
-//                context.getString(R.string.wind) + setWindDirection(fieldCurrentState) + " " + setWind(fieldCurrentState, context) + "\n" +
-//                context.getString(R.string.pressure) + setPressure(fieldCurrentState, context) + "\n" +
-//                context.getString(R.string.humidity) + setHumidity(fieldCurrentState) + "\n" +
-//                context.getString(R.string.rainfall) + setRainfall(fieldCurrentState, context) + "\n" +
-//                context.getString(R.string.overcast) + setOvercast(fieldCurrentState)
-//    }
+    override fun toShare(collectable: Collectable) {
+        collectable.collectData(createMessage())
+    }
 
+    private fun createMessage(): String {
+    return "${binding.city.text}\n${binding.dayTime.day.text}\n${binding.dayTime.time.text}\n" +
+           "${getString(R.string.temp)} ${binding.temperature.text}\n" +
+           "${getString(R.string.state)} ${binding.text.text}\n" +
+           "${getString(R.string.felt)} ${binding.properties.feeling.text}\n" +
+           "${getString(R.string.wind)} ${binding.properties.wind.text}\n" +
+           "${getString(R.string.humidity)} ${binding.properties.humidity.text}\n" +
+           "${getString(R.string.pressure)} ${binding.properties.pressure.text}\n" +
+           "${getString(R.string.overcast)} ${binding.properties.overcast.text}\n" +
+           "${getString(R.string.rainfall)} ${binding.properties.rainfall.text}\n" +
+           "${getString(R.string.sunrise)} ${binding.properties.sunrise.text}\n" +
+           "${getString(R.string.sunset)} ${binding.properties.sunset.text}\n"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("TAG onDestroyView ${System.identityHashCode(this)}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("TAG onDestroy ${System.identityHashCode(this)}")
+    }
 }

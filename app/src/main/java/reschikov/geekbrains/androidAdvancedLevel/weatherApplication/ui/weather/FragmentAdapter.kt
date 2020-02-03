@@ -1,19 +1,15 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import java.util.*
 
 internal class FragmentAdapter(fm: FragmentManager,
-                               private val listFragment: ArrayList<Fragment>,
-                               private val context: Context)
-    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private val listFragment: List<Pair<String, Fragment>>)
+        : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(i: Int): Fragment {
-        return listFragment[i]
+        return listFragment[i].second
     }
 
     override fun getCount(): Int {
@@ -21,6 +17,10 @@ internal class FragmentAdapter(fm: FragmentManager,
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return if (position == 0) context.getString(R.string.current_state) else context.getString(R.string.forecast)
+        return listFragment[position].first
+    }
+
+    fun findFragment(title: String): Fragment? {
+        return listFragment.find {it.first == title}?.second
     }
 }

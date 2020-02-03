@@ -8,7 +8,6 @@ class Forecast(@SerializedName("dt") @Expose val dt: Int,
                @SerializedName("main") @Expose val main: Main,
                @SerializedName("weather") @Expose val weather: List<Weather>,
                @SerializedName("clouds") @Expose val clouds: Clouds?,
-               @SerializedName("wind") @Expose val wind: Wind,
+               @SerializedName("wind") @Expose val wind: Wind?,
                @SerializedName("rain") @Expose val rain: Rain?,
-               @SerializedName("snow") @Expose val snow: Snow?,
-               @SerializedName("dt_txt") @Expose val dt_txt: String)
+               @SerializedName("snow") @Expose val snow: Snow?)
