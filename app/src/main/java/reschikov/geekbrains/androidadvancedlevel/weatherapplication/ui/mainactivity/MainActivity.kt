@@ -1,11 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.CHANNEL_ID_PUSH
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_GOOGLE_COORDINATE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_MY_PERMISSIONS_ACCESS_LOCATION
@@ -42,7 +37,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setNavController()
-        initChannelsNotifications()
         Timber.i("create activity")
     }
 
@@ -60,15 +54,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 model.getStateLastPlace()
                 true
             }
-        }
-    }
-
-    private fun initChannelsNotifications(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID_PUSH, "SimpleNotice", NotificationManager.IMPORTANCE_DEFAULT)
-            channel.description = "Notice"
-            val notificationManager = baseContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
         }
     }
 
@@ -101,8 +86,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        takeIf { requestCode == REQUEST_GOOGLE_COORDINATE && resultCode == RESULT_OK } ?.run {
-            showMessage(bottom_navigation, "retry requesting current location", ContextCompat.getColor(baseContext, R.color.colorPrimaryDark))
+        when(requestCode){
+            REQUEST_GOOGLE_COORDINATE -> {
+                takeIf { resultCode == RESULT_OK } ?.run {
+                    showMessage(bottom_navigation, "retry requesting current location", ContextCompat.getColor(baseContext, R.color.colorPrimaryDark))
+                }
+            }
         }
     }
 

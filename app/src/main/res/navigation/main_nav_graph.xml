@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_fragmentWeather_to_fragmentSensors"
             app:destination="@id/fragmentSensors" />
+        <action
+            android:id="@+id/action_fragmentWeather_to_fragmentSMS"
+            app:destination="@id/fragmentSMS" />
     </fragment>
     <navigation
         android:id="@+id/nav_places"
@@ -84,4 +87,13 @@
         android:id="@+id/fragmentSettings"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.settings.FragmentSettings"
         android:label="FragmentSettings" />
+    <fragment
+        android:id="@+id/fragmentSMS"
+        android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.FragmentSMS"
+        android:label="FragmentSMS" >
+        <action
+            android:id="@+id/action_fragmentSMS_to_fragmentWeather"
+            app:destination="@id/fragmentWeather"
+            app:popUpTo="@id/fragmentWeather"/>
+    </fragment>
 </navigation>

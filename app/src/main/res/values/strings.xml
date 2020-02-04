@@ -52,7 +52,7 @@
     <string name="send_by_email">send by email</string>
     <string name="enter_the_phone_of_the_recipient">Enter the phone of the recipient</string>
     <string name="recipient_email">enter the recipient\'s e-mail</string>
-    <string name="SMS_sending">SMS sending</string>
+    <string name="SMS_sending">SMS sentable</string>
     <string name="send_SMS">Send %1$d SMS? Operator may charge extra</string>
     <string name="settings">settings</string>
     <string name="feedback_email">feedback email</string>

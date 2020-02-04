@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.location.network"/>
     <uses-feature android:name="android.hardware.telephony"/>
 
@@ -37,27 +36,6 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".dispatch.Sender"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEND"/>-->
-<!--                <category android:name="android.intent.category.DEFAULT"/>-->
-<!--                <data android:mimeType="text/plain"/>-->
-<!--                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_WRITE_LETTER"/>-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
-<!--        <service android:name=".network.SenderService"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="false">-->
-<!--        </service>-->
-
-<!--        <service-->
-<!--            android:name=".sms.SmsService"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="false" >-->
-<!--        </service>-->
-
         <service
             android:name=".ui.push.PushMessagingService"
             android:exported="false">
@@ -71,6 +49,19 @@
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/colorAccent" />
         </service>
+
+        <receiver
+            android:name=".ui.sms.SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="999">
+                <!--<action android:name="android.provider.Telephony.SMS_DELIVER"/>-->
+                <!--<action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
+                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SENT_SMS"/>
+                <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_DELIVERED_SMS"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LAT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_MESSAGE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.current.FragmentCurrentDisplay
@@ -40,7 +41,7 @@ class FragmentWeather : BaseFragment(), Collectable {
     private val titleForecast: String by lazy { getString(R.string.forecast) }
     private var lat: Double = 0.0
     private var lon: Double = 0.0
-
+    private var asSMS: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.weather_frame, container, false)
@@ -110,11 +111,17 @@ class FragmentWeather : BaseFragment(), Collectable {
                 true
             }
             R.id.to_share -> {
+                asSMS = false
                 toShare()
                 true
             }
             R.id.sensors ->{
                 navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
+                true
+            }
+            R.id.sms ->{
+                asSMS = true
+                toShare()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -127,6 +134,16 @@ class FragmentWeather : BaseFragment(), Collectable {
     }
 
     override fun collectData(string: String) {
+        takeIf { asSMS } ?.let { sendAsSms(string) } ?: shareWith(string)
+    }
+
+    private fun sendAsSms(string: String){
+        navController.navigate(R.id.action_fragmentWeather_to_fragmentSMS, Bundle().apply {
+            putString(KEY_MESSAGE, string)
+        })
+    }
+
+    private fun shareWith(string: String){
         startActivity(Intent.createChooser(Intent().apply {
             action = Intent.ACTION_SEND
             type = getString(R.string.type_text_plain)

@@ -6,5 +6,4 @@
     <item
         android:state_checked="false"
         android:color="?attr/colorPrimaryDark" />
-
 </selector>

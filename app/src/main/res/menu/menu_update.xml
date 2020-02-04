@@ -3,17 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/to_share"
+        android:id="@+id/sensors"
+        android:icon="@drawable/ic_action_sensors"
         android:orderInCategory="3"
+        android:title="@string/sensors"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/to_share"
+        android:orderInCategory="5"
         android:icon="@drawable/ic_action_share"
         android:title="@string/to_share"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/sensors"
-        android:icon="@drawable/ic_action_sensors"
-        android:orderInCategory="5"
-        android:title="@string/sensors"
+        android:id="@+id/sms"
+        android:icon="@drawable/ic_action_sms"
+        android:orderInCategory="7"
+        android:title="@string/sms"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -6,7 +6,7 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.appcompat.content.res.AppCompatResources
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.HALF
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import kotlin.math.min
@@ -72,7 +72,7 @@ class SensorView : View {
             cvSensorName = getString(R.styleable.SensorView_cv_SensorName)
             cvSensorValue = getString(R.styleable.SensorView_cv_SensorValue) ?: resources.getString(R.string.absent)
             val resId = getResourceId(R.styleable.SensorView_cv_srcDrawable, NAN)
-            if (resId != NAN)  cvSensorDrawable = getDrawable(context, resId)
+            if (resId != NAN)  cvSensorDrawable = AppCompatResources.getDrawable(context, resId)
             cvSensorDrawable?.let { it.bounds = Rect() }
             cvTextSize = getDimension(R.styleable.SensorView_cv_textSize, DEFAULT_TEXT_SIZE)
             cvStrokeWidth = getDimension(R.styleable.SensorView_cv_widthStroke, 0.0f)

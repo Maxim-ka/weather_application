@@ -1,55 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/indent"
-    android:clickable="true"
-    android:focusable="true">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.SenderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/indent">
+
+        <TextView
+            android:id="@+id/tv_count_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:layout_margin="8dp"
+            android:text='@{"number of sms:" + " " + model.counter}'
+            tools:text="123456897"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="@dimen/current_frame_indent"
+            android:background="?attr/colorPrimaryDark"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_gravity="top|center_horizontal"
                 android:textAlignment="center"
-                android:layout_weight="2"
+                android:layout_weight="10"
                 app:hintEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintTextColor="@color/colorAccent"
+                app:hintTextAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                 app:errorEnabled="true"
-                app:helperTextEnabled="true">
+                app:errorTextColor="@color/colorAccent"
+                app:errorTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                app:errorIconDrawable="@drawable/ic_warning"
+                app:errorIconTint="@color/colorAccent"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/colorPrimaryDark"
+                app:helperTextTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                app:helperText="89012345678">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_text"
+                    android:id="@+id/tve_number_phone"
+                    android:text="@={model.phone}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/enter_the_phone_of_the_recipient"
+                    android:inputType="phone"
                     android:textSize="@dimen/sender_frame_fields_text_size"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/add_phone_contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_add"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aciv_phone_contact"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:tint="@color/colorAccent"
-                android:layout_gravity="center_vertical|end"
+                android:layout_weight="0.5"
                 android:contentDescription="@string/str_add"
+                app:srcCompat="@drawable/ic_action_add"
                 />
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/list"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </FrameLayout>
+            android:layout_height="2dp"
+            android:layout_margin="@dimen/current_frame_indent"
+            android:background="?attr/colorPrimaryDark"/>
 
-</LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/acet_sms"
+                android:text="@={model.text}"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:singleLine="false"
+                android:gravity="top|start"
+                android:textAlignment="gravity"
+                android:imeOptions="actionSend"
+                tools:text="123456789012345678901234567890">
+            </androidx.appcompat.widget.AppCompatEditText>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</layout>

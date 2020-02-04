@@ -2,35 +2,23 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication
 
 
 const val REQUEST_MY_PERMISSIONS_ACCESS_LOCATION = 10
-const val MY_PERMISSIONS_REQUEST_SEND_SMS = 1
+const val REQUEST_MY_PERMISSIONS_SEND_SMS = 1
 
-const val REQUEST_SELECT_PHONE_NUMBER = 1
 const val REQUEST_GOOGLE_COORDINATE = 1
-const val OGLE_PLAY_DEAD = 5
-const val QUEST_CHECK_SETTINGS = 3
-const val QUEST_DETERMINE_COORDINATES_ANDROID = 2
-const val QUEST_CITY = 3
-const val ILURE = -5
-
-const val OW_LOCATION = 5
-const val OGRESS = 100
-const val EAKING = -1
-const val ORDINATE_DETERMINATION_REQUEST = 4
-const val FNIITION = 25
-const val RO = 0
+const val REQUEST_SELECT_PHONE_NUMBER = 2
 
 const val MILLI_SEC = 1_000L
 const val THREE_HOURS = 10_800_000
 const val SCALE = 2
 
-const val X_SINGLE_BYTE_CHAR = 127;
-const val X_LEN_SMS_EN = 140;
-const val X_LEN_SMS_RU = 70;
-
 const val FROM_HPA_IN_MMHG = 0.750064f
 const val HALF = 0.5f
 
 const val CHANNEL_ID_PUSH = "2"
+const val CHANNEL_ID_SMS = "3"
+
+const val ACTION_SENT_SMS = "reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SENT_SMS"
+const val ACTION_DELIVERED_SMS = "reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_DELIVERED_SMS"
 
 const val PREFERENCE_OPEN_WEATHER = "OpenWeatherMap"
 const val PREFERENCE_OPEN_CAGE = "OpenCage"
@@ -75,7 +63,7 @@ const val KEY_IS_SMS = "key is sms";
 const val KEY_LETTER = "key letter";
 const val KEY_LOCK = "key lock";
 const val KEY_SET = "key set";
-const val KEY_LIST = "key list";
+const val KEY_LIST = "key list"
 const val KEY_MSG = "key msg";
 
 const val KEY_ON_GEOCODER = "key onGeoCoder";

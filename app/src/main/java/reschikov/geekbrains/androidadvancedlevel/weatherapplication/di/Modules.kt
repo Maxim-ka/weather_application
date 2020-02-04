@@ -20,6 +20,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding.DataBindingAdapter
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notifications.Notice
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notifications.Notifiable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.SenderViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.TemperatureColor
 
@@ -44,8 +47,13 @@ val appModule = module {
 val viewModelModule = module {
     viewModel { WeatherViewModel(get(), BroadcastChannel(Channel.CONFLATED), BroadcastChannel(Channel.CONFLATED)) }
     single { ListPlaceModelFactory(get()) }
+    viewModel { SenderViewModel() }
 }
 
 val dataBindingModule = module {
     single { DataBindingAdapter() }
+}
+
+val notificationModule = module {
+    single<Notifiable> { Notice(get())}
 }
