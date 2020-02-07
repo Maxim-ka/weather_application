@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sensors"
+        android:id="@+id/fragmentSensors"
         android:icon="@drawable/ic_action_sensors"
         android:orderInCategory="3"
         android:title="@string/sensors"
@@ -17,7 +17,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/sms"
+        android:id="@+id/fragmentSMS"
         android:icon="@drawable/ic_action_sms"
         android:orderInCategory="7"
         android:title="@string/sms"

@@ -1,6 +1,9 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base
 
 import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -11,13 +14,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_GOOGLE_COORDINATE
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.REQUEST_MY_PERMISSIONS_ACCESS_LOCATION
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
+
+private const val REQUEST_GOOGLE_COORDINATE = 1
+private const val REQUEST_MY_PERMISSIONS_ACCESS_LOCATION = 10
 
 @ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment(), CoroutineScope {
@@ -49,12 +52,8 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     abstract fun renderHaveCities (hasCity: Boolean)
 
     private fun renderError (error: Throwable) {
-        Timber.i("renderError $error")
         error.run {
             when (this) {
-                is AppException.Response ->{
-                    showAlertDialog(R.string.warning, "server response\n ${(error as AppException.Response).error}")
-                }
                 is ResolvableApiException ->{
                     activity?.let { startResolutionForResult(it, REQUEST_GOOGLE_COORDINATE) }
                 }
@@ -62,27 +61,43 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
                     activity?.let { ActivityCompat.requestPermissions(it, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_MY_PERMISSIONS_ACCESS_LOCATION)
                     }
-                    showErrorNotification(getString(R.string.warning)+"\n"+getString(R.string.no_permission_determine_location))
-                }
-                is AppException.NoNetwork -> {
-                    showAlertDialog(R.string.warning, getString(R.string.no_network))
-                }
-                is TimeoutCancellationException -> {
-                    showAlertDialog(R.string.caution, getString(R.string.unable_determine_coordinates))
                 }
                 is AppException.Saved -> {
                     showErrorNotification(message)
                     showAlertDialog(R.string.caution, getString(R.string.error_writing_database))
                 }
-                is AppException.Deleted -> {
-                    showErrorNotification(message)
-                    showAlertDialog(R.string.caution, getString(R.string.error_deleting_database))
-                }
                 is AppException.Database -> {
+                    showErrorNotification(message)
                     showAlertDialog(R.string.caution, getString(R.string.database_error))
                 }
                 else -> {
-                    showErrorNotification(message)
+                    message?.let { showAlertDialog(R.string.warning, it)
+                    } ?: showErrorNotification(cause?.message)
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_MY_PERMISSIONS_ACCESS_LOCATION ->
+                if (permissions.size == 2 && (grantResults[0] == PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    model.addStateOfCurrentPlace()
+                } else {
+                    showAlertDialog(R.string.disabling_location, getString(R.string.no_permission_determine_location))
+                }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_GOOGLE_COORDINATE -> {
+                if (resultCode == AppCompatActivity.RESULT_OK){
+                    model.addStateOfCurrentPlace()
+                } else {
+                    context?.let { showMessage(bottom_navigation, "refusal to request coordinates via google", ContextCompat.getColor(it, R.color.colorPrimaryDark)) }
                 }
             }
         }

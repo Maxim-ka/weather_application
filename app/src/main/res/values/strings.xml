@@ -96,7 +96,9 @@
     <string name="email_not_sent">EMAIL NOT SENT</string>
     <string name="email_sent">EMAIL SENT</string>
     <string name="fill_contact">you must fill the contact</string>
-    <string name="enter_phone_number">you must enter the recipient\'s phone number, only numbers</string>
+    <string name="enter_phone_number">
+        You must enter the recipient\'s phone number in the format: 89012345678 or +79012345678
+    </string>
     <string name="enter_recipient_email">you must enter the recipient\'s e-mail</string>
     <string name="not_all_fields_filled">not all sender fields are filled in to send emails</string>
     <string name="enter_your_email">you must enter the your e-mail</string>
@@ -152,8 +154,6 @@
 
     <string name="email_author" translatable="false">Reschikov@list.ru</string>
     <string name="change_current_key">change currentTable key</string>
-    <string name="key_apiux" translatable="false">5b1abda94fd34660b7381734181110</string>
-    <string name="key_opencage" translatable="false">1bea667f6b844b63bdf66998c94a1920</string>
     <string name="enter_city">Enter the name of the city</string>
     <string name="you_must_enter_city">you must enter the city name</string>
     <string name="district_city_region_country">specify in ascending order (from the smallest to the largest), comma-separated, a part or all of the parameters of the place: district, city, region, country, continent.</string>

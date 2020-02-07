@@ -15,8 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.sender_frame.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
@@ -24,12 +23,29 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
 
+private const val REQUEST_SELECT_PHONE_NUMBER = 2
+private const val REQUEST_MY_PERMISSIONS_SEND_SMS = 1
+
 class FragmentSMS : Fragment() {
 
     private val model: SenderViewModel by viewModel()
     private val smsManager by lazy { SmsManager.getDefault() }
-    private val navController : NavController by lazy { findNavController() }
+    private var snackbar: Snackbar? = null
     private lateinit var binding: SenderFrameBinding
+    private val errorPhone:(Boolean) -> Unit = {isNotPhone: Boolean ->
+        isNotPhone.takeIf{it} ?.let {
+            til_phone.error = "only numbers without spaces and dashes"
+            snackbar = showMessage(til_phone, getString(R.string.enter_phone_number), Color.RED)
+        } ?: run{
+            til_phone.error = null
+            closeShownMessage()
+        }
+    }
+
+    private fun closeShownMessage(){
+        snackbar?.dismiss()
+        snackbar = null
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.sender_frame, container, false)
@@ -63,9 +79,8 @@ class FragmentSMS : Fragment() {
                             it.contentResolver.query(uri, projection, null, null, null)
                                 .use { cursor -> cursor?.let { it ->  it.takeIf {
                                     it.moveToFirst() }?.let {cursor ->
-                                    val numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                                    model.setNumberPhone(cursor.getString(numberIndex))
-                                    isNotNumberPhone()
+                                        val numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                        model.setPhone(cursor.getString(numberIndex), errorPhone)
                                     }
                                 }
                             }
@@ -83,10 +98,6 @@ class FragmentSMS : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home ->{
-                navController.navigate(R.id.action_fragmentSMS_to_fragmentWeather)
-                true
-            }
             R.id.action_send -> {
                 sendMessage()
             }
@@ -95,24 +106,14 @@ class FragmentSMS : Fragment() {
     }
 
     private fun sendMessage(): Boolean {
-        if (isNotNumberPhone()) return false
+        if (model.hasNotPhone(errorPhone)) return false
         if (binding.acetSms.text.isNullOrBlank()) {
-            showMessage(acet_sms, "empty message", Color.RED)
+            snackbar = showMessage(acet_sms, "empty message", Color.RED)
             return false
         }
         checkPermissionSms()
+        closeShownMessage()
         return true
-    }
-
-    private fun isNotNumberPhone(): Boolean {
-        val phone = model.phone.get()
-        if (phone.isNullOrBlank() || !phone.matches("\\+?\\d{11}".toRegex())){
-            til_phone.error = "phone number without spaces or dashes"
-            showMessage(til_phone, getString(R.string.enter_phone_number), Color.RED)
-            return true
-        }
-        til_phone.error = null
-        return false
     }
 
     private fun checkPermissionSms() {
@@ -175,5 +176,10 @@ class FragmentSMS : Fragment() {
             start += smsLength
             end += smsLength
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        closeShownMessage()
     }
 }

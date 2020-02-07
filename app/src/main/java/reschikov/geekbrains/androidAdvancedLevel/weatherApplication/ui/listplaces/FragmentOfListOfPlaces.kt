@@ -47,12 +47,8 @@ class FragmentOfListOfPlaces : BaseFragment(),
     @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home ->{
-                navController.navigate(R.id.action_fragmentOfListOfPlaces_to_fragmentWeather)
-                true
-            }
             R.id.locate ->{
-                model.addCurrentPlace()
+                model.addStateOfCurrentPlace()
                 true
             }
             R.id.placeNameInputDialog -> {

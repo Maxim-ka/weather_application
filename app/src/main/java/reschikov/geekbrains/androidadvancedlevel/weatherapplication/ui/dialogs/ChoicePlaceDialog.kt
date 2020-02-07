@@ -21,7 +21,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnIt
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<Place>  {
@@ -70,13 +69,11 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
     @ExperimentalCoroutinesApi
     private suspend fun findPlaces(place: String, code: String){
         model.findPlaces(place, code).consumeEach {
-            Timber.i("findPlaces $it")
             showAnswer(it)
         }
     }
 
     private fun showAnswer(places: List<Place>?){
-        Timber.i("showAnswer $places")
         places?.let {
             if (it.isEmpty()) showAlertDialog(R.string.caution, getString(R.string.msg_location_not_found))
             else setResult(it)

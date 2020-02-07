@@ -8,12 +8,11 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinateDeterminant(){
+class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinateDeterminant(context){
 
     private val locationRequest = LocationRequest.create().apply {
         interval = setPeriod
@@ -41,7 +40,6 @@ class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinate
                         override fun onLocationResult(locationResult: LocationResult?) {
                             locationResult?.let {
                                 val location = it.lastLocation
-                                Timber.i("Google $location")
                                 if (location.accuracy <= setAccuracy) {
                                     locationProviderClient?.removeLocationUpdates(this)
                                     continuation.resume(location)
@@ -52,7 +50,6 @@ class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinate
                         }
 
                         override fun onLocationAvailability(p0: LocationAvailability?) {
-                            Timber.i("onLocationAvailability ${p0?.isLocationAvailable}")
                             p0?.let {pO -> takeUnless { pO.isLocationAvailable}?.run {
                                     locationProviderClient?.removeLocationUpdates(lcb)
                                     lcb = null

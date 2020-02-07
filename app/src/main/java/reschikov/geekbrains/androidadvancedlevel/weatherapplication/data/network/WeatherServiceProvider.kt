@@ -14,11 +14,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapCurrent
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenweathermapForecast
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import timber.log.Timber
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -26,7 +24,7 @@ import kotlin.coroutines.suspendCoroutine
 
 private const val URL_OPEN_WEATHER_MAP = "https://api.openweathermap.org/data/2.5/"
 private const val UNITS_METRIC = "metric"
-
+/*FiXME применить шаблон команда*/
 class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
         RequestedWeather {
 
@@ -45,8 +43,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     @Throws
     override suspend fun requestServerByCoordinatesAsync(lat: Double, lon: Double): Pair<Current, ForecastList> {
         return coroutineScope {
-            Timber.i("no connection ${checkLackOfNetwork()}")
-            takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
+            takeIf { checkLackOfNetwork()} ?.run { throw Throwable(strNoNetwork)
             } ?: run {
                 getKey()
                 getAnswer(async(coroutineContext) { requestCurrentByCoordinates(lat, lon) },
@@ -58,7 +55,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     @Throws
     override suspend fun requestServerByNameAsync(q: String): Pair<Current, ForecastList> {
         return coroutineScope {
-            takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
+            takeIf { checkLackOfNetwork()} ?.run { throw Throwable(strNoNetwork)
             } ?: run {
                 getKey()
                 getAnswer(async(coroutineContext) { requestCurrentByName(q) },
@@ -70,7 +67,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
     @Throws
     override suspend fun requestServerByIndexAsync(zip: String): Pair<Current, ForecastList> {
         return coroutineScope {
-            takeIf { checkLackOfNetwork()} ?.run { throw AppException.NoNetwork()
+            takeIf { checkLackOfNetwork()} ?.run { throw Throwable(strNoNetwork)
             } ?: run {
                 getKey()
                 getAnswer(async(coroutineContext) { requestCurrentByIndex(zip) },
@@ -102,7 +99,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
 
     private suspend fun requestCurrentByIndex(zip: String): Current {
         return suspendCoroutine{continuation ->
-            requestCurrent.uploadByName(zip, key, UNITS_METRIC, lang)
+            requestCurrent.uploadByIndex(zip, key, UNITS_METRIC, lang)
                     .enqueue(getCallBackCurrent(continuation))
         }
     }
@@ -117,7 +114,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
                 if(response.isSuccessful){
                     response.body()?.let { continuation.resume(it) }
                 } else {
-                    response.errorBody()?.let { continuation.resumeWithException(AppException.Response(it.string())) }
+                    response.errorBody()?.let { continuation.resumeWithException(Throwable(it.string())) }
                 }
             }
         }
@@ -139,7 +136,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
 
     private suspend fun requestForecastByIndex(zip: String): ForecastList {
         return suspendCoroutine{continuation ->
-            requestForecast.uploadByName(zip, key, UNITS_METRIC, lang)
+            requestForecast.uploadByIndex(zip, key, UNITS_METRIC, lang)
                     .enqueue(getCallBackForecastList(continuation))
         }
     }
@@ -154,7 +151,7 @@ class WeatherServiceProvider(context: Context) : RequestBaseProvider(context),
                 if(response.isSuccessful){
                     response.body()?.let { continuation.resume(it) }
                 } else {
-                    response.errorBody()?.let { continuation.resumeWithException(AppException.Response(it.string())) }
+                    response.errorBody()?.let { continuation.resumeWithException(Throwable(it.string())) }
                 }
             }
         }

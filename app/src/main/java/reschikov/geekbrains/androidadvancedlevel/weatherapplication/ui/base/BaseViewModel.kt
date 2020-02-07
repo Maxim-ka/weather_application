@@ -23,4 +23,6 @@ abstract class BaseViewModel : ViewModel(){
     protected suspend fun hasCities (hasCities: Boolean) {
         booleanChannel.send(hasCities)
     }
+
+    abstract fun addStateOfCurrentPlace()
 }

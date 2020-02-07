@@ -45,18 +45,15 @@
                 android:layout_marginEnd="4dp"
                 android:textAlignment="center"
                 android:layout_weight="10"
+                style="@style/textfieldTextInputLayout"
                 app:hintEnabled="true"
                 app:hintAnimationEnabled="true"
-                app:hintTextColor="@color/colorAccent"
-                app:hintTextAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/colorAccent"
-                app:errorTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                app:errorIconDrawable="@drawable/ic_warning"
-                app:errorIconTint="@color/colorAccent"
+                app:counterEnabled="true"
+                app:counterMaxLength="11"
+                app:counterOverflowTextColor="@color/colorAccent"
+                app:counterOverflowTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 app:helperTextEnabled="true"
-                app:helperTextTextColor="@color/colorPrimaryDark"
-                app:helperTextTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 app:helperText="89012345678">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -72,12 +69,12 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/aciv_phone_contact"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:tint="@color/colorAccent"
-                android:layout_weight="0.5"
+                android:layout_weight="2"
                 android:contentDescription="@string/str_add"
-                app:srcCompat="@drawable/ic_action_add"
+                app:srcCompat="@drawable/ic_add_circle_outline"
                 />
 
         </LinearLayout>

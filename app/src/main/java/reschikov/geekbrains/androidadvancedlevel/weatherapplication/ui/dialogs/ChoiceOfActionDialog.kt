@@ -16,7 +16,6 @@ import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
-import timber.log.Timber
 
 private const val KEY_SET = "key set"
 private const val KEY_LOCATION = "key location"
@@ -28,6 +27,7 @@ class ChoiceOfActionDialog : DialogFragment(){
     @ExperimentalCoroutinesApi
     private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
     private val navController : NavController by lazy { findNavController() }
+    @ExperimentalCoroutinesApi
     private val gestureDetector : GestureDetectorCompat by lazy { GestureDetectorCompat(context, createGesture()) }
     private var choiceSet = false
     private var choiceLocation = false
@@ -37,7 +37,6 @@ class ChoiceOfActionDialog : DialogFragment(){
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(false)
         dialog.setTitle(R.string.determine_location)
-        Timber.i("onCreateDialog")
         return dialog
     }
 
@@ -62,6 +61,7 @@ class ChoiceOfActionDialog : DialogFragment(){
         exit.setOnClickListener { activity?.finish() }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         savedInstanceState?.let {
@@ -78,7 +78,6 @@ class ChoiceOfActionDialog : DialogFragment(){
         super.onStart()
         current_location.isChecked = choiceLocation
         set_city.isChecked = choiceSet
-        Timber.i("onStart()")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -129,25 +128,10 @@ class ChoiceOfActionDialog : DialogFragment(){
 
     @ExperimentalCoroutinesApi
     private fun determineCurrentLocation(){
-        model.addCurrentPlace()
+        model.addStateOfCurrentPlace()
     }
 
     private fun addCity(){
         navController.navigate(R.id.action_choiceOfActionDialog_to_placeNameInputDialog)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.i("onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("onDestroy")
     }
 }

@@ -6,12 +6,11 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.sensor_frame.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.C
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.FROM_HPA_IN_MMHG
@@ -22,17 +21,17 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.convert
 
 private const val INTERVAL_MIC_SEC = 15_000_000
 
-class FragmentSensors : Fragment(R.layout.sensor_frame), SensorEventListener {
+class FragmentSensors : Fragment(), SensorEventListener {
 
-    private val navController : NavController by lazy { findNavController() }
     private var sm: SensorManager? = null
     private var pressureMeter: Sensor? = null
     private var temperatureSensor: Sensor? = null
     private var humiditySensor: Sensor? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.sensor_frame, container, false)
         setHasOptionsMenu(true)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -54,18 +53,7 @@ class FragmentSensors : Fragment(R.layout.sensor_frame), SensorEventListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
         menu.clear()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home ->{
-                navController.navigate(R.id.action_fragmentSensors_to_fragmentWeather)
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {

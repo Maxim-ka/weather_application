@@ -102,7 +102,7 @@ class ListPlaceViewModel(private var derivable: Derivable?,
         }
     }
 
-    fun addCurrentPlace(){
+    override fun addStateOfCurrentPlace(){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isProgressVisible.set(true)

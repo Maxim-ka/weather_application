@@ -7,15 +7,17 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 
-fun showMessage(view: View, message: String, color: Int){
-    Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).apply {
+fun showMessage(view: View, message: String, color: Int): Snackbar{
+    val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).apply {
         setBackgroundTint(Color.WHITE)
         setTextColor(color)
+        anchorView = view
         setAction(R.string.ok) {
             dismiss()
         }
     }
-    .show()
+    snackBar.show()
+    return snackBar
 }
 
 fun Fragment.showAlertDialog(title: Int, message: String){

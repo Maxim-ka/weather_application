@@ -3,11 +3,19 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.networ
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 
 abstract class NetworkBaseProvider(private val context: Context)  {
 
+    protected val strNoNetwork: String by lazy {
+        context.getString(R.string.no_network)
+    }
+
+    private  val connectivityManager : ConnectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
     protected fun checkLackOfNetwork(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             return connectivityManager.activeNetwork == null
         }

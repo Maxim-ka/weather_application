@@ -15,7 +15,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databindi
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Collectable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Spreadable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
-import timber.log.Timber
 
 class FragmentCurrentDisplay : Fragment(), Spreadable{
 
@@ -28,7 +27,6 @@ class FragmentCurrentDisplay : Fragment(), Spreadable{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.current_frame, container, false, dataBindingAdapter)
         binding.model = model
-        Timber.i("TAG onCreateView ${System.identityHashCode(this)}")
         return binding.root
     }
 
@@ -48,15 +46,5 @@ class FragmentCurrentDisplay : Fragment(), Spreadable{
            "${getString(R.string.rainfall)} ${binding.properties.rainfall.text}\n" +
            "${getString(R.string.sunrise)} ${binding.properties.sunrise.text}\n" +
            "${getString(R.string.sunset)} ${binding.properties.sunset.text}\n"
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("TAG onDestroyView ${System.identityHashCode(this)}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("TAG onDestroy ${System.identityHashCode(this)}")
     }
 }

@@ -5,8 +5,8 @@ import androidx.room.ForeignKey.CASCADE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Coord
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Weather
 
-@Entity(foreignKeys = [ForeignKey(entity = CityTable::class, parentColumns = ["lat", "lon"], childColumns = ["lat", "lon"], onDelete = CASCADE)],
-        indices = [Index("lat", "lon")])
+@Entity(foreignKeys = [ForeignKey(entity = CityTable::class, parentColumns = ["lat", "lon"],
+    childColumns = ["lat", "lon"], onDelete = CASCADE)], indices = [Index("lat", "lon")])
 data class CurrentTable(@PrimaryKey(autoGenerate = true) val id: Long = 0,
                         val tempColor: Int,
                         val name: String,

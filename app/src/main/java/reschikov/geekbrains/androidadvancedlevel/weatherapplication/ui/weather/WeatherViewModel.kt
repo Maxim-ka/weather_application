@@ -48,7 +48,7 @@ class WeatherViewModel(private var derivable: Derivable?,
         }
     }
 
-    fun getStateCurrentPlace(){
+    override fun addStateOfCurrentPlace(){
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
             derivable?.let {

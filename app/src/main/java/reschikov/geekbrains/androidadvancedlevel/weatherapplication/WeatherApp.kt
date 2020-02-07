@@ -33,9 +33,11 @@ class WeatherApp : Application() {
 
     private fun initChannelsNotifications(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelPush = NotificationChannel(CHANNEL_ID_PUSH, "SimpleNotice", NotificationManager.IMPORTANCE_DEFAULT)
+            val channelPush = NotificationChannel(CHANNEL_ID_PUSH, "SimpleNotice",
+                    NotificationManager.IMPORTANCE_DEFAULT)
             channelPush.description = "Notice Push"
-            val channelSMS = NotificationChannel(CHANNEL_ID_SMS, "SMS sending and receiving notification", NotificationManager.IMPORTANCE_DEFAULT)
+            val channelSMS = NotificationChannel(CHANNEL_ID_SMS, "SMS sending and receiving notification",
+                    NotificationManager.IMPORTANCE_DEFAULT)
             channelSMS.description = "Notice SMS"
             val notificationManager = baseContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channelPush)

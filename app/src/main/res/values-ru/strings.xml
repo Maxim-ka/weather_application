@@ -99,7 +99,9 @@
     <string name="email_not_sent">письмо не отправлено</string>
     <string name="email_sent">письмо отправлено</string>
     <string name="toast_format_coordinates">широта: %1$f\nдолгота: %2$f\nточность: %3$.2f м</string>
-    <string name="enter_phone_number">Вы должны ввести номер телефона получателя, без пробелов и тире</string>
+    <string name="enter_phone_number">
+        Вы должны ввести номер телефона получателя в формате: 89012345678 или +79012345678
+    </string>
     <string name="fill_contact">Вы должны заполнить контакт</string>
     <string name="enter_recipient_email">Вы должны ввести адрес эл. почты получателя</string>
     <string name="not_all_fields_filled">Не все поля заполнены для отправки письма</string>

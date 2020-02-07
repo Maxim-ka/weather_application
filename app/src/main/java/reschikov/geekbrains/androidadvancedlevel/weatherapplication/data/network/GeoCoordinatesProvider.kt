@@ -13,7 +13,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.opencage.ResponseError
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.opencage.Result
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.OpenCage
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +32,14 @@ private const val OK = 200
 
 class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider(context), Geocoded {
 
-    private val sp: SharedPreferences = context.getSharedPreferences(PREFERENCE_OPEN_CAGE, Context.MODE_PRIVATE)
+    private val sp : SharedPreferences by lazy { context.getSharedPreferences(PREFERENCE_OPEN_CAGE, Context.MODE_PRIVATE) }
+    private val strErrorCode : String by lazy { "Error code: "  }
+    private val strErrorMessage : String by lazy { " \nmessage: " }
+    private val strTimeReset : String by lazy { "The number of requests per day is exceeded, you can re-request after " }
+    private val strNotFound : String by lazy { context.getString(R.string.msg_location_not_found) }
+    private val strError = {code: Int, message: String ->
+        strErrorCode + code + strErrorMessage + message
+    }
     private val request: OpenCage
     private lateinit var key: String
 
@@ -46,7 +52,7 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
     override suspend fun requestDirectGeocoding(place: String, code: String): List<Result>{
         return withContext(coroutineContext){
             if (checkRequestCapability()) throw Throwable(getTimeReset())
-            if (checkLackOfNetwork()) throw AppException.NoNetwork()
+            if (checkLackOfNetwork()) throw Throwable(strNoNetwork)
             request(place, code)
         }
     }
@@ -65,12 +71,12 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
                             response.body()?.let {
                                 saveRequestParameters(it.rate)
                                 if (it.status.code == OK ) continuation.resume(it.results)
-                                else continuation.resumeWithException(AppException.Response("${it.status.code}, ${it.status.message}"))
+                                else continuation.resumeWithException(Throwable(strError.invoke(it.status.code, it.status.message)))
                             }
                         } else {
                             response.errorBody()?.let {
-                                continuation.resumeWithException(AppException.Response(getServerErrorResponse(it)))
-                            } ?: continuation.resumeWithException(Throwable(context.getString(R.string.msg_location_not_found)))
+                                continuation.resumeWithException(Throwable(getServerErrorResponse(it, strError)))
+                            } ?: continuation.resumeWithException(Throwable(strNotFound))
                         }
                     }
                 })
@@ -88,9 +94,9 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
         }
     }
 
-    private fun getServerErrorResponse(response: ResponseBody): String{
+    private fun getServerErrorResponse(response: ResponseBody, strError: (Int, String) -> String ): String{
         val responseError = Gson().fromJson(response.string(), ResponseError::class.java)
-        return "Error code ${responseError.status.code} \nmessage ${responseError.status.message}"
+        return  strError.invoke(responseError.status.code, responseError.status.message)
     }
 
     private fun checkRequestCapability(): Boolean {
@@ -103,6 +109,6 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
         val reset = sp.getLong(KEY_RESET_DATE, defaultTimeReset)
         if (reset == defaultTimeReset) sp.edit { putLong(KEY_RESET_DATE, reset)}
         val timeReset = DateFormat.getDateTimeInstance().format(Date(reset))
-        return "the number of requests per day is exceeded, you can re-request after $timeReset"
+        return strTimeReset + timeReset
     }
 }

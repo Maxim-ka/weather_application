@@ -56,8 +56,6 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="999">
-                <!--<action android:name="android.provider.Telephony.SMS_DELIVER"/>-->
-                <!--<action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
                 <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_SENT_SMS"/>
                 <action android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ACTION_DELIVERED_SMS"/>
             </intent-filter>

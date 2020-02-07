@@ -6,12 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:textColor">@color/black</item>
+
         <item name="android:dialogTheme">@style/CustomDialog</item>
+
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/white</item>
         <item name="actionModeCloseDrawable">@drawable/ic_cancel</item>
         <item name="actionModeStyle">@style/CustomActionModeStyle</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -29,6 +33,17 @@
 
     <style name="CustomTitleStyleActionMode" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="textfieldTextInputLayout">
+        <item name="errorTextColor">@color/colorAccent</item>
+        <item name="errorTextAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
+        <item name="errorIconTint">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorPrimaryDark</item>
+        <item name="hintTextAppearance">@android:style/TextAppearance.DeviceDefault.Small</item>
+        <item name="counterTextAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
+        <item name="helperTextTextColor">@color/colorPrimaryDark</item>
+        <item name="helperTextTextAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
     </style>
 
 </resources>

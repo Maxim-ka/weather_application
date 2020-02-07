@@ -94,7 +94,7 @@ class Repository(private val mapping: Mapping,
         return try {
             Pair(mapping.createListPlaceCity(storable.delete(lat, lon)), null)
         } catch (e: Throwable){
-            Pair(null, e)
+            Pair(null, AppException.Database(e.message))
         }
     }
 

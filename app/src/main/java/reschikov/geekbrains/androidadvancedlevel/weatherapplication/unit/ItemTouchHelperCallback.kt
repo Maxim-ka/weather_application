@@ -18,7 +18,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplace
 
 private const val SWIPE_THRESHOLD = 0.75f
 
-class ItemTouchHelperCallback(val recyclerView: RecyclerView) : ItemTouchHelper.Callback() {
+class ItemTouchHelperCallback(private val recyclerView: RecyclerView) : ItemTouchHelper.Callback() {
 
     private val buttons = SparseArray<PlugInButton>()
     private val removable: Removable = recyclerView.adapter as Removable

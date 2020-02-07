@@ -22,7 +22,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.C
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Spreadable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
-import timber.log.Timber
 import java.text.DateFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -37,7 +36,7 @@ class FragmentForecastDisplay : Fragment(),
         Dispatchers.Main + Job()
     }
 
-    var actionMode: ActionMode? = null
+    private var actionMode: ActionMode? = null
     @ExperimentalCoroutinesApi
     private val model: WeatherViewModel by sharedViewModel()
     private val dataBindingAdapter by inject<DataBindingAdapter>()
@@ -51,7 +50,6 @@ class FragmentForecastDisplay : Fragment(),
         binding.model = model
         binding.rvItems.adapter = ForecastRVAdapter(dataBindingAdapter, this)
         binding.rvItems.setHasFixedSize(true)
-        Timber.i("TAG onCreateView ${System.identityHashCode(this)}")
         return binding.rvItems.rootView
     }
 
@@ -155,18 +153,15 @@ class FragmentForecastDisplay : Fragment(),
         super.onStop()
         actionMode?.finish()
         jobSend?.cancel()
-        Timber.i("TAG onStop ${System.identityHashCode(this)}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         collectable = null
-        Timber.i("TAG onDestroyView ${System.identityHashCode(this)}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         coroutineContext.cancel()
-        Timber.i("TAG onDestroy ${System.identityHashCode(this)}")
     }
 }

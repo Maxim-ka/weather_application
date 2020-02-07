@@ -21,26 +21,30 @@ import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
-import timber.log.Timber
+
+private const val NUMBER_CHARS_IN_CODE = 2
 
 @ExperimentalCoroutinesApi
 class PlaceNameInputDialog : DialogFragment() {
 
     private val navController : NavController by lazy { findNavController() }
     private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
-    private lateinit var request: String
+    private val defaultRequest : String by lazy { resources.getStringArray(R.array.request).first() }
+    private var request: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sp = context!!.getSharedPreferences(PREFERENCE_REQUEST, Context.MODE_PRIVATE)
-        request = sp.getString(KEY_REQUEST_SELECTION, resources.getStringArray(R.array.request).first())!!
-        Timber.i("onCreate ${context != null}")
-        Timber.i("onCreate request $request")
+        context?.let {ctx ->
+            val sp = ctx.getSharedPreferences(PREFERENCE_REQUEST, Context.MODE_PRIVATE)
+            sp.getString(KEY_REQUEST_SELECTION, defaultRequest)?.let {
+                request = it
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        savedInstanceState?.let { request = it.getString(KEY_REQUEST_SELECTION, "Place name") }
-        Timber.i("onCreateDialog")
+        savedInstanceState?.let { request = it.getString(KEY_REQUEST_SELECTION, defaultRequest)
+        } ?: run { request.takeIf { it == null } ?.let { request = defaultRequest }  }
         return super.onCreateDialog(savedInstanceState)
     }
 
@@ -52,7 +56,6 @@ class PlaceNameInputDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setModeRequest(view)
         exit.setText(R.string.get_data)
-        Timber.i("onViewCreated $request")
     }
 
     private fun setModeRequest(view: View){
@@ -79,25 +82,26 @@ class PlaceNameInputDialog : DialogFragment() {
     }
 
     private fun requestByName(){
-        takeIf { checkNamePlace() && checkCodeCountryField()}?.run {
+        if (checkNamePlace() && checkCodeCountryField()){
             model.addPlaceByName("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}")
         }
     }
 
     private fun requestByPostCode(){
-        takeIf { checkZipCodePlace() && checkCodeCountryField()}?.run {
+        if (checkZipCodePlace() && checkCodeCountryField()){
             model.addPlaceByZipCode("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}")
         }
     }
 
     private fun requestOpenCage(){
-        takeIf { checkPlaceOpenCage() && checkCodeCountryField() &&
-            navController.currentDestination?.id == R.id.placeNameInputDialog
-        }?.run {
-            navController.navigate(R.id.action_placeNameInputDialog_to_choicePlaceDialog, Bundle().apply {
-                putString(KEY_PLACE, tiet_name_place.text.toString())
-                putString(KEY_CODE, tiet_code_country.text.toString())
-            })
+        if (checkPlaceOpenCage() && checkCodeCountryField() &&
+            navController.currentDestination?.id == R.id.placeNameInputDialog) {
+            navController.navigate(R.id.action_placeNameInputDialog_to_choicePlaceDialog,
+                Bundle().apply {
+                    putString(KEY_PLACE, tiet_name_place.text.toString())
+                    putString(KEY_CODE, tiet_code_country.text.toString())
+                }
+            )
         }
     }
 
@@ -141,7 +145,7 @@ class PlaceNameInputDialog : DialogFragment() {
     }
 
     private fun isRequiredLength(string: String, til: TextInputLayout): Boolean {
-        if (string.length != 2){
+        if (string.length != NUMBER_CHARS_IN_CODE){
             til.error = "The code does NOT consist of TWO letters"
             return false
         }

@@ -27,6 +27,8 @@ class SenderViewModel : ViewModel() {
             }
         }
     }
+    private val isPhone = {string: String? -> !string.isNullOrBlank() &&
+            string.matches("\\+?\\d{11}".toRegex())}
     private var maxLenSms = LEN_SMS_EN
     private var number: Int = 0
 
@@ -40,8 +42,15 @@ class SenderViewModel : ViewModel() {
         text.set(string)
     }
 
-    fun setNumberPhone(phone: String){
+    fun setPhone(phone: String?, errorPhone: (Boolean) -> Unit ){
         this.phone.set(phone)
+        errorPhone.invoke(isPhone.invoke(phone))
+    }
+
+    fun hasNotPhone(errorPhone: (Boolean) -> Unit): Boolean {
+        val isNotNumberPhone = !isPhone.invoke(phone.get())
+        errorPhone.invoke(isNotNumberPhone)
+        return isNotNumberPhone
     }
 
     private fun determinePossibleLengthOfSMS(string: String){

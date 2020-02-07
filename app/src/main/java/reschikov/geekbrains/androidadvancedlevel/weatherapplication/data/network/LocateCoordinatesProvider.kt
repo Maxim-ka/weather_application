@@ -24,7 +24,7 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
     }
 
     override suspend fun getCoordinatesCurrentPlace(): Pair<Location?, Throwable?> {
-        if (checkLackOfNetwork()) return Pair(null, AppException.NoNetwork())
+        if (checkLackOfNetwork()) return Pair(null, Throwable(strNoNetwork))
         if(hasDetermineGoogle() && googleQualifier.isNotEmpty()){
             getGoogleCoordinates()?.let { return it }
         }

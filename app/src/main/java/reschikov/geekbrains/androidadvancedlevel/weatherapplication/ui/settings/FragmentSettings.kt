@@ -5,10 +5,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.core.content.edit
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -20,7 +17,6 @@ import java.util.*
 
 class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-    private val navController: NavController by lazy { findNavController() }
     private var textKeyWeather: EditTextPreference? = null
     private var textKeyOpenCage: EditTextPreference? = null
     private var viewBalanceRequests: Preference? = null
@@ -47,7 +43,7 @@ class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             textKeyOpenCage?.summary = spCage.getString(KEY_OPEN_CAGE, BuildConfig.OPEN_CAGE_KEY)
             viewBalanceRequests?.summary = spCage.getInt(KEY_BALANCE_OF_REQUESTS, NUMBER_REQUESTS_PER_DAY).toString()
             viewResetDate?.summary = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM)
-                    .format(Date(spCage.getLong(KEY_RESET_DATE, System.currentTimeMillis() + NUMBER_MILLISECONDS_PER_DAY)))
+                .format(Date(spCage.getLong(KEY_RESET_DATE, System.currentTimeMillis() + NUMBER_MILLISECONDS_PER_DAY)))
             listPreference?.summary = spRequest.getString(KEY_REQUEST_SELECTION, resources.getStringArray(R.array.request).first())
         }
         setHasOptionsMenu(true)
@@ -59,18 +55,7 @@ class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
         menu.clear()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                navController.popBackStack()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

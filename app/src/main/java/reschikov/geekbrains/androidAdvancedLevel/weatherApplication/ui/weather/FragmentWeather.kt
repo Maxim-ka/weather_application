@@ -20,7 +20,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.current.FragmentCurrentDisplay
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.forecast.FragmentForecastDisplay
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class FragmentWeather : BaseFragment(), Collectable {
@@ -50,7 +49,6 @@ class FragmentWeather : BaseFragment(), Collectable {
             lat = it.getDouble(KEY_LAT, 0.0)
             lon = it.getDouble(KEY_LON, 0.0)
         }
-        Timber.i("TAG onCreateView ${System.identityHashCode(this)}")
         return view
     }
 
@@ -67,7 +65,6 @@ class FragmentWeather : BaseFragment(), Collectable {
             }
         }
         createReportWeather()
-        Timber.i("TAG onActivityCreated ${System.identityHashCode(this)}")
     }
 
     /*При возникновении проблем просто перейти на Viewpager2*/
@@ -91,7 +88,7 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         launch {
             inflater.inflate(R.menu.menu_update, menu)
-            menu.findItem(R.id.sensors).isVisible = areThereSensors()
+            menu.findItem(R.id.fragmentSensors).isVisible = areThereSensors()
         }
     }
 
@@ -107,7 +104,7 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.locate ->{
-                model.getStateCurrentPlace()
+                model.addStateOfCurrentPlace()
                 true
             }
             R.id.to_share -> {
@@ -115,11 +112,11 @@ class FragmentWeather : BaseFragment(), Collectable {
                 toShare()
                 true
             }
-            R.id.sensors ->{
+            R.id.fragmentSensors ->{
                 navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
                 true
             }
-            R.id.sms ->{
+            R.id.fragmentSMS ->{
                 asSMS = true
                 toShare()
                 true
@@ -155,7 +152,6 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onStart() {
         super.onStart()
         vp_pages.addOnPageChangeListener(listenerPage)
-        Timber.i("TAG onStart ${System.identityHashCode(this)}")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -174,16 +170,5 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onStop() {
         super.onStop()
         vp_pages.removeOnPageChangeListener(listenerPage)
-        Timber.i("TAG onStop ${System.identityHashCode(this)}")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("TAG onDestroyView ${System.identityHashCode(this)}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("TAG onDestroy ${System.identityHashCode(this)}")
     }
 }
