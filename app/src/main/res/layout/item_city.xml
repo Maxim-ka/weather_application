@@ -6,23 +6,29 @@
     
     <data>
         <variable
+            name="size"
+            type="java.lang.Integer" />
+        <variable
             name="place"
             type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place" />
     </data>
 
-    <reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.MyCardView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:background="@android:color/background_light"
-        android:layout_margin="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:size="@{size}"
         app:cardCornerRadius= "4dp"
-        app:cardElevation= "@dimen/item_city_cardElevation_value"
+        app:cardElevation= "8dp"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -91,6 +97,6 @@
 
         </LinearLayout>
 
-    </reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.customView.MyCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

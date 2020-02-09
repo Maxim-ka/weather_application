@@ -7,6 +7,9 @@
     <data>
         <import type="android.view.View"/>
         <variable
+            name="size"
+            type="java.lang.Integer" />
+        <variable
             name="isDisplaySelecting"
             type="androidx.databinding.ObservableBoolean" />
         <variable
@@ -15,9 +18,14 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:size="@{size}"
         app:cardBackgroundColor="@{forecast.temperatureColor}"
         app:cardCornerRadius = "4dp"
         app:contentPadding="8dp"

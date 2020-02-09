@@ -16,6 +16,7 @@ import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_CODE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_PLACE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
@@ -91,7 +92,7 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
 
     @ExperimentalCoroutinesApi
     override fun onItemClick(item: Place) {
-        model.addPlaceByCoordinates(item.lat, item.lon)
+        model.addPlace(GetByCoordinates(item.lat, item.lon))
         navController.navigate(R.id.action_choicePlaceDialog_to_fragmentOfListOfPlaces)
     }
 

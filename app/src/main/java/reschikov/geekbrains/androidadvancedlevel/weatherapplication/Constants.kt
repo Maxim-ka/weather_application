@@ -33,3 +33,5 @@ const val KEY_RESET_DATE = "key reset date"
 const val NUMBER_MILLISECONDS_PER_DAY = 86_400_000L
 
 const val C = " \u2103"
+
+const val UNITS_METRIC = "metric"

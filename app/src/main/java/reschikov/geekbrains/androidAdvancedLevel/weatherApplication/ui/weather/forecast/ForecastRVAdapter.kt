@@ -12,7 +12,8 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnIt
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding.DataBindingAdapter
 
 class ForecastRVAdapter(private val dataBindingAdapter: DataBindingAdapter,
-                        private val onItemClickListener: OnItemClickListener<ForecastTable>) : BaseRVAdapter<ForecastTable>() {
+                        private val onItemClickListener: OnItemClickListener<ForecastTable>)
+    : BaseRVAdapter<ForecastTable>() {
 
     val isShownSelection = ObservableBoolean()
     override var list: MutableList<ForecastTable> = mutableListOf()
@@ -24,6 +25,7 @@ class ForecastRVAdapter(private val dataBindingAdapter: DataBindingAdapter,
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
         val binding: ItemForecastdayBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_forecastday, viewGroup, false, dataBindingAdapter)
+        binding.size = determineWidth(viewGroup.context)
         return ViewHolder(binding)
     }
 

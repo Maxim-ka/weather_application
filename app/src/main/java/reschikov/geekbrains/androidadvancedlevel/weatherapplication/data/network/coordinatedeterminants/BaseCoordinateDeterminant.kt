@@ -1,9 +1,9 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants
 
 import android.content.Context
-import android.location.Location
 import kotlinx.coroutines.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import kotlin.coroutines.CoroutineContext
 
 private const val INTERVAL_UPDATE = 2_000L
@@ -20,12 +20,13 @@ abstract class BaseCoordinateDeterminant(private val  context: Context) : Determ
     protected var setAccuracy = MIN_ACCURACY
     private val strTimeout : String by lazy { context.getString(R.string.unable_determine_coordinates) }
 
-    override suspend fun getCoordinates(): Pair<Location?, Throwable?> {
+    override suspend fun getCoordinates(): Pair<GetByCoordinates?, Throwable?> {
         return withContext(coroutineContext){
             try {
                 withTimeout(SEARCH_TIME){
                     try {
-                        Pair(determineCoordinates(), null)
+                        val location = determineCoordinates()
+                        Pair(GetByCoordinates(location.latitude, location.longitude), null)
                     } catch (e: Throwable) {
                         Pair(null, e)
                     }

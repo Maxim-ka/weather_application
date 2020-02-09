@@ -48,6 +48,7 @@ class FragmentForecastDisplay : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.forecast_frame, container, false, dataBindingAdapter)
         binding.model = model
+        binding.config = resources.configuration.orientation
         binding.rvItems.adapter = ForecastRVAdapter(dataBindingAdapter, this)
         binding.rvItems.setHasFixedSize(true)
         return binding.rvItems.rootView

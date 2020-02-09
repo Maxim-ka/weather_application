@@ -4,8 +4,10 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Current
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
@@ -18,20 +20,11 @@ class Repository(private val mapping: Mapping,
                  private val geocoded: Geocoded,
                  private val issuedCoordinates: IssuedCoordinates) : Derivable{
 
-    /*Добавление по названию города*/
-    override suspend fun addPlaceByName(name: String): Pair<List<Place>?, Throwable?> {
+    /*Добавление города*/
+    override suspend fun addPlace(requested: Requested): Pair<List<Place>?, Throwable?> {
         return try {
-            updateListPlace(requestedWeather.requestServerByNameAsync(name))
+            updateListPlace(requestedWeather.requestServer(requested))
         } catch (e: Throwable) {
-            Pair(null, e)
-        }
-    }
-
-    /*Добавление по почтовому индексу*/
-    override suspend fun addPlaceByZipCode(postCode: String): Pair<List<Place>?, Throwable?> {
-        return try {
-            updateListPlace(requestedWeather.requestServerByIndexAsync(postCode))
-        } catch (e: Throwable){
             Pair(null, e)
         }
     }
@@ -41,7 +34,7 @@ class Repository(private val mapping: Mapping,
         return issuedCoordinates.getCoordinatesCurrentPlace().run {
             first?.let {
                 try {
-                    updateListPlace(requestedWeather.requestServerByCoordinatesAsync(it.latitude, it.longitude))
+                    updateListPlace(requestedWeather.requestServer(it))
                 } catch (e: Throwable) {
                     Pair(null, e)
                 }
@@ -54,7 +47,7 @@ class Repository(private val mapping: Mapping,
         return issuedCoordinates.getCoordinatesCurrentPlace().run{
             first?.let {
                 try {
-                    getWeather(requestedWeather.requestServerByCoordinatesAsync(it.latitude, it.longitude))
+                    getWeather(requestedWeather.requestServer(it))
                 } catch (e: Throwable) {
                     Weather(null, e)
                 }
@@ -62,20 +55,11 @@ class Repository(private val mapping: Mapping,
         }
     }
 
-    /*добавление места в список городов через запрос прямого геокодирования*/
+    /*получение списка вариантов мест через запрос прямого геокодирования*/
     override suspend fun determineLocationCoordinates(place: String, code: String): Pair<List<Place>?, Throwable?> {
         return try {
             Pair(mapping.createListPlaceResult(geocoded.requestDirectGeocoding(place, code)), null)
         } catch (e: Throwable) {
-            Pair( null, e)
-        }
-    }
-
-    /*Получение данных с сервиса погоды по выбранному варианту из геокодирования*/
-    override suspend fun addSelectedPlace(lat: Double, lon: Double): Pair<List<Place>?, Throwable?> {
-        return try {
-            updateListPlace(requestedWeather.requestServerByCoordinatesAsync(lat, lon))
-        } catch (e: Exception) {
             Pair( null, e)
         }
     }
@@ -104,7 +88,7 @@ class Repository(private val mapping: Mapping,
             val saved = storable.getData(lat, lon)
             takeIf {(System.currentTimeMillis() -  saved.first.dt > THREE_HOURS)}?.let {
                 try {
-                    getWeather(requestedWeather.requestServerByCoordinatesAsync(lat, lon)).run {
+                    getWeather(requestedWeather.requestServer(GetByCoordinates(lat, lon))).run {
                         state?.let { this } ?: Weather(saved, error)
                     }
                 } catch (e: Throwable) {

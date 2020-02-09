@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.city_input_dialog.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByName
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByPostCode
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
 
@@ -83,13 +85,13 @@ class PlaceNameInputDialog : DialogFragment() {
 
     private fun requestByName(){
         if (checkNamePlace() && checkCodeCountryField()){
-            model.addPlaceByName("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}")
+            model.addPlace(GetByName("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}"))
         }
     }
 
     private fun requestByPostCode(){
         if (checkZipCodePlace() && checkCodeCountryField()){
-            model.addPlaceByZipCode("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}")
+            model.addPlace(GetByPostCode("${tiet_name_place.text.toString()},${tiet_code_country.text.toString()}"))
         }
     }
 

@@ -20,6 +20,9 @@ open class ResultPlacesRVAdapter(private val onItemClickListener: OnItemClickLis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<Place> {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ItemCityBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_city, parent, false)
+        val parentWidth = parent.width
+        val width = determineWidth(parent.context)
+        binding.size = if (parentWidth != 0 && parentWidth < width) parentWidth else width
         return PlaceViewHolder(binding)
     }
 

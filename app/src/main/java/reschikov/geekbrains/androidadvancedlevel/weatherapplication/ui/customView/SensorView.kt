@@ -18,6 +18,20 @@ private const val DEFAULT_TEXT_SIZE = 28.0f
 
 class SensorView : View {
 
+    constructor(context: Context?) : super(context) {
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        initAttr(context, attrs)
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        initAttr(context, attrs)
+        init()
+    }
+
     private val pText: Paint = Paint()
     private val pFrame: Paint = Paint()
     private val rectFrame = Rect()
@@ -51,20 +65,6 @@ class SensorView : View {
             pText.color = cvTextColor
         }
         invalidate()
-    }
-
-    constructor(context: Context?) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        initAttr(context, attrs)
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        initAttr(context, attrs)
-        init()
     }
 
     private fun initAttr(context: Context, attrs: AttributeSet?) {

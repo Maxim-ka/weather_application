@@ -7,6 +7,7 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
@@ -38,27 +39,12 @@ class ListPlaceViewModel(private var derivable: Derivable?,
         }
     }
 
-    override fun addPlaceByName(name: String){
+    override fun addPlace(requested: Requested){
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isProgressVisible.set(true)
                 derivable?.let {derivable ->
-                    derivable.addPlaceByName(name).run {
-                        toDistribute(first, second)
-                    }
-                }
-            } finally {
-                finish()
-            }
-        }
-    }
-
-    override fun addPlaceByZipCode(postCode: String){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                isProgressVisible.set(true)
-                derivable?.let {derivable ->
-                    derivable.addPlaceByZipCode(postCode).run {
+                    derivable.addPlace(requested).run {
                         toDistribute(first, second)
                     }
                 }
@@ -84,21 +70,6 @@ class ListPlaceViewModel(private var derivable: Derivable?,
                     }
                 }
             } ?: send(results)
-        }
-    }
-
-    override fun addPlaceByCoordinates(lat: Double, lon: Double) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                isProgressVisible.set(true)
-                derivable?.let {derivable ->
-                    derivable.addSelectedPlace(lat, lon).run {
-                        toDistribute(first, second)
-                    }
-                }
-            } finally {
-                finish()
-            }
         }
     }
 

@@ -23,31 +23,30 @@ private const val INTERVAL_MIC_SEC = 15_000_000
 
 class FragmentSensors : Fragment(), SensorEventListener {
 
-    private var sm: SensorManager? = null
+    private lateinit var sm: SensorManager
     private var pressureMeter: Sensor? = null
     private var temperatureSensor: Sensor? = null
     private var humiditySensor: Sensor? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.sensor_frame, container, false)
+        sm = view.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         setHasOptionsMenu(true)
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let { sm = it.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            getSensors()
-        }
+        initSensors()
     }
 
-    private fun getSensors(){
-        sm?.let {
-            pressureMeter = it.getDefaultSensor(Sensor.TYPE_PRESSURE)
+    private fun initSensors(){
+        with(sm) {
+            pressureMeter = getDefaultSensor(Sensor.TYPE_PRESSURE)
             cv_pressureMeter.setMissing(pressureMeter == null)
-            temperatureSensor = it.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+            temperatureSensor = getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
             cv_temperatureSensor.setMissing(temperatureSensor == null)
-            humiditySensor = it.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
+            humiditySensor = getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
             cv_humiditySensor.setMissing(humiditySensor == null)
         }
     }
@@ -58,7 +57,7 @@ class FragmentSensors : Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sm?.let {sm ->
+        sm.also {sm ->
             pressureMeter?.let { sm.registerListener(this, it, INTERVAL_MIC_SEC)}
             temperatureSensor?.let { sm.registerListener(this, it, INTERVAL_MIC_SEC)}
             humiditySensor?.let { sm.registerListener(this, it, INTERVAL_MIC_SEC)}
@@ -67,7 +66,7 @@ class FragmentSensors : Fragment(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
-        sm?.unregisterListener(this)
+        sm.unregisterListener(this)
     }
 
     override fun onSensorChanged(event: SensorEvent) {

@@ -19,7 +19,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener{
 

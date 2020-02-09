@@ -1,5 +1,6 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request
 
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.UNITS_METRIC
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 import retrofit2.Call
 import retrofit2.http.GET
@@ -11,7 +12,7 @@ interface OpenweathermapForecast {
     fun loadByCoordinates(@Query("lat") lat: Double,
                           @Query("lon") lon: Double,
                           @Query("appid") key: String,
-                          @Query("units") units: String = "metric",
+                          @Query("units") units: String = UNITS_METRIC,
                           @Query("lang") lang: String): Call<ForecastList>
 
     @GET("forecast")
