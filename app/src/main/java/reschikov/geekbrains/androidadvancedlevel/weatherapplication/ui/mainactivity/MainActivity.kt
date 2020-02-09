@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun toSendComment() : Boolean{
         return Intent(Intent.ACTION_SENDTO).apply {
             type = getString(R.string.type_text_plain)
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("Reschikov@list.ru"))
-            putExtra(Intent.EXTRA_SUBJECT, "review, wishes, recommendations")
+            data = Uri.parse(getString(R.string.mailto))
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email)))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject))
         }.run {
             resolveActivity(packageManager)?.let {
-                startActivity(Intent.createChooser(this, getString(R.string.how_to_send)))
+                startActivity(Intent.createChooser(this, getString(R.string.title_how_to_send)))
             } ?: run {
-                showMessage(bottom_navigation, "There is no application to send a test message", Color.BLACK)
+                showMessage(bottom_navigation, getString(R.string.warning_no_application), Color.BLACK)
             }
             false
         }

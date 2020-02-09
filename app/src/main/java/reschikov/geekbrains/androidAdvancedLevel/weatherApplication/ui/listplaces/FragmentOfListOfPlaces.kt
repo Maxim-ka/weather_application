@@ -36,7 +36,7 @@ class FragmentOfListOfPlaces : BaseFragment(),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.cities) }
+        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.title_cities) }
         ItemTouchHelperCallback(binding.rvItems)
     }
 

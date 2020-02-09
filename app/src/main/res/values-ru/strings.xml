@@ -1,144 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">погода</string>
-    <string name="current_location">текущее местоположение</string>
-    <string name="title_me">"Немного обо мне. "</string>
+<!--    field-->
+    <string name="fld_current_location">текущее местоположение</string>
+    <string name="fld_set_city">определить город</string>
+    <string name="fld_place_name">название места</string>
+    <string name="fld_postcode">почтовый индекс</string>
+    <string name="fld_opencage">прямое геокодирование</string>
+
+<!--    error-->
+    <string name="err_unable_determine_coordinates">Не удалось определить координаты текущего места.\n Повторите попытку позже</string>
+    <string name="err_msg_not_sent">Ошибка, сообщение не отправлено</string>
+    <string name="err_msg_not_delivered">Ошибка, сообщение не доставлено</string>
+    <string name="err_title">Название содержит лишние символы</string>
+    <string name="err_not_number">Не число</string>
+    <string name="err_consist_letters">Код должен быть из 2-х букв</string>
+    <string name="err_contains_numbers">Содержит числа</string>
+    <string name="err_empty_field">Пустое поле</string>
+    <string name="err_not_filled">Поле не заполнено</string>
+    <string name="err_no_network">Нет соединения</string>
+    <string name="error_writing_database">Ошибка записи в БД</string>
+    <string name="err_database_error">Ошибка БД</string>
+    <string name="error_code">Код ошибки:</string>
+    <string name="error_message">сообщение:</string>
+    <string name="err_location_not_found">Указанное местоположение не найдено</string>
+    <string name="err_only_numbers">Только числа без пробелов и тире</string>
+
+<!--    warning-->
+    <string name="warning">Warning!</string>
+    <string name="warning_requests_per_day">The number of requests per day is exceeded, you can re-request after</string>
+    <string name="warning_no_application">There is no application to send a test message</string>
+
+<!--    attention-->
+    <string name="attention">Внимание!</string>
+    <string name="att_out_date">данные устарели</string>
+    <string name="att_nothing_selected">Ничего не выбрано!</string>
+
+<!--    message-->
+    <string name="disabling_location">отключено определение по сети местоположения</string>
     <string name="no_permission_determine_location">"Нет разрешения на определение местоположения "</string>
-    <string name="unable_determine_coordinates">Не удалось определить координаты текущего места.\n Повторите попытку позже</string>
-    <string name="Unable_determine_Check_network">Не удалось определить координаты.\n
-        Проверьте наличие интернета и настройки геолокации.</string>
-    <string name="message_not_sent">Ошибка, сообщение не отправлено</string>
-    <string name="message_not_delivered">Ошибка, сообщение не доставлено</string>
-    <string name="delete_selected_cities">Удалить выбранные города?</string>
-    <string name="clear_all">Удалить все?</string>
-    <string name="place">район,город,регион,страна,континент</string>
-    <string name="city">город:</string>
-    <string name="region">регион:</string>
-    <string name="day">день:</string>
+    <string name="refusal_google">refusal to request coordinates via google</string>
+    <string name="enter_phone_number">
+        Вы должны ввести номер телефона получателя в формате: 89012345678 или +79012345678
+    </string>
+    <string name="message_sent">Сообщение отправлено</string>
+    <string name="message_delivered">Сообщение доставлено</string>
+    <string name="empty_message">Пустое сообщение</string>
+
+<!--    title-->
+    <string name="title_app_name">Погода</string>
+    <string name="title_cities">Список городов</string>
+    <string name="title_preference">Настройки</string>
+    <string name="title_how_to_send">Как отправить?</string>
+    <string name="title_current_state">Текущее состояние</string>
+    <string name="title_forecast">Прогноз</string>
+    <string name="title_request">Запрос погоды</string>
+    <string name="title_specify_place_name">Указать название места</string>
+    <string name="title_specify_place_zip_code">Указать почтовый индекс места</string>
+    <string name="title_indicate_in_ascending_order">Указать в порядке возрастания, через запятую
+        часть или все параметры места: улица,район,город,регион,страна. Без цифр</string>
+    <string name="title_change_current_key">Сменить текущий ключ</string>
+    <string name="title_request_geocoder">Запрос geocoder</string>
+    <string name="title_determine_location">Определить место прогноза погоды</string>
+    <string name="title_choose_place">Выберите ближайшее место</string>
+    <string name="title_send_sms">Send SMS</string>
+    <string name="title_submit">Submit</string>
+    <string name="title_select_request">select weather request location</string>
+
+<!--    кнопки-->
+    <string name="but_exit">Выход</string>
+    <string name="but_get_data">Получить</string>
+    <string name="but_select">Выбрать</string>
+
+<!--    text-->
+    <string name="enter_phone_of_recipient">телефонный номер получателя</string>
+    <string name="zip_code">почтовый индекс</string>
+    <string name="city_name">название города</string>
+    <string name="street_district_city_region_country">улица,район,город,регион,страна</string>
+    <string name="subject">review, wishes, recommendations</string>
+    <string name="letter_country_code">2-буквы кода страны</string>
+
+<!--    parameter-->
+    <string name="absent">Отсутствует</string>
     <string name="state">состояние:</string>
     <string name="min_temp">мин температура:</string>
     <string name="max_temp">макс температура:</string>
-    <string name="max_wind">макс ветер:</string>
-    <string name="aver_humidity">средняя влажность:</string>
     <string name="rainfall">кол-во осадков:</string>
     <string name="sunrise">восход:</string>
     <string name="sunset">закат:</string>
-    <string name="moonrise">восход луны:</string>
-    <string name="moonset">закат луны:</string>
-    <string name="data_update">дата обновления:</string>
     <string name="temp">температура:</string>
     <string name="wind">"ветер: "</string>
     <string name="humidity">влажность:</string>
     <string name="pressure">давление:</string>
     <string name="overcast">облачность:</string>
     <string name="felt">ощущение:</string>
-    <string name="send_SMS">Отправить %1$d СМС?\n
-        Оператор может взымать дополнительную плату</string>
-    <string name="email">E-MAIL</string>
-    <string name="sun">восход солнце закат</string>
-    <string name="moon">восход луна закат</string>
-    <string name="set_city">определить город</string>
-    <string name="about_me">Клиентское приложение погоды v1 12.2018.\n
-        Автор Ресчиков Максим.\n
-        Это мое первое приложение на андроид.\n
-        2-ая четверть курса факультета андроид разработки GeekUniversity.\n
-        Приложение использует данные погоды полученные с https://www.apixu.com/,\n
-        координаты прямого геокодирования с https://opencagedata.com/</string>
-    <string name="disabling_location">отключено определение по сети местоположения</string>
-    <string name="no_network">Нет соединения</string>
-    <string name="message_sent">Сообщение отправлено</string>
-    <string name="message_delivered">Сообщение доставлено</string>
-    <string name="cities">Список городов</string>
-    <string name="preference">Настройки</string>
-    <string name="delete">Удаление</string>
-    <string name="how_to_send">Как отправить?</string>
-    <string name="out_date">данные устарели</string>
-    <string name="current_state">текущее состояние</string>
-    <string name="forecast">прогноз</string>
-    <string name="send_as_SMS">отправить как СМС</string>
-    <string name="send_by_email">отправить на E-MAIL</string>
-    <string name="enter_the_phone_of_the_recipient">телефонный номер получателя</string>
-    <string name="recipient_email">E-MAIL получателя</string>
-    <string name="SMS_sending">Отправка СМС</string>
-    <string name="settings">Настройки</string>
-    <string name="feedback_email">Обратная связь</string>
-    <string name="about_developer">О разработчике приложения</string>
-    <string name="location">Местоположение</string>
-    <string name="select_city">Выбрать город</string>
-    <string name="add_city">Добавить город</string>
-    <string name="remove">Удалить</string>
-    <string name="to_share">Поделиться</string>
-    <string name="sms">СМС</string>
-    <string name="menu_exit">Выход</string>
-    <string name="sender_email">E-Mail отправителя</string>
-    <string name="sender_mail_password">пароль</string>
-    <string name="topic_letter">Тема письма</string>
-    <string name="specify_place">Укажите место прогноза погоды</string>
-    <string name="request">Запрос погоды</string>
-    <string name="answer">Получить текущее состояние на: </string>
-    <string name="current_key">текущий ключ для получения состояния погоды</string>
     <string name="latitude">широта:</string>
     <string name="longitude">долгота:</string>
-    <string name="country">страна</string>
-    <string name="choice">Выбрать</string>
-    <string name="to_cancel">Отменить</string>
-<!--сенсоры-->
-    <string name="sensors">Использование внутренних датчиков</string>
-    <string name="pressure_meter">давление</string>
-    <string name="temperature_sensor">температура</string>
-    <string name="humidity_sensor">влажность</string>
-    <string name="absent">Отсутствует</string>
-<!--единицы измерения-->
+
+<!--    единицы измерения-->
     <string name="pct"> %</string>
     <string name="mm"> мм</string>
     <string name="mm_Hg">"мм.рт.ст."</string>
     <string name="m_c"> м/с</string>
-<!--Toast сообщения-->
-    <string name="saved">Сохранено</string>
-    <string name="not_saved">Не сохранено</string>
-    <string name="email_not_sent">письмо не отправлено</string>
-    <string name="email_sent">письмо отправлено</string>
-    <string name="toast_format_coordinates">широта: %1$f\nдолгота: %2$f\nточность: %3$.2f м</string>
-    <string name="enter_phone_number">
-        Вы должны ввести номер телефона получателя в формате: 89012345678 или +79012345678
-    </string>
-    <string name="fill_contact">Вы должны заполнить контакт</string>
-    <string name="enter_recipient_email">Вы должны ввести адрес эл. почты получателя</string>
-    <string name="not_all_fields_filled">Не все поля заполнены для отправки письма</string>
-    <string name="enter_your_email">Вы должны ввести свой e-mail</string>
-    <string name="zip_code">почтовый индекс</string>
-    <string name="city_name">название города</string>
-    <string name="specify_place_name">Указать название места</string>
-    <string name="specify_place_zip_code">Указать почтовый индекс места</string>
-    <string name="indicate_in_ascending_order">Указать в порядке возрастания, через запятую
-        часть или все параметры места: улица,район,город,регион,страна. Без цифр</string>
-    <string name="street_district_city_region_country">улица,район,город,регион,страна</string>
 
+<!--    menu-->
+    <string name="menu_update">Обновить</string>
+    <string name="menu_all">Все</string>
+    <string name="menu_select">Выбрать</string>
+    <string name="menu_send">Отправить</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_feedback_email">Обратная связь</string>
+    <string name="menu_location">Местоположение</string>
+    <string name="menu_select_city">Выбрать город</string>
+    <string name="menu_add_city">Добавить город</string>
+    <string name="menu_to_share">Поделиться</string>
+    <string name="menu_sms">СМС</string>
+    <string name="menu_sensors">Использование внутренних датчиков</string>
 
-    <string name="failure">Сервер, сбой:</string>
-    <string name="change_current_key">Сменить текущий ключ</string>
-    <string name="enter_city">Введите название города</string>
-    <string name="you_must_enter_city">Вы должны ввести название города</string>
-    <string name="district_city_region_country">указать в порядке возрастания
-        (от наименьшего до наибольшего), через запятую, часть или все параметры места:
-        район, город, регион, страна.</string>
-    <string name="name_city">город</string>
-    <string name="request_geocoder">запрос geocoder</string>
-    <string name="title_key_OpenCage">текущий ключ OpenCage</string>
-    <string name="determine_location">Определить место прогноза погоды</string>
-    <string name="go_out">хотите выйти? двойное нажатие</string>
-    <string name="msg_limit_calls_geoservice">Превышен дневной лимит запросов в geocoder.\nСледующее обращение возможно %1$s</string>
-    <string name="msg_location_not_found">Указанное местоположение не найдено</string>
-    <string name="title_choose_place">Выберите ближайшее место</string>
+<!--    pref-->
+    <string name="pref_current_key">текущий ключ для получения состояния погоды</string>
+    <string name="pref_key_OpenCage">текущий ключ OpenCage</string>
+    <string name="pref_request_selection">request selection</string>
+    <string name="pref_balance_requests">balance of requests</string>
+    <string name="pref_reset_date">reset date</string>
 
-    <string name="caution">Внимание!</string>
-    <string name="warning">Предупреждение</string>
-    <string name="error_writing_database">Error writing to database</string>
-    <string name="error_deleting_database">error deleting from the database</string>
-    <string name="database_error">Database Error</string>
-    <string name="exit">Выход</string>
-    <string name="get_data">Получить</string>
-    <string name="select">Выбрать</string>
+<!--    сенсоры-->
+    <string name="pressure_meter">Давление</string>
+    <string name="temperature_sensor">Температура</string>
+    <string name="humidity_sensor">Влажность</string>
 
+<!--    notifications-->
+    <string name="notif_name_simple_notice">Простое уведомление</string>
+    <string name="notif_name_sms">SMS sending and receiving notification</string>
+    <string name="notif_push">Notice Push</string>
+    <string name="notif_sms">Notice SMS</string>
 
 </resources>

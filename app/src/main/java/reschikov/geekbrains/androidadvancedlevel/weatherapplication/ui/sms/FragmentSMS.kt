@@ -34,7 +34,7 @@ class FragmentSMS : Fragment() {
     private lateinit var binding: SenderFrameBinding
     private val errorPhone:(Boolean) -> Unit = {isNotPhone: Boolean ->
         isNotPhone.takeIf{it} ?.let {
-            til_phone.error = "only numbers without spaces and dashes"
+            til_phone.error = getString(R.string.err_only_numbers)
             snackbar = showMessage(til_phone, getString(R.string.enter_phone_number), Color.RED)
         } ?: run{
             til_phone.error = null
@@ -55,7 +55,7 @@ class FragmentSMS : Fragment() {
         }
         setHasOptionsMenu(true)
         setAddRecipientNumber()
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle("Send SMS") }
+        activity?.let { (it as MainActivity).supportActionBar?.setTitle(getString(R.string.title_send_sms)) }
         return binding.root
     }
 
@@ -108,7 +108,7 @@ class FragmentSMS : Fragment() {
     private fun sendMessage(): Boolean {
         if (model.hasNotPhone(errorPhone)) return false
         if (binding.acetSms.text.isNullOrBlank()) {
-            snackbar = showMessage(acet_sms, "empty message", Color.RED)
+            snackbar = showMessage(acet_sms, getString(R.string.empty_message), Color.RED)
             return false
         }
         checkPermissionSms()
@@ -142,7 +142,7 @@ class FragmentSMS : Fragment() {
                 .setIcon(R.drawable.ic_question)
                 .setMessage("Send ${model.getNumberSMS()} SMS to subscriber ${binding.tveNumberPhone.text}?")
                 .setCancelable(false)
-                .setPositiveButton(R.string.ok){dialog, which ->
+                .setPositiveButton(R.string.but_ok){ dialog, which ->
                     binding.acetSms.text?.let {text ->
                         binding.tveNumberPhone.text?.let {phone->
                             sendSms(text.toString(), phone.toString())
@@ -150,7 +150,7 @@ class FragmentSMS : Fragment() {
                         }
                     }
                 }
-                .setNegativeButton(R.string.cancel){dialog, which -> dialog.dismiss()}
+                .setNegativeButton(R.string.but_cancel){ dialog, which -> dialog.dismiss()}
                 .create()
                 .show()
         }

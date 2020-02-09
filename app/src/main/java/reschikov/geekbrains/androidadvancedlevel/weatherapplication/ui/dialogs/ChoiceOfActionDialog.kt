@@ -36,7 +36,7 @@ class ChoiceOfActionDialog : DialogFragment(){
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(false)
-        dialog.setTitle(R.string.determine_location)
+        dialog.setTitle(R.string.title_determine_location)
         return dialog
     }
 
@@ -57,7 +57,7 @@ class ChoiceOfActionDialog : DialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        exit.setText(R.string.exit)
+        exit.setText(R.string.but_exit)
         exit.setOnClickListener { activity?.finish() }
     }
 

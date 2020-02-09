@@ -14,11 +14,11 @@ abstract class BaseCoordinateDeterminant(private val  context: Context) : Determ
 
     override val coroutineContext: CoroutineContext by lazy { Dispatchers.IO + Job() }
     protected val strNoNetwork : String by lazy {
-        context.getString(R.string.no_network)
+        context.getString(R.string.err_no_network)
     }
     protected var setPeriod = INTERVAL_UPDATE
     protected var setAccuracy = MIN_ACCURACY
-    private val strTimeout : String by lazy { context.getString(R.string.unable_determine_coordinates) }
+    private val strTimeout : String by lazy { context.getString(R.string.err_unable_determine_coordinates) }
 
     override suspend fun getCoordinates(): Pair<GetByCoordinates?, Throwable?> {
         return withContext(coroutineContext){

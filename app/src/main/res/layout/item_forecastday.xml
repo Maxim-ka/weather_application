@@ -50,7 +50,7 @@
 
             <CheckedTextView
                 android:id="@+id/ctv_select"
-                android:text="@string/select"
+                android:text="@string/but_select"
                 android:textSize="24sp"
                 android:textAlignment="gravity"
                 android:layout_width="match_parent"

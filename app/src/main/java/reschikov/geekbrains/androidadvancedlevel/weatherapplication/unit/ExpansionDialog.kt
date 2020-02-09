@@ -12,7 +12,7 @@ fun showMessage(view: View, message: String, color: Int): Snackbar{
         setBackgroundTint(Color.WHITE)
         setTextColor(color)
         anchorView = view
-        setAction(R.string.ok) {
+        setAction(R.string.but_ok) {
             dismiss()
         }
     }
@@ -27,7 +27,7 @@ fun Fragment.showAlertDialog(title: Int, message: String){
             .setIcon(R.drawable.ic_warning)
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(R.string.ok){dialog, which ->
+            .setPositiveButton(R.string.but_ok){ dialog, which ->
                 dialog.dismiss()
             }
             .create()

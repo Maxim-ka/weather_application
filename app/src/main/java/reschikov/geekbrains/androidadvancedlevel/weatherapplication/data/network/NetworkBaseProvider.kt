@@ -8,7 +8,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 abstract class NetworkBaseProvider(private val context: Context)  {
 
     protected val strNoNetwork: String by lazy {
-        context.getString(R.string.no_network)
+        context.getString(R.string.err_no_network)
     }
 
     private  val connectivityManager : ConnectivityManager by lazy {

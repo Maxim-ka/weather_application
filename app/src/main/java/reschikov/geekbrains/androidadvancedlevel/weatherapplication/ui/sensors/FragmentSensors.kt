@@ -12,10 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.sensor_frame.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.C
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.FROM_HPA_IN_MMHG
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCALE
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.convertToSize
 
 
@@ -72,16 +69,16 @@ class FragmentSensors : Fragment(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
         context?.let {
             if (event.sensor == pressureMeter) {
-                val pressure: Float = (event.values[0] * FROM_HPA_IN_MMHG).convertToSize(SCALE)
+                val pressure: Float = (event.values[FIRST_ELEMENT] * FROM_HPA_IN_MMHG).convertToSize(SCALE)
                 cv_pressureMeter.setSensorValue( "$pressure, ${getString(R.string.mm_Hg)}")
                 return
             }
             if (event.sensor == temperatureSensor) {
-                cv_temperatureSensor.setSensorValue("${event.values[0]}, $C")
+                cv_temperatureSensor.setSensorValue("${event.values[FIRST_ELEMENT]}, $C")
                 return
             }
             if (event.sensor == humiditySensor) {
-                cv_humiditySensor.setSensorValue("${event.values[0]}, ${getString(R.string.pct)}")
+                cv_humiditySensor.setSensorValue("${event.values[FIRST_ELEMENT]}, ${getString(R.string.pct)}")
             }
         }
     }

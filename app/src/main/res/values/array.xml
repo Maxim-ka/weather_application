@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="request">
-        <item>Place name</item>
-        <item>Postcode</item>
-        <item>OpenCage</item>
+        <item>@string/fld_place_name</item>
+        <item>@string/fld_postcode</item>
+        <item>@string/fld_opencage</item>
     </string-array>
 </resources>

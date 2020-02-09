@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.HALF
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_FLOAT
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_INT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import kotlin.math.min
 
@@ -15,6 +17,7 @@ private const val INDENT = 10
 private const val NAN = -1
 private const val THIRD = 0.33f
 private const val DEFAULT_TEXT_SIZE = 28.0f
+private const val STEP_CHANGE_SIZE = 2
 
 class SensorView : View {
 
@@ -68,14 +71,14 @@ class SensorView : View {
     }
 
     private fun initAttr(context: Context, attrs: AttributeSet?) {
-        context.obtainStyledAttributes(attrs, R.styleable.SensorView, 0, 0).run {
+        context.obtainStyledAttributes(attrs, R.styleable.SensorView, NAN_INT, NAN_INT).run {
             cvSensorName = getString(R.styleable.SensorView_cv_SensorName)
             cvSensorValue = getString(R.styleable.SensorView_cv_SensorValue) ?: resources.getString(R.string.absent)
             val resId = getResourceId(R.styleable.SensorView_cv_srcDrawable, NAN)
             if (resId != NAN)  cvSensorDrawable = AppCompatResources.getDrawable(context, resId)
             cvSensorDrawable?.let { it.bounds = Rect() }
             cvTextSize = getDimension(R.styleable.SensorView_cv_textSize, DEFAULT_TEXT_SIZE)
-            cvStrokeWidth = getDimension(R.styleable.SensorView_cv_widthStroke, 0.0f)
+            cvStrokeWidth = getDimension(R.styleable.SensorView_cv_widthStroke, NAN_FLOAT)
             cvTextColor = getColor(R.styleable.SensorView_cv_textColor, Color.BLACK)
             cvActiveColor = getColor(R.styleable.SensorView_cv_activeColor, Color.WHITE)
             cvDisableColor = getColor(R.styleable.SensorView_cv_disableColor, Color.BLACK)
@@ -145,7 +148,7 @@ class SensorView : View {
 
     private fun pickTextSize(text: String){
         while (regionInfo.width() <= pText.measureText(text)){
-            pText.textSize -= 2
+            pText.textSize -= STEP_CHANGE_SIZE
         }
     }
 

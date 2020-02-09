@@ -6,21 +6,21 @@
         android:id="@+id/fragmentSensors"
         android:icon="@drawable/ic_action_sensors"
         android:orderInCategory="3"
-        android:title="@string/sensors"
+        android:title="@string/menu_sensors"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/to_share"
         android:orderInCategory="5"
         android:icon="@drawable/ic_action_share"
-        android:title="@string/to_share"
+        android:title="@string/menu_to_share"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fragmentSMS"
         android:icon="@drawable/ic_action_sms"
         android:orderInCategory="7"
-        android:title="@string/sms"
+        android:title="@string/menu_sms"
         app:showAsAction="ifRoom" />
 
 </menu>

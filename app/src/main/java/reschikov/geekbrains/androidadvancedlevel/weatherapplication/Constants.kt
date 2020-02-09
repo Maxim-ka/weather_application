@@ -1,6 +1,12 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication
 
-const val MILLI_SEC = 1_000L
+
+const val NAN_INT = 0
+const val NAN_FLOAT = 0.0f
+
+const val FIRST_ELEMENT = 0
+
+const val MILLI_IN_SEC = 1_000L
 const val THREE_HOURS = 10_800_000
 const val SCALE = 2
 
@@ -35,3 +41,13 @@ const val NUMBER_MILLISECONDS_PER_DAY = 86_400_000L
 const val C = " \u2103"
 
 const val UNITS_METRIC = "metric"
+
+const val WEATHER = "weather"
+const val FORECAST = "forecast"
+const val Q = "q"
+const val ZIP = "zip"
+const val LAT = "lat"
+const val LON = "lon"
+const val APP_ID = "appid"
+const val UNITS = "units"
+const val LANG = "lang"

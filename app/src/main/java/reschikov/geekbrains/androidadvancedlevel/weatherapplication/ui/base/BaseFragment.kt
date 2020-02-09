@@ -64,11 +64,11 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
                 }
                 is AppException.Saved -> {
                     showErrorNotification(message)
-                    showAlertDialog(R.string.caution, getString(R.string.error_writing_database))
+                    showAlertDialog(R.string.attention, getString(R.string.error_writing_database))
                 }
                 is AppException.Database -> {
                     showErrorNotification(message)
-                    showAlertDialog(R.string.caution, getString(R.string.database_error))
+                    showAlertDialog(R.string.attention, getString(R.string.err_database_error))
                 }
                 else -> {
                     message?.let { showAlertDialog(R.string.warning, it)
@@ -97,7 +97,8 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
                 if (resultCode == AppCompatActivity.RESULT_OK){
                     model.addStateOfCurrentPlace()
                 } else {
-                    context?.let { showMessage(bottom_navigation, "refusal to request coordinates via google", ContextCompat.getColor(it, R.color.colorPrimaryDark)) }
+                    context?.let { showMessage(bottom_navigation, getString(R.string.refusal_google),
+                            ContextCompat.getColor(it, R.color.colorPrimaryDark)) }
                 }
             }
         }

@@ -6,7 +6,7 @@
         android:id="@+id/all"
         android:icon="@drawable/ic_all"
         android:orderInCategory="1"
-        android:title="all"
+        android:title="@string/menu_all"
         android:visible="true"
         app:showAsAction="always|collapseActionView" />
 
@@ -14,7 +14,7 @@
         android:id="@+id/select"
         android:icon="@drawable/ic_touch"
         android:orderInCategory="2"
-        android:title="select"
+        android:title="@string/menu_select"
         android:visible="true"
         app:showAsAction="always|collapseActionView" />
 
@@ -22,7 +22,7 @@
         android:id="@+id/send"
         android:icon="@drawable/ic_input"
         android:orderInCategory="4"
-        android:title="send"
+        android:title="@string/menu_send"
         android:visible="true"
         app:showAsAction="always|collapseActionView" />
 

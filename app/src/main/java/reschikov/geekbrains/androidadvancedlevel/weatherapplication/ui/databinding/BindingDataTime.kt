@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_INT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import java.text.DateFormat
@@ -24,12 +25,12 @@ class BindingDataTime : DisplayedDateTime {
         var warning: Drawable? = null
         if (System.currentTimeMillis() - dt >= THREE_HOURS){
             warning = getDrawable(textView.context, R.drawable.ic_warning)
-            textView.text = textView.context.getString(R.string.out_date)
+            textView.text = textView.context.getString(R.string.att_out_date)
         } else {
             setTime(textView, dt)
         }
         textView.setCompoundDrawablesWithIntrinsicBounds(warning,null, null, null)
-        textView.compoundDrawablePadding = warning?.let { PADDING_DRAWABLE } ?: 0
+        textView.compoundDrawablePadding = warning?.let { PADDING_DRAWABLE } ?: NAN_INT
     }
 
     @BindingAdapter("time")

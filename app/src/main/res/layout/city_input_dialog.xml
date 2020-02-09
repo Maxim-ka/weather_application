@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/indent"
         android:textAlignment="center"
-        android:hint="2-letter country code"
+        android:hint="@string/letter_country_code"
         style="@style/textfieldTextInputLayout"
         app:errorEnabled="true"
         app:helperTextEnabled="true"

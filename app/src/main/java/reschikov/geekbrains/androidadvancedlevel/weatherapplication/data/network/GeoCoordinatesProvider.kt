@@ -33,10 +33,10 @@ private const val OK = 200
 class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider(context), Geocoded {
 
     private val sp : SharedPreferences by lazy { context.getSharedPreferences(PREFERENCE_OPEN_CAGE, Context.MODE_PRIVATE) }
-    private val strErrorCode : String by lazy { "Error code: "  }
-    private val strErrorMessage : String by lazy { " \nmessage: " }
-    private val strTimeReset : String by lazy { "The number of requests per day is exceeded, you can re-request after " }
-    private val strNotFound : String by lazy { context.getString(R.string.msg_location_not_found) }
+    private val strErrorCode : String by lazy { context.getString(R.string.error_code)  }
+    private val strErrorMessage : String by lazy { context.getString(R.string.error_message) }
+    private val strTimeReset : String by lazy { context.getString(R.string.warning_requests_per_day) }
+    private val strNotFound : String by lazy { context.getString(R.string.err_location_not_found) }
     private val strError = {code: Int, message: String ->
         strErrorCode + code + strErrorMessage + message
     }
@@ -90,7 +90,7 @@ class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider
     private fun saveRequestParameters(rate: Rate){
         sp.edit {
             putInt(KEY_BALANCE_OF_REQUESTS, rate.remaining)
-            putLong(KEY_RESET_DATE, rate.reset * MILLI_SEC)
+            putLong(KEY_RESET_DATE, rate.reset * MILLI_IN_SEC)
         }
     }
 

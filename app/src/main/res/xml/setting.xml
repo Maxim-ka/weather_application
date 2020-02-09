@@ -2,42 +2,42 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="select weather request location">
+        android:title="@string/title_select_request">
 
         <ListPreference
             android:key="key request selection"
-            android:title="request selection"
+            android:title="@string/pref_request_selection"
             android:entries="@array/request"
             android:entryValues="@array/request"
-            android:dialogTitle="select weather request location" />
+            android:dialogTitle="@string/title_select_request" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/request">
+        android:title="@string/title_request">
 
         <EditTextPreference
             android:key="key weather"
-            android:title="@string/current_key"
-            android:dialogTitle="@string/change_current_key"/>
+            android:title="@string/pref_current_key"
+            android:dialogTitle="@string/title_change_current_key"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/request_geocoder">
+        android:title="@string/title_request_geocoder">
 
         <Preference
             android:key="key balance of requests"
-            android:title="balance of requests"/>
+            android:title="@string/pref_balance_requests"/>
 
         <Preference
             android:key="key reset date"
-            android:title="reset date"/>
+            android:title="@string/pref_reset_date"/>
 
         <EditTextPreference
             android:key="key OpenCage"
-            android:title="@string/title_key_OpenCage"
-            android:dialogTitle="@string/change_current_key"/>
+            android:title="@string/pref_key_OpenCage"
+            android:dialogTitle="@string/title_change_current_key"/>
 
     </PreferenceCategory>
 

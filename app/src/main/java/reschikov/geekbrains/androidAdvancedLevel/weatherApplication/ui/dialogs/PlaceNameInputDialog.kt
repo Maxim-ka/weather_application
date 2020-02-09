@@ -24,6 +24,10 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
 
+private const val ONLY_LETTER = "[^`~!@#\$%&*()_=+|/{};:'\",<.>?№\\d]+"
+private const val ONLY_DIGIT = "\\d+"
+private const val NOT_NUMBER = "\\D+"
+private const val SPACE = ' '
 private const val NUMBER_CHARS_IN_CODE = 2
 
 @ExperimentalCoroutinesApi
@@ -57,25 +61,25 @@ class PlaceNameInputDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setModeRequest(view)
-        exit.setText(R.string.get_data)
+        exit.setText(R.string.but_get_data)
     }
 
     private fun setModeRequest(view: View){
         when(request){
-            "Place name" -> {
-                dialog?.setTitle(R.string.specify_place_name)
+            getString(R.string.fld_place_name) -> {
+                dialog?.setTitle(R.string.title_specify_place_name)
                 view.til_name_place.hint = getString(R.string.city_name)
                 view.til_name_place.helperText = getString(R.string.city_name)
                 view.exit.setOnClickListener { requestByName() }
             }
-            "Postcode" -> {
-                dialog?.setTitle(R.string.specify_place_zip_code)
+            getString(R.string.fld_postcode) -> {
+                dialog?.setTitle(R.string.title_specify_place_zip_code)
                 view.til_name_place.hint = getString(R.string.zip_code)
                 view.til_name_place.helperText = getString(R.string.zip_code_example)
                 view.exit.setOnClickListener { requestByPostCode() }
             }
-            "OpenCage" ->{
-                dialog?.setTitle(R.string.indicate_in_ascending_order)
+            getString(R.string.fld_opencage) ->{
+                dialog?.setTitle(R.string.title_indicate_in_ascending_order)
                 view.til_name_place.hint = getString(R.string.street_district_city_region_country)
                 view.til_name_place.helperText = getString(R.string.street_district_city_region_country)
                 view.exit.setOnClickListener { requestOpenCage() }
@@ -113,11 +117,11 @@ class PlaceNameInputDialog : DialogFragment() {
     }
 
     private fun isWord(string: String, til: TextInputLayout): Boolean{
-        if (string.matches("[^`~!@#\$%&*()_=+|/{};:'\",<.>?№\\d]+".toRegex())){
+        if (string.matches(ONLY_LETTER.toRegex())){
             til.error = null
             return true
         }
-        til.error = "Title contains extra characters"
+        til.error = getString(R.string.err_title)
         return false
     }
 
@@ -127,11 +131,11 @@ class PlaceNameInputDialog : DialogFragment() {
     }
 
     private fun isNumber(string: String, til: TextInputLayout): Boolean{
-        if (string.matches("\\d+".toRegex())){
+        if (string.matches(ONLY_DIGIT.toRegex())){
             til.error = null
             return true
         }
-        til.error = "not a number"
+        til.error = getString(R.string.err_not_number)
         return false
     }
 
@@ -148,7 +152,7 @@ class PlaceNameInputDialog : DialogFragment() {
 
     private fun isRequiredLength(string: String, til: TextInputLayout): Boolean {
         if (string.length != NUMBER_CHARS_IN_CODE){
-            til.error = "The code does NOT consist of TWO letters"
+            til.error = getString(R.string.err_consist_letters)
             return false
         }
         til.error = null
@@ -156,8 +160,8 @@ class PlaceNameInputDialog : DialogFragment() {
     }
 
     private fun doesNotContainNumbers(string: String, til: TextInputLayout): Boolean{
-        if (!string.matches(getString(R.string.not_number).toRegex())){
-            til.error = "contains numbers"
+        if (!string.matches(NOT_NUMBER.toRegex())){
+            til.error = getString(R.string.err_contains_numbers)
             return false
         }
         til.error = null
@@ -166,15 +170,15 @@ class PlaceNameInputDialog : DialogFragment() {
 
     private fun isFieldFilled(editable: Editable?, til: TextInputLayout): Boolean{
         editable?.let {
-            val sequence = it.trim{ char -> char == ' '}
+            val sequence = it.trim{ char -> char == SPACE}
             if (sequence.isEmpty()) {
-                til.error = "empty fieldCurrentState"
+                til.error = getString(R.string.err_empty_field)
                 return false
             }
             til.error = null
             return true
         }
-        til.error = "The fieldCurrentState is not filled"
+        til.error = getString(R.string.err_not_filled)
         return false
     }
 

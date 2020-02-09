@@ -19,10 +19,10 @@ class SmsReceiver : BroadcastReceiver(), KoinComponent {
                 var message: String? = null
                 when (it) {
                     ACTION_SENT_SMS -> {
-                        message = if (resultCode != Activity.RESULT_OK) context.getString(R.string.message_not_sent) else context.getString(R.string.message_sent)
+                        message = if (resultCode != Activity.RESULT_OK) context.getString(R.string.err_msg_not_sent) else context.getString(R.string.message_sent)
                     }
                     ACTION_DELIVERED_SMS -> {
-                        message = if (resultCode != Activity.RESULT_OK) context.getString(R.string.message_not_delivered) else context.getString(R.string.message_delivered)
+                        message = if (resultCode != Activity.RESULT_OK) context.getString(R.string.err_msg_not_delivered) else context.getString(R.string.message_delivered)
                     }
                 }
                 message?.let {msg -> notifiable.show(notifiable.makeNote(getStringExtra(KEY_RECIPIENT), msg, CHANNEL_ID_SMS),null) }

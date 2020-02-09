@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 private const val SINGLE_BYTE_CHAR = 127
 private const val LEN_SMS_EN = 160
 private const val LEN_SMS_RU = 70
+private const val TELEPHONE_NUMBER = "\\+?\\d{11}"
 
 class SenderViewModel : ViewModel() {
 
@@ -28,7 +29,7 @@ class SenderViewModel : ViewModel() {
         }
     }
     private val isPhone = {string: String? -> !string.isNullOrBlank() &&
-            string.matches("\\+?\\d{11}".toRegex())}
+            string.matches(TELEPHONE_NUMBER.toRegex())}
     private var maxLenSms = LEN_SMS_EN
     private var number: Int = 0
 

@@ -7,7 +7,7 @@
         android:id="@+id/placeNameInputDialog"
         android:orderInCategory="3"
         android:icon="@drawable/ic_action_add"
-        android:title="@string/add_city"
+        android:title="@string/menu_add_city"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -21,6 +21,8 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.Base
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.current.FragmentCurrentDisplay
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.forecast.FragmentForecastDisplay
 
+private const val DEFAULT_LOCATION = 0.0
+
 @ExperimentalCoroutinesApi
 class FragmentWeather : BaseFragment(), Collectable {
 
@@ -36,8 +38,8 @@ class FragmentWeather : BaseFragment(), Collectable {
             }
         }
     }
-    private val titleCurrent: String by lazy { getString(R.string.current_state) }
-    private val titleForecast: String by lazy { getString(R.string.forecast) }
+    private val titleCurrent: String by lazy { getString(R.string.title_current_state) }
+    private val titleForecast: String by lazy { getString(R.string.title_forecast) }
     private var lat: Double = 0.0
     private var lon: Double = 0.0
     private var asSMS: Boolean = false
@@ -46,15 +48,15 @@ class FragmentWeather : BaseFragment(), Collectable {
         val view: View = inflater.inflate(R.layout.weather_frame, container, false)
         setHasOptionsMenu(true)
         savedInstanceState?.let {
-            lat = it.getDouble(KEY_LAT, 0.0)
-            lon = it.getDouble(KEY_LON, 0.0)
+            lat = it.getDouble(KEY_LAT, DEFAULT_LOCATION)
+            lon = it.getDouble(KEY_LON, DEFAULT_LOCATION)
         }
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.toolbar?.setTitle(R.string.app_name)
+        activity?.toolbar?.setTitle(R.string.title_app_name)
         arguments?.let {
             val newLat = it.getDouble(KEY_LAT)
             val newLon = it.getDouble(KEY_LON)
@@ -145,7 +147,7 @@ class FragmentWeather : BaseFragment(), Collectable {
             action = Intent.ACTION_SEND
             type = getString(R.string.type_text_plain)
             putExtra(Intent.EXTRA_TEXT, string)
-        }, getString(R.string.how_to_send)))
+        }, getString(R.string.title_how_to_send)))
     }
 
     @ExperimentalCoroutinesApi

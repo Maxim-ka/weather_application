@@ -76,7 +76,7 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
 
     private fun showAnswer(places: List<Place>?){
         places?.let {
-            if (it.isEmpty()) showAlertDialog(R.string.caution, getString(R.string.msg_location_not_found))
+            if (it.isEmpty()) showAlertDialog(R.string.attention, getString(R.string.err_location_not_found))
             else setResult(it)
         } ?: navController.popBackStack()
     }

@@ -61,6 +61,6 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
                 }
             }
         }
-        return Pair(null, Throwable(context.getString(R.string.unable_determine_coordinates)))
+        return Pair(null, Throwable(context.getString(R.string.err_unable_determine_coordinates)))
     }
 }

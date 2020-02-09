@@ -1,6 +1,9 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.MILLI_SEC
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.FIRST_ELEMENT
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.MILLI_IN_SEC
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_FLOAT
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_INT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
@@ -14,10 +17,12 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.Tintabl
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.setPressure
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.setWindDirection
 
-class Mapping(val tintable: TintableTemperature) {
+private const val MILLI_SEC = 1
+
+class Mapping(private val tintable: TintableTemperature) {
 
     private val identifyWind = {wind: Wind? ->
-        "${wind?.let { setWindDirection(it) }} ${wind?.speed ?: 0.0f}"
+        "${wind?.let { setWindDirection(it) }} ${wind?.speed ?: NAN_FLOAT}"
     }
 
     fun createCityTable(current: Current, lastShowTime: Long?): CityTable {
@@ -25,7 +30,7 @@ class Mapping(val tintable: TintableTemperature) {
             CityTable(
                 name = "${name}, ${sys.country}",
                 coord = coord,
-                showTime = lastShowTime?.let { it - 1} ?: System.currentTimeMillis())
+                showTime = lastShowTime?.let { it - MILLI_SEC} ?: System.currentTimeMillis())
         }
     }
 
@@ -34,17 +39,17 @@ class Mapping(val tintable: TintableTemperature) {
             CurrentTable(
                 tempColor = tintable.getTemperatureColor(main.temp),
                 name = "${name}, ${sys.country}",
-                dt = dt * MILLI_SEC,
-                weather = weather[0],
+                dt = dt * MILLI_IN_SEC,
+                weather = weather[FIRST_ELEMENT],
                 temp = main.temp,
                 feelsLike = main.feelsLike,
                 wind = identifyWind.invoke(wind),
                 humidity = main.humidity,
                 pressure = setPressure(main.pressure),
-                cloud = cloud?.all ?: 0,
-                precipitation = rain?.rainH ?: snow?.snowH ?: 0,
-                sunrise = sys.sunrise * MILLI_SEC,
-                sunset = sys.sunset * MILLI_SEC,
+                cloud = cloud?.all ?: NAN_INT,
+                precipitation = rain?.rainH ?: snow?.snowH ?: NAN_INT,
+                sunrise = sys.sunrise * MILLI_IN_SEC,
+                sunset = sys.sunset * MILLI_IN_SEC,
                 coord = coord
             )
         }
@@ -60,13 +65,13 @@ class Mapping(val tintable: TintableTemperature) {
         return forecast.run {
             ForecastTable(
                 temperatureColor = tintable.getTemperatureColor(main.tempMin, main.tempMax),
-                dt = dt * MILLI_SEC,
-                weather = weather[0],
+                dt = dt * MILLI_IN_SEC,
+                weather = weather[FIRST_ELEMENT],
                 tempMin = main.tempMin,
                 tempMax = main.tempMax,
                 humidity = main.humidity,
-                precipitation = rain?.rain3H ?: snow?.snow3H ?: 0,
-                clouds = clouds?.all ?: 0,
+                precipitation = rain?.rain3H ?: snow?.snow3H ?: NAN_INT,
+                clouds = clouds?.all ?: NAN_INT,
                 wind = identifyWind.invoke(wind),
                 pressure = setPressure(main.pressure),
                 coord = current.coord

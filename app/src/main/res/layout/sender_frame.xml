@@ -61,7 +61,7 @@
                     android:text="@={model.phone}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enter_the_phone_of_the_recipient"
+                    android:hint="@string/enter_phone_of_recipient"
                     android:inputType="phone"
                     android:textSize="@dimen/sender_frame_fields_text_size"/>
 

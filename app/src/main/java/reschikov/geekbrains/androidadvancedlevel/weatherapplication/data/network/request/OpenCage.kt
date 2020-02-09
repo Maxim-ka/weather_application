@@ -14,10 +14,11 @@ private const val MIN_CONFIDENCE = "min_confidence"
 private const val NO_ANNOTATIONS = "no_annotations"
 private const val NO_DEBUPE = "no_dedupe"
 private const val NO_RECORD = "no_record"
+private const val JSON = "json"
 
 interface OpenCage {
 
-    @GET("json")
+    @GET(JSON)
     fun coordinateRequest(@Query(Q) place: String,
                           @Query(KEY) key: String,
                           @Query(COUNTRY_CODE) code: String,

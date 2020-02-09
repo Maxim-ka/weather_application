@@ -48,7 +48,7 @@ class FragmentForecastDisplay : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.forecast_frame, container, false, dataBindingAdapter)
         binding.model = model
-        binding.config = resources.configuration.orientation
+        binding.conf = resources.configuration.orientation
         binding.rvItems.adapter = ForecastRVAdapter(dataBindingAdapter, this)
         binding.rvItems.setHasFixedSize(true)
         return binding.rvItems.rootView
@@ -88,7 +88,7 @@ class FragmentForecastDisplay : Fragment(),
     private fun send(all: Boolean, mode: ActionMode){
         jobSend =  launch {
             if (!all && !checkSelection()){
-                showAlertDialog(R.string.warning, "nothing selected!")
+                showAlertDialog(R.string.attention, getString(R.string.att_nothing_selected))
             } else {
                 collectable?.collectData(createMessage(all))
                 resetSelectedItems()
@@ -125,7 +125,7 @@ class FragmentForecastDisplay : Fragment(),
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         mode.menuInflater.inflate(R.menu.menu_context_action, menu)
-        mode.title = "Submit"
+        mode.title = getString(R.string.title_submit)
         return true
     }
 

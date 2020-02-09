@@ -15,7 +15,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.D
 import timber.log.Timber
 
 class Repository(private val mapping: Mapping,
-                 val storable: Storable,
+                 private val storable: Storable,
                  private val requestedWeather: RequestedWeather,
                  private val geocoded: Geocoded,
                  private val issuedCoordinates: IssuedCoordinates) : Derivable{

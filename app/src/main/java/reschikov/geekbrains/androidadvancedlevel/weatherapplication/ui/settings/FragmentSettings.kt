@@ -51,7 +51,7 @@ class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.preference) }
+        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.title_preference) }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
