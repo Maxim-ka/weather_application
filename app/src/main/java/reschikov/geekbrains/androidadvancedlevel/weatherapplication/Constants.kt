@@ -1,6 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication
 
 
+const val NAN = -1
 const val NAN_INT = 0
 const val NAN_FLOAT = 0.0f
 
@@ -12,6 +13,8 @@ const val SCALE = 2
 
 const val FROM_HPA_IN_MMHG = 0.750064f
 const val HALF = 0.5f
+
+const val TAG_ENTRY = "entry"
 
 const val CHANNEL_ID_PUSH = "2"
 const val CHANNEL_ID_SMS = "3"

@@ -144,4 +144,14 @@
     <string name="str_add" translatable="false">ADD</string>
     <string name="str_image" translatable="false">image</string>
 
+<!--    rhumb-->
+    <string name="n">N</string>
+    <string name="ne">NE</string>
+    <string name="e">E</string>
+    <string name="se">SE</string>
+    <string name="s">S</string>
+    <string name="sw">SW</string>
+    <string name="w">W</string>
+    <string name="nw">NW</string>
+
 </resources>

@@ -134,4 +134,14 @@
     <string name="notif_push">Notice Push</string>
     <string name="notif_sms">Notice SMS</string>
 
+<!--    rhumb-->
+    <string name="nw">СЗ</string>
+    <string name="n">С</string>
+    <string name="ne">СВ</string>
+    <string name="e">В</string>
+    <string name="se">ЮВ</string>
+    <string name="s">Ю</string>
+    <string name="sw">ЮЗ</string>
+    <string name="w">З</string>
+
 </resources>

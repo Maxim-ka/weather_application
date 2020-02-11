@@ -7,14 +7,10 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.HALF
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_FLOAT
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.NAN_INT
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
 import kotlin.math.min
 
 private const val INDENT = 10
-private const val NAN = -1
 private const val THIRD = 0.33f
 private const val DEFAULT_TEXT_SIZE = 28.0f
 private const val STEP_CHANGE_SIZE = 2

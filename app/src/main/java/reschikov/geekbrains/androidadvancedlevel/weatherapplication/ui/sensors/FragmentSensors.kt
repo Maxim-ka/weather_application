@@ -38,7 +38,7 @@ class FragmentSensors : Fragment(), SensorEventListener {
     }
 
     private fun initSensors(){
-        with(sm) {
+        sm.run {
             pressureMeter = getDefaultSensor(Sensor.TYPE_PRESSURE)
             cv_pressureMeter.setMissing(pressureMeter == null)
             temperatureSensor = getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)

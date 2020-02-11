@@ -25,6 +25,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notificat
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.SenderViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.TemperatureColor
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.WindDirection
 
 private const val NAME_DATABASE = "weather.db"
 
@@ -33,7 +34,7 @@ val appModule = module {
                 .fallbackToDestructiveMigration()
                 .build() }
     single<Storable> { DataBaseProvider(get()) }
-    single<Derivable> { Repository(Mapping(TemperatureColor(get())), get(),
+    single<Derivable> { Repository(Mapping(TemperatureColor(get()), WindDirection(get())), get(),
             WeatherServiceProvider(androidContext()),
             GeoCoordinatesProvider(androidContext()),
             LocateCoordinatesProvider(androidContext(),
