@@ -12,7 +12,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinateDeterminant(context){
+class GoogleCoordinateDeterminant(private var context: Context?) : BaseCoordinateDeterminant(context){
 
     private val locationRequest = LocationRequest.create().apply {
         interval = setPeriod
@@ -22,60 +22,64 @@ class GoogleCoordinateDeterminant(private val context: Context) : BaseCoordinate
             .addLocationRequest(locationRequest)
             .setAlwaysShow(true)
 
-    private var locationProviderClient: FusedLocationProviderClient?  = LocationServices.getFusedLocationProviderClient(context)
+    private var locationProviderClient: FusedLocationProviderClient?  = context?.let { LocationServices.getFusedLocationProviderClient(it) }
     private var lcb: LocationCallback? = null
-    private lateinit var  taskSetting: Task<LocationSettingsResponse>
+    private var  taskSetting: Task<LocationSettingsResponse>? = null
 
     override fun isGoogleDefined(): Boolean = true
 
     override suspend fun determineCoordinates(): Location {
         return suspendCoroutine {continuation ->
             checkParameters()
-            taskSetting.addOnSuccessListener {
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    continuation.resumeWithException(AppException.NoPermission())
-                } else {
-                    lcb = object : LocationCallback() {
-                        override fun onLocationResult(locationResult: LocationResult?) {
-                            locationResult?.let {
-                                val location = it.lastLocation
-                                if (location.accuracy <= setAccuracy) {
-                                    locationProviderClient?.removeLocationUpdates(this)
-                                    continuation.resume(location)
-                                } else {
-                                    setAccuracy += setAccuracy
+            taskSetting?.addOnSuccessListener {
+                context?.let {
+                    if (ActivityCompat.checkSelfPermission(it,
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(it,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        continuation.resumeWithException(AppException.NoPermission())
+                    } else {
+                        lcb = object : LocationCallback() {
+                            override fun onLocationResult(locationResult: LocationResult?) {
+                                locationResult?.let {result ->
+                                    val location = result.lastLocation
+                                    if (location.accuracy <= setAccuracy) {
+                                        locationProviderClient?.removeLocationUpdates(this)
+                                        continuation.resume(location)
+                                    } else {
+                                        setAccuracy += setAccuracy
+                                    }
                                 }
                             }
-                        }
 
-                        override fun onLocationAvailability(p0: LocationAvailability?) {
-                            p0?.let {pO -> takeUnless { pO.isLocationAvailable}?.run {
+                            override fun onLocationAvailability(p0: LocationAvailability?) {
+                                p0?.let {pO -> takeUnless { pO.isLocationAvailable}?.run {
                                     locationProviderClient?.removeLocationUpdates(lcb)
                                     lcb = null
                                     locationProviderClient = null
                                     continuation.resumeWithException(Throwable())
                                 }
+                                }
                             }
                         }
-                    }
-                    val task = locationProviderClient?.requestLocationUpdates(locationRequest, lcb, null)
+                        val task = locationProviderClient?.requestLocationUpdates(locationRequest, lcb, null)
 
-                    task?.addOnFailureListener { e ->
-                        locationProviderClient?.removeLocationUpdates(lcb)
-                        continuation.resumeWithException(e)
+                        task?.addOnFailureListener { e ->
+                            locationProviderClient?.removeLocationUpdates(lcb)
+                            continuation.resumeWithException(e)
+                        }
                     }
                 }
             }
 
-            taskSetting.addOnFailureListener { exception ->
+            taskSetting?.addOnFailureListener { exception ->
                 continuation.resumeWithException(exception)
             }
         }
     }
 
     private fun checkParameters(){
-        taskSetting = LocationServices.getSettingsClient(context)
-                .checkLocationSettings(builder.build())
+        taskSetting = context?.let { LocationServices.getSettingsClient(it)
+                .checkLocationSettings(builder.build()) }
     }
 }

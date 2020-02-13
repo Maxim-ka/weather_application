@@ -30,7 +30,7 @@ private const val NO_DEDUPE = 1
 private const val NO_RECORD = 1
 private const val OK = 200
 
-class GeoCoordinatesProvider(private val context: Context) : RequestBaseProvider(context), Geocoded {
+class GeoCoordinatesProvider(context: Context) : RequestBaseProvider(context), Geocoded {
 
     private val sp : SharedPreferences by lazy { context.getSharedPreferences(PREFERENCE_OPEN_CAGE, Context.MODE_PRIVATE) }
     private val strErrorCode : String by lazy { context.getString(R.string.error_code)  }

@@ -1,10 +1,16 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
+import org.koin.core.KoinComponent
+import org.koin.core.qualifier.named
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_GEO
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_LOCAL
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_WEATHER
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Closable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Current
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
@@ -14,27 +20,36 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weath
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import timber.log.Timber
 
-class Repository(private val mapping: Mapping,
-                 private val storable: Storable,
-                 private val requestedWeather: RequestedWeather,
-                 private val geocoded: Geocoded,
-                 private val issuedCoordinates: IssuedCoordinates) : Derivable{
-
+class Repository(private val storable: Storable,
+                 private val mapping: Mapping,
+                 private var requestedWeather: RequestedWeather? = null,
+                 private var geocoded: Geocoded? = null,
+                 private var issuedCoordinates: IssuedCoordinates? = null)
+    : Derivable, KoinComponent{
+     
+    
     /*Добавление города*/
     override suspend fun addPlace(requested: Requested): Pair<List<Place>?, Throwable?> {
         return try {
-            updateListPlace(requestedWeather.requestServer(requested))
+            updateListPlace(getRequestedWeather().requestServer(requested))
         } catch (e: Throwable) {
             Pair(null, e)
         }
     }
 
+    private fun getRequestedWeather() : RequestedWeather{
+        return requestedWeather?.let { it } ?: run{
+            requestedWeather = getKoin().getOrCreateScope(SCOPE_WEATHER, named(SCOPE_WEATHER)).get()
+            requestedWeather as RequestedWeather
+        }
+    }
+
     /*добавление текущего места в список городов*/
     override suspend fun addCurrentPlace(): Pair<List<Place>?, Throwable?> {
-        return issuedCoordinates.getCoordinatesCurrentPlace().run {
+        return getIssuedCoordinates().getCoordinatesCurrentPlace().run {
             first?.let {
                 try {
-                    updateListPlace(requestedWeather.requestServer(it))
+                    updateListPlace(getRequestedWeather().requestServer(it))
                 } catch (e: Throwable) {
                     Pair(null, e)
                 }
@@ -44,10 +59,10 @@ class Repository(private val mapping: Mapping,
 
     /*Получение погоды текущего места*/
     override suspend fun getStateCurrentPlace(): Weather {
-        return issuedCoordinates.getCoordinatesCurrentPlace().run{
+        return getIssuedCoordinates().getCoordinatesCurrentPlace().run{
             first?.let {
                 try {
-                    getWeather(requestedWeather.requestServer(it))
+                    getWeather(getRequestedWeather().requestServer(it))
                 } catch (e: Throwable) {
                     Weather(null, e)
                 }
@@ -55,12 +70,26 @@ class Repository(private val mapping: Mapping,
         }
     }
 
+    private fun getIssuedCoordinates() : IssuedCoordinates{
+        return issuedCoordinates?.let { it } ?: run {
+            issuedCoordinates = getKoin().getOrCreateScope(SCOPE_LOCAL, named(SCOPE_LOCAL)).get()
+            issuedCoordinates as IssuedCoordinates
+        }
+    }
+
     /*получение списка вариантов мест через запрос прямого геокодирования*/
     override suspend fun determineLocationCoordinates(place: String, code: String): Pair<List<Place>?, Throwable?> {
         return try {
-            Pair(mapping.createListPlaceResult(geocoded.requestDirectGeocoding(place, code)), null)
+            Pair(mapping.createListPlaceResult(getGeocoded().requestDirectGeocoding(place, code)), null)
         } catch (e: Throwable) {
             Pair( null, e)
+        }
+    }
+
+    private fun getGeocoded() : Geocoded{
+        return geocoded?.let { it  } ?: run {
+            geocoded = getKoin().getOrCreateScope(SCOPE_GEO, named(SCOPE_GEO)).get()
+            geocoded as Geocoded
         }
     }
 
@@ -88,7 +117,7 @@ class Repository(private val mapping: Mapping,
             val saved = storable.getData(lat, lon)
             takeIf {(System.currentTimeMillis() -  saved.first.dt > THREE_HOURS)}?.let {
                 try {
-                    getWeather(requestedWeather.requestServer(GetByCoordinates(lat, lon))).run {
+                    getWeather(getRequestedWeather().requestServer(GetByCoordinates(lat, lon))).run {
                         state?.let { this } ?: Weather(saved, error)
                     }
                 } catch (e: Throwable) {
@@ -144,5 +173,14 @@ class Repository(private val mapping: Mapping,
     @Throws
     private suspend fun writeToDatabase(cityTable: CityTable, currentTable: CurrentTable, forecastsTable: List<ForecastTable>){
         storable.save(cityTable,currentTable, forecastsTable)
+        closeModules()
+    }
+
+    private fun closeModules(){
+        issuedCoordinates?.let {
+            (it as Closable).toClose()
+            issuedCoordinates = null
+        }
+        geocoded = null
     }
 }

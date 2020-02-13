@@ -18,13 +18,9 @@
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:background="@android:color/background_light"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        app:size="@{size}"
-        app:cardCornerRadius= "4dp"
-        app:cardElevation= "8dp"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        style="@style/materialCardView"
+        app:cardMaxElevation="8dp"
+        app:size="@{size}">
 
         <LinearLayout
             android:layout_width="match_parent"

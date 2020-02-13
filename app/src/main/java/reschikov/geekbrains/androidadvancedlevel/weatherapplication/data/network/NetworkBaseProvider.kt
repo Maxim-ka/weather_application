@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 
-abstract class NetworkBaseProvider(private val context: Context)  {
+abstract class NetworkBaseProvider(context: Context){
 
     protected val strNoNetwork: String by lazy {
         context.getString(R.string.err_no_network)

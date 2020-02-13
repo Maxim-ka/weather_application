@@ -10,11 +10,16 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 
-class LocateCoordinatesProvider(private val context: Context, vararg determinedCoordinates: DeterminedCoordinates) :
-        NetworkBaseProvider(context), IssuedCoordinates {
+class LocateCoordinatesProvider(context: Context, vararg determinedCoordinates: DeterminedCoordinates) :
+        NetworkBaseProvider(context), IssuedCoordinates, Closable {
 
     private val googleQualifier = mutableListOf<DeterminedCoordinates>()
     private val determinants = mutableListOf<DeterminedCoordinates>()
+    private val strUnableDetermine: String by lazy {
+        context.getString(R.string.err_unable_determine_coordinates)
+    }
+    private val isGoogleUsed: Boolean =  GoogleApiAvailability.getInstance()
+            .isGooglePlayServicesAvailable(context) == SUCCESS
 
     init {
         for (determinant in determinedCoordinates){
@@ -25,16 +30,10 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
 
     override suspend fun getCoordinatesCurrentPlace(): Pair<GetByCoordinates?, Throwable?> {
         if (checkLackOfNetwork()) return Pair(null, Throwable(strNoNetwork))
-        if(hasDetermineGoogle() && googleQualifier.isNotEmpty()){
+        if(isGoogleUsed && googleQualifier.isNotEmpty()){
             getGoogleCoordinates()?.let { return it }
         }
         return getDeterminantsCoordinates()
-    }
-
-    private fun hasDetermineGoogle(): Boolean{
-        return  GoogleApiAvailability
-                .getInstance()
-                .isGooglePlayServicesAvailable(context) == SUCCESS
     }
 
     private suspend fun getGoogleCoordinates(): Pair<GetByCoordinates?, Throwable?>? {
@@ -61,6 +60,15 @@ class LocateCoordinatesProvider(private val context: Context, vararg determinedC
                 }
             }
         }
-        return Pair(null, Throwable(context.getString(R.string.err_unable_determine_coordinates)))
+        return Pair(null, Throwable(strUnableDetermine))
+    }
+
+    override fun toClose() {
+        for (google in googleQualifier){
+            (google as Closable).toClose()
+        }
+        for (determinant in determinants){
+            (determinant as Closable).toClose()
+        }
     }
 }

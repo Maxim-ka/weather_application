@@ -21,21 +21,14 @@
         android:id="@+id/material_card"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        style="@style/materialCardView"
         app:size="@{size}"
-        app:cardBackgroundColor="@{forecast.temperatureColor}"
-        app:cardCornerRadius = "4dp"
-        app:contentPadding="8dp"
-        app:cardElevation = "@dimen/item_forecast_cardElevation_value"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:cardMaxElevation="8dp"
+        app:cardBackgroundColor="@{forecast.temperatureColor}">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView

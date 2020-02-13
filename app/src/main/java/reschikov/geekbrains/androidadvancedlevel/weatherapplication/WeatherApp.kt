@@ -11,10 +11,7 @@ import org.koin.android.logger.AndroidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.EmptyLogger
 import org.koin.core.logger.Logger
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.appModule
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.dataBindingModule
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.notificationModule
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.viewModelModule
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.*
 import timber.log.Timber
 
 class WeatherApp : Application() {
@@ -26,7 +23,8 @@ class WeatherApp : Application() {
         startKoin {
             logger(setLogger())
             androidContext (this@WeatherApp)
-            modules(listOf(appModule, viewModelModule, dataBindingModule, notificationModule))
+            modules(listOf(appModule, weatherModule, locationModule, geoModule,
+                viewModelModule, dataBindingModule, notificationModule))
         }
         Timber.plant(Timber.DebugTree())
     }

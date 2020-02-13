@@ -138,9 +138,10 @@ class FragmentSMS : Fragment() {
     private fun showConfirmationDialog(){
         activity?.let {
             AlertDialog.Builder(it, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
-                .setTitle("send SMS")
+                .setTitle(getString(R.string.title_send_SMS))
                 .setIcon(R.drawable.ic_question)
-                .setMessage("Send ${model.getNumberSMS()} SMS to subscriber ${binding.tveNumberPhone.text}?")
+                .setMessage("${getString(R.string.send)} ${model.getNumberSMS()}" +
+                    " ${getString(R.string.sms_subscriber)} ${binding.tveNumberPhone.text} ?")
                 .setCancelable(false)
                 .setPositiveButton(R.string.but_ok){ dialog, which ->
                     binding.acetSms.text?.let {text ->

@@ -47,7 +47,7 @@
 
 <!--    title-->
     <string name="title_app_name">weather_application</string>
-    <string name="title_determine_location">determine the location of the weather forecast</string>
+    <string name="title_determine_location">Determine the location of the weather forecast</string>
     <string name="title_specify_place_name">Specify place name</string>
     <string name="title_specify_place_zip_code">Specify a place zip code</string>
     <string name="title_indicate_in_ascending_order">Indicate in ascending order, separated by commas
@@ -61,17 +61,18 @@
     <string name="title_submit">Submit</string>
     <string name="title_current_state">Current state</string>
     <string name="title_forecast">Forecast</string>
-    <string name="title_select_request">select weather request location</string>
-    <string name="title_request">request weather</string>
-    <string name="title_request_geocoder">request geocoder</string>
+    <string name="title_select_request">Select weather request location</string>
+    <string name="title_request">Request weather</string>
+    <string name="title_request_geocoder">Request geocoder</string>
     <string name="title_change_current_key">change currentTable key</string>
+    <string name="title_send_SMS">send SMS</string>
 
 <!--    кнопки-->
     <string name="but_ok" translatable="false">OK</string>
     <string name="but_cancel" translatable="false">Cancel</string>
     <string name="but_exit">exit</string>
     <string name="but_get_data">to get data</string>
-    <string name="but_select">select</string>
+    <string name="but_select">Select</string>
 
 <!--    text-->
     <string name="city_name">city name</string>
@@ -123,11 +124,11 @@
     <string name="menu_sms">SMS</string>
 
 <!--    pref-->
-    <string name="pref_request_selection">request selection</string>
-    <string name="pref_current_key">current key for obtaining weather conditions </string>
+    <string name="pref_request_selection">Request selection</string>
+    <string name="pref_current_key">Current key for obtaining weather conditions</string>
     <string name="pref_balance_requests">balance of requests</string>
     <string name="pref_reset_date">reset date</string>
-    <string name="pref_key_OpenCage">currentTable key OpenCage</string>
+    <string name="pref_key_OpenCage">CurrentTable key OpenCage</string>
 
 <!--    сенсоры-->
     <string name="pressure_meter">Pressure</string>
@@ -153,5 +154,9 @@
     <string name="sw">SW</string>
     <string name="w">W</string>
     <string name="nw">NW</string>
+
+    <string name="send">Send</string>
+    <string name="sms_subscriber">SMS to subscriber</string>
+    <string name="number_sms">number of sms: </string>
 
 </resources>

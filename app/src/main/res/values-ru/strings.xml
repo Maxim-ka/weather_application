@@ -26,9 +26,9 @@
     <string name="err_only_numbers">Только числа без пробелов и тире</string>
 
 <!--    warning-->
-    <string name="warning">Warning!</string>
-    <string name="warning_requests_per_day">The number of requests per day is exceeded, you can re-request after</string>
-    <string name="warning_no_application">There is no application to send a test message</string>
+    <string name="warning">Предупреждение!</string>
+    <string name="warning_requests_per_day">Превышено количество запросов в день, вы можете повторно запросить после</string>
+    <string name="warning_no_application">Нет приложения для отправки тестового сообщения</string>
 
 <!--    attention-->
     <string name="attention">Внимание!</string>
@@ -38,7 +38,7 @@
 <!--    message-->
     <string name="disabling_location">отключено определение по сети местоположения</string>
     <string name="no_permission_determine_location">"Нет разрешения на определение местоположения "</string>
-    <string name="refusal_google">refusal to request coordinates via google</string>
+    <string name="refusal_google">Проверить настройки google сервисов</string>
     <string name="enter_phone_number">
         Вы должны ввести номер телефона получателя в формате: 89012345678 или +79012345678
     </string>
@@ -62,21 +62,22 @@
     <string name="title_request_geocoder">Запрос geocoder</string>
     <string name="title_determine_location">Определить место прогноза погоды</string>
     <string name="title_choose_place">Выберите ближайшее место</string>
-    <string name="title_send_sms">Send SMS</string>
-    <string name="title_submit">Submit</string>
-    <string name="title_select_request">select weather request location</string>
+    <string name="title_send_sms">Отправить СМС</string>
+    <string name="title_submit">Выбрать/Отправить </string>
+    <string name="title_select_request">Выберите способ определения места</string>
+    <string name="title_send_SMS">Отправка СМС</string>
 
 <!--    кнопки-->
     <string name="but_exit">Выход</string>
     <string name="but_get_data">Получить</string>
-    <string name="but_select">Выбрать</string>
+    <string name="but_select">Выбрано?</string>
 
 <!--    text-->
     <string name="enter_phone_of_recipient">телефонный номер получателя</string>
     <string name="zip_code">почтовый индекс</string>
-    <string name="city_name">название города</string>
+    <string name="city_name">Название города</string>
     <string name="street_district_city_region_country">улица,район,город,регион,страна</string>
-    <string name="subject">review, wishes, recommendations</string>
+    <string name="subject">отзыв, пожелания, рекомендации</string>
     <string name="letter_country_code">2-буквы кода страны</string>
 
 <!--    parameter-->
@@ -88,7 +89,7 @@
     <string name="sunrise">восход:</string>
     <string name="sunset">закат:</string>
     <string name="temp">температура:</string>
-    <string name="wind">"ветер: "</string>
+    <string name="wind">ветер: </string>
     <string name="humidity">влажность:</string>
     <string name="pressure">давление:</string>
     <string name="overcast">облачность:</string>
@@ -117,11 +118,11 @@
     <string name="menu_sensors">Использование внутренних датчиков</string>
 
 <!--    pref-->
-    <string name="pref_current_key">текущий ключ для получения состояния погоды</string>
-    <string name="pref_key_OpenCage">текущий ключ OpenCage</string>
-    <string name="pref_request_selection">request selection</string>
-    <string name="pref_balance_requests">balance of requests</string>
-    <string name="pref_reset_date">reset date</string>
+    <string name="pref_current_key">Текущий ключ для получения состояния погоды</string>
+    <string name="pref_key_OpenCage">Текущий ключ OpenCage</string>
+    <string name="pref_reset_date">дата обновления остатка запросов</string>
+    <string name="pref_balance_requests">отстаток запросов</string>
+    <string name="pref_request_selection">Выбор запроса определения места</string>
 
 <!--    сенсоры-->
     <string name="pressure_meter">Давление</string>
@@ -130,9 +131,9 @@
 
 <!--    notifications-->
     <string name="notif_name_simple_notice">Простое уведомление</string>
-    <string name="notif_name_sms">SMS sending and receiving notification</string>
-    <string name="notif_push">Notice Push</string>
-    <string name="notif_sms">Notice SMS</string>
+    <string name="notif_name_sms">СМС уведомления</string>
+    <string name="notif_push">уведомления Push</string>
+    <string name="notif_sms">уведомления СМС</string>
 
 <!--    rhumb-->
     <string name="nw">СЗ</string>
@@ -143,5 +144,9 @@
     <string name="s">Ю</string>
     <string name="sw">ЮЗ</string>
     <string name="w">З</string>
+
+    <string name="send">Отправить </string>
+    <string name="sms_subscriber"> СМС адресату </string>
+    <string name="number_sms">количество смс:\t</string>
 
 </resources>

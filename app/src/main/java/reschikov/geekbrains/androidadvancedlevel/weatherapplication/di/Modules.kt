@@ -6,10 +6,12 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.Mapping
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.Repository
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.Storable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_GEO
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_LOCAL
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_WEATHER
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.AppDatabase
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.DataBaseProvider
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.GeoCoordinatesProvider
@@ -34,13 +36,26 @@ val appModule = module {
                 .fallbackToDestructiveMigration()
                 .build() }
     single<Storable> { DataBaseProvider(get()) }
-    single<Derivable> { Repository(Mapping(TemperatureColor(get()), WindDirection(get())), get(),
-            WeatherServiceProvider(androidContext()),
-            GeoCoordinatesProvider(androidContext()),
-            LocateCoordinatesProvider(androidContext(),
-                GoogleCoordinateDeterminant(androidContext()),
-                AndroidCoordinateDeterminant(androidContext()))
-            )
+    single<Derivable> {Repository(get(), Mapping(TemperatureColor(get()), WindDirection(get())))}
+}
+
+val weatherModule  = module {
+    scope(named(SCOPE_WEATHER)) {
+        scoped<RequestedWeather> { WeatherServiceProvider(androidContext()) }
+    }
+}
+
+val geoModule  = module {
+    scope(named(SCOPE_GEO)) {
+        factory <Geocoded> { GeoCoordinatesProvider(androidContext()) }
+    }
+}
+
+val locationModule  = module {
+    scope(named(SCOPE_LOCAL)) {
+        factory<IssuedCoordinates> { LocateCoordinatesProvider(androidContext(),
+            GoogleCoordinateDeterminant(androidContext()),
+            AndroidCoordinateDeterminant(androidContext()))}
     }
 }
 
