@@ -11,7 +11,6 @@ import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.weather_frame.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LAT
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
@@ -88,10 +87,8 @@ class FragmentWeather : BaseFragment(), Collectable {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        launch {
-            inflater.inflate(R.menu.menu_update, menu)
-            menu.findItem(R.id.fragmentSensors).isVisible = areThereSensors()
-        }
+        inflater.inflate(R.menu.menu_update, menu)
+        menu.findItem(R.id.fragmentSensors).isVisible = areThereSensors()
     }
 
     private fun areThereSensors(): Boolean{

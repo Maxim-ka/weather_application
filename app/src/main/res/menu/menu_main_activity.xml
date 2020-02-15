@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/locate"
-        android:icon="@drawable/ic_action_location"
+        android:icon="@drawable/ic_my_location"
         android:orderInCategory="1"
         android:title="@string/menu_location"
         app:showAsAction="always" />

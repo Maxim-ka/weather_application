@@ -39,9 +39,7 @@
     <string name="disabling_location">отключено определение по сети местоположения</string>
     <string name="no_permission_determine_location">"Нет разрешения на определение местоположения "</string>
     <string name="refusal_google">Проверить настройки google сервисов</string>
-    <string name="enter_phone_number">
-        Вы должны ввести номер телефона получателя в формате: 89012345678 или +79012345678
-    </string>
+    <string name="enter_phone_number">формат номера: 89012345678 или +79012345678</string>
     <string name="message_sent">Сообщение отправлено</string>
     <string name="message_delivered">Сообщение доставлено</string>
     <string name="empty_message">Пустое сообщение</string>
@@ -63,9 +61,10 @@
     <string name="title_determine_location">Определить место прогноза погоды</string>
     <string name="title_choose_place">Выберите ближайшее место</string>
     <string name="title_send_sms">Отправить СМС</string>
-    <string name="title_submit">Выбрать/Отправить </string>
+    <string name="title_submit">Выбрать </string>
     <string name="title_select_request">Выберите способ определения места</string>
     <string name="title_send_SMS">Отправка СМС</string>
+    <string name="title_sensors">Датчики телефона</string>
 
 <!--    кнопки-->
     <string name="but_exit">Выход</string>
@@ -115,7 +114,7 @@
     <string name="menu_add_city">Добавить город</string>
     <string name="menu_to_share">Поделиться</string>
     <string name="menu_sms">СМС</string>
-    <string name="menu_sensors">Использование внутренних датчиков</string>
+    <string name="menu_sensors">Внутренние датчики</string>
 
 <!--    pref-->
     <string name="pref_current_key">Текущий ключ для получения состояния погоды</string>
@@ -147,6 +146,6 @@
 
     <string name="send">Отправить </string>
     <string name="sms_subscriber"> СМС адресату </string>
-    <string name="number_sms">количество смс:\t</string>
+    <string name="number_sms">количество смс:</string>
 
 </resources>

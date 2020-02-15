@@ -7,7 +7,7 @@
     android:layout_gravity="center_vertical"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/city_input_dialog_padding">
+    android:padding="@dimen/indent">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name_place"
@@ -25,7 +25,7 @@
             android:id="@+id/tiet_name_place"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/city_input_dialog_value_text_size"
+            android:textSize="@dimen/text_size_field_dialog"
             android:imeOptions="actionDone"
             android:singleLine="false"
             android:inputType="textAutoCorrect|textAutoComplete"/>
@@ -51,11 +51,16 @@
             android:id="@+id/tiet_code_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/city_input_dialog_value_text_size"
+            android:textSize="@dimen/text_size_field_dialog"
             android:imeOptions="actionDone"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <include layout="@layout/button"/>
+    <include layout="@layout/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/indent"
+        android:layout_marginEnd="@dimen/indent"/>
 
 </LinearLayout>

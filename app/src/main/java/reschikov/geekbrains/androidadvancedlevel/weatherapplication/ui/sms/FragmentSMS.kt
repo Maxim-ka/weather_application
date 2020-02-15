@@ -32,8 +32,8 @@ class FragmentSMS : Fragment() {
     private val smsManager by lazy { SmsManager.getDefault() }
     private var snackbar: Snackbar? = null
     private lateinit var binding: SenderFrameBinding
-    private val errorPhone:(Boolean) -> Unit = {isNotPhone: Boolean ->
-        isNotPhone.takeIf{it} ?.let {
+    private val errorPhone:(Boolean) -> Unit = {isPhone: Boolean ->
+        isPhone.takeUnless{it} ?.let {
             til_phone.error = getString(R.string.err_only_numbers)
             snackbar = showMessage(til_phone, getString(R.string.enter_phone_number), Color.RED)
         } ?: run{
@@ -106,7 +106,7 @@ class FragmentSMS : Fragment() {
     }
 
     private fun sendMessage(): Boolean {
-        if (model.hasNotPhone(errorPhone)) return false
+        if (!model.hasPhone(errorPhone)) return false
         if (binding.acetSms.text.isNullOrBlank()) {
             snackbar = showMessage(acet_sms, getString(R.string.empty_message), Color.RED)
             return false

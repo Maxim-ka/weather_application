@@ -19,7 +19,7 @@
         android:layout_height = "wrap_content"
         android:background="@android:color/background_light"
         style="@style/materialCardView"
-        app:cardMaxElevation="8dp"
+        app:cardMaxElevation="@dimen/elevation_card"
         app:size="@{size}">
 
         <LinearLayout
@@ -30,11 +30,11 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:text='@{place.name}'
-                android:textSize="22sp"
+                android:textSize="@dimen/text_size_name_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="2dp"
+                android:padding="@dimen/indent_little"
                 android:textAlignment="gravity"
                 tools:text="Иркутск, ru"/>
 
@@ -46,7 +46,7 @@
 
                 <TextView
                     android:text="@string/latitude"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_info"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -54,7 +54,7 @@
 
                 <TextView
                     android:text="@string/longitude"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_info"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -71,7 +71,7 @@
                 <TextView
                     android:id="@+id/tv_lat"
                     android:text="@{String.valueOf(place.lat)}"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_info"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -81,7 +81,7 @@
                 <TextView
                     android:id="@+id/tv_lon"
                     android:text="@{String.valueOf(place.lon)}"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_info"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

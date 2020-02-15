@@ -14,35 +14,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="@dimen/indent">
+        android:divider="@drawable/separator"
+        android:showDividers="middle"
+        android:padding="@dimen/indent">
 
         <TextView
             android:id="@+id/tv_count_sms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_properties"
             android:textAlignment="center"
-            android:layout_margin="8dp"
-            android:text='@{@string/number_sms + model.counter}'
+            android:layout_margin="@dimen/indent"
+            android:text='@{@string/number_sms + "  " + model.counter}'
             tools:text="123456897"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_margin="@dimen/current_frame_indent"
-            android:background="?attr/colorPrimaryDark"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="@dimen/indent"
+            android:layout_marginBottom="@dimen/indent"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/indent_little"
                 android:textAlignment="center"
                 android:layout_weight="10"
                 style="@style/textfieldTextInputLayout"
@@ -50,7 +48,7 @@
                 app:hintAnimationEnabled="true"
                 app:errorEnabled="true"
                 app:counterEnabled="true"
-                app:counterMaxLength="11"
+                app:counterMaxLength='@{model.phone.startsWith("+") ? 12 : 11}'
                 app:counterOverflowTextColor="@color/colorAccent"
                 app:counterOverflowTextAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 app:helperTextEnabled="true"
@@ -63,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_phone_of_recipient"
                     android:inputType="phone"
-                    android:textSize="@dimen/sender_frame_fields_text_size"/>
+                    android:textSize="@dimen/text_size_field_phone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,26 +77,20 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_margin="@dimen/current_frame_indent"
-            android:background="?attr/colorPrimaryDark"/>
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="@dimen/indent"
+            android:layout_marginBottom="@dimen/indent">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/acet_sms"
                 android:text="@={model.text}"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/indent"
+                android:layout_marginEnd="@dimen/indent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="@dimen/text_size_text_letter"
                 android:singleLine="false"
                 android:gravity="top|start"
                 android:textAlignment="gravity"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:title="@string/title_select_request">
@@ -9,6 +10,7 @@
             android:title="@string/pref_request_selection"
             android:entries="@array/request"
             android:entryValues="@array/request"
+            android:defaultValue="@string/fld_place_name"
             android:dialogTitle="@string/title_select_request" />
 
     </PreferenceCategory>

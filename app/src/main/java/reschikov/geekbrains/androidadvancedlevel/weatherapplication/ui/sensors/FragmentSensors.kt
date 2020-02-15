@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.sensor_frame.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.convertToSize
 
 
@@ -34,6 +35,7 @@ class FragmentSensors : Fragment(), SensorEventListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.let { (it as MainActivity).supportActionBar?.setTitle(getString(R.string.title_sensors)) }
         initSensors()
     }
 

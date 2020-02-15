@@ -106,7 +106,7 @@ class ItemTouchHelperCallback(private val recyclerView: RecyclerView) : ItemTouc
         val context = viewHolder.itemView.context
         return PlugInButton.Builder(null)
                 .setButtonColor(ContextCompat.getColor(context, R.color.white))
-                .setIcon(getDrawable(context, R.drawable.ic_trashcan)!!)
+                .setIcon(getDrawable(context, R.drawable.ic_delete_forever_36dp))
                 .build()
     }
 

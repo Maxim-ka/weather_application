@@ -37,10 +37,10 @@ class AndroidCoordinateDeterminant(private var context: Context?) : BaseCoordina
                 } else {
                     locationListener = object : LocationListener {
                         override fun onLocationChanged(location: Location?) {
-                            location?.let {
-                                if (it.accuracy <= setAccuracy) {
+                            location?.let {location ->
+                                if (location.accuracy <= setAccuracy) {
                                     lm.removeUpdates(this)
-                                    continuation.resume(it)
+                                    continuation.resume(location)
                                 } else setPeriod += setPeriod
                             }
                         }

@@ -40,9 +40,7 @@
     <string name="refusal_google">refusal to request coordinates via google</string>
     <string name="message_sent">Message sent</string>
     <string name="message_delivered">Message delivered</string>
-    <string name="enter_phone_number">
-        You must enter the recipient\'s phone number in the format: 89012345678 or +79012345678
-    </string>
+    <string name="enter_phone_number">number in the format: 89012345678 or +79012345678</string>
     <string name="empty_message">Empty message</string>
 
 <!--    title-->
@@ -66,6 +64,7 @@
     <string name="title_request_geocoder">Request geocoder</string>
     <string name="title_change_current_key">change currentTable key</string>
     <string name="title_send_SMS">send SMS</string>
+    <string name="title_sensors">Phone sensors</string>
 
 <!--    кнопки-->
     <string name="but_ok" translatable="false">OK</string>

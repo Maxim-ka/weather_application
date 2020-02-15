@@ -25,6 +25,7 @@
         android:theme="@style/AppTheme"
         android:name=".WeatherApp"
         android:installLocation="auto"
+        android:uiOptions="splitActionBarWhenNarrow"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity

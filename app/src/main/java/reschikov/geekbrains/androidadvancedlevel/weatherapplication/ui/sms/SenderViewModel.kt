@@ -48,10 +48,10 @@ class SenderViewModel : ViewModel() {
         errorPhone.invoke(isPhone.invoke(phone))
     }
 
-    fun hasNotPhone(errorPhone: (Boolean) -> Unit): Boolean {
-        val isNotNumberPhone = !isPhone.invoke(phone.get())
-        errorPhone.invoke(isNotNumberPhone)
-        return isNotNumberPhone
+    fun hasPhone(errorPhone: (Boolean) -> Unit): Boolean {
+        val isNumberPhone = isPhone.invoke(phone.get())
+        errorPhone.invoke(isNumberPhone)
+        return isNumberPhone
     }
 
     private fun determinePossibleLengthOfSMS(string: String){

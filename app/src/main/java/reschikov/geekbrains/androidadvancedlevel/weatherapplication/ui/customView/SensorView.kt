@@ -138,6 +138,7 @@ class SensorView : View {
     }
 
     private fun checkSizeText(){
+        if (regionInfo.width() == 0) return
         cvSensorName?.let { pickTextSize(it) }
         pickTextSize(cvSensorValue)
     }

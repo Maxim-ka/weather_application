@@ -8,7 +8,8 @@ import android.graphics.drawable.Drawable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.HALF
 
 private const val INDENT_ICON = 20.0f
-private const val SCALE = 1.5f
+private const val SCALE = 2.0f
+private const val DOUBLING = 2
 
 class PlugInButton private constructor(private val text: String?) {
 
@@ -19,8 +20,8 @@ class PlugInButton private constructor(private val text: String?) {
     private var textColor: Int = 0
     private var textWidth: Float = 0.0f
     private var icon: Drawable? = null
-    private var widthIcon: Float = 0.0f
-    private var heightIcon: Float = 0.0f
+    private var halfWidthIcon: Float = 0.0f
+    private var halfHeightIcon: Float = 0.0f
     private lateinit var boundsIcon: Rect
 
     private fun setButtonColor(buttonColor: Int) {
@@ -38,16 +39,18 @@ class PlugInButton private constructor(private val text: String?) {
         }
     }
 
-    private fun setIcon(icon: Drawable) {
-        this.icon = icon
-        boundsIcon = Rect()
-        widthIcon = icon.intrinsicWidth * SCALE
-        heightIcon = icon.intrinsicHeight * SCALE
+    private fun setIcon(icon: Drawable?) {
+        icon?.let {
+            this.icon = it
+            boundsIcon = Rect()
+            halfWidthIcon = (it.intrinsicWidth * SCALE) * HALF
+            halfHeightIcon = (it.intrinsicHeight * SCALE) * HALF
+        }
     }
 
     fun getFullWidth(): Float{
-        var buttonWidth: Float = INDENT_ICON * 2
-        icon?.let { buttonWidth += widthIcon }
+        var buttonWidth: Float = INDENT_ICON * DOUBLING
+        icon?.let { buttonWidth += halfWidthIcon * DOUBLING}
         text?.let { buttonWidth += textWidth }
         return buttonWidth
     }
@@ -61,14 +64,14 @@ class PlugInButton private constructor(private val text: String?) {
             paint.color = buttonColor
             canvas.drawRect(rect, paint)
             icon?.let {
-                if (rect.width() > INDENT_ICON * 2) {
+                if (rect.width() > INDENT_ICON * DOUBLING) {
                     setBoundsIcon(rect)
                     it.draw(canvas)
                 }
             }
             text?.let {
                 paint.color = textColor
-                if (rect.width() - widthIcon >= textWidth) {
+                if (rect.width() - halfWidthIcon * DOUBLING >= textWidth) {
                     drawText(canvas, rect)
                 }
             }
@@ -78,18 +81,11 @@ class PlugInButton private constructor(private val text: String?) {
 
     private fun setBoundsIcon(rect: RectF) {
         icon?.let {
-            with(rect){
-                val leftIcon: Int
-                val rightIcon: Int
-                val topIcon = (top + height() * HALF - heightIcon * HALF).toInt()
-                val bottomIcon = (bottom - height() * HALF + heightIcon * HALF).toInt()
-                if (isRightSide) {
-                    leftIcon = (left + INDENT_ICON).toInt()
-                    rightIcon = (leftIcon + widthIcon + INDENT_ICON).toInt()
-                } else {
-                    rightIcon = (right - INDENT_ICON).toInt()
-                    leftIcon = (rightIcon - widthIcon - INDENT_ICON).toInt()
-                }
+            rect.run{
+                val topIcon = (centerY() - halfHeightIcon).toInt()
+                val bottomIcon = (centerY() + halfHeightIcon).toInt()
+                val leftIcon: Int = (centerX() - halfWidthIcon).toInt()
+                val rightIcon: Int = (centerX() + halfWidthIcon).toInt()
                 boundsIcon.set(leftIcon, topIcon, rightIcon, bottomIcon)
                 it.bounds = boundsIcon
             }
@@ -135,7 +131,7 @@ class PlugInButton private constructor(private val text: String?) {
             return this
         }
 
-        fun setIcon(icon: Drawable): Builder {
+        fun setIcon(icon: Drawable?): Builder {
             button.setIcon(icon)
             return this
         }

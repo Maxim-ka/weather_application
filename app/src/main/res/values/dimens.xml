@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <!--480dp-->
-    <dimen name="indent">16dp</dimen>
-    <dimen name="half_an_indent">8dp</dimen>
 
-    <dimen name="current_frame_indent">8dp</dimen>
-    <dimen name="current_frame_city_text_size">28sp</dimen>
-    <dimen name="current_frame_datetime_text_size">18sp</dimen>
-    <dimen name="current_frame_temp_text_size">42sp</dimen>
-    <dimen name="current_frame_text_text_size">24sp</dimen>
+    <dimen name="radius_corner_card">4dp</dimen>
 
-    <dimen name="properties_weather_value_text_size">24sp</dimen>
+    <dimen name="height_min_chip">42dp</dimen>
+    <dimen name="height_tab_indicator">6dp</dimen>
 
-    <dimen name="item_forecast_cardElevation_value">12dp</dimen>
-    <dimen name="item_forecast_image_size">96dp</dimen>
+    <dimen name="size_big_imageView">128dp</dimen>
+    <dimen name="size_card_image">96dp</dimen>
 
-    <dimen name="city_input_dialog_value_text_size">20sp</dimen>
-    <dimen name="city_input_dialog_padding">12dp</dimen>
+    <dimen name="width_stroke_sensor">4dp</dimen>
+    <dimen name="width_stroke_common">2dp</dimen>
 
-    <dimen name="choice_dialog_text_size">18sp</dimen>
-    <dimen name="choice_dialog_padding">16dp</dimen>
+    <dimen name="inset_button">4dp</dimen>
 
-    <dimen name="sender_frame_fields_text_size">24sp</dimen>
+    <dimen name="text_size_current_temp">42sp</dimen>
+    <dimen name="text_size_sensors">36sp</dimen>
+    <dimen name="text_size_name_city">24sp</dimen>
+    <dimen name="text_size_field_phone">24sp</dimen>
+    <dimen name="text_size_properties">24sp</dimen>
+    <dimen name="text_size_state_current">22sp</dimen>
+    <dimen name="text_size_info_card">22sp</dimen>
+    <dimen name="text_size_text_letter">20sp</dimen>
+    <dimen name="text_size_field_card">20sp</dimen>
+    <dimen name="text_size_field_dialog">20sp</dimen>
+    <dimen name="text_size_dialog">18sp</dimen>
+    <dimen name="text_size_info">18sp</dimen>
+
+    <dimen name="indent_big">16dp</dimen>
+    <dimen name="indent">8dp</dimen>
+    <dimen name="indent_small">4dp</dimen>
+    <dimen name="indent_little">2dp</dimen>
+
+    <dimen name="elevation_BottomNavigationView">16dp</dimen>
+    <dimen name="elevation_card">8dp</dimen>
 
 </resources>
