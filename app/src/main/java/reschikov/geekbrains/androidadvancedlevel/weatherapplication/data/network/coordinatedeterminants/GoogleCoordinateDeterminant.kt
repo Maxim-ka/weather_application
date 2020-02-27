@@ -7,6 +7,7 @@ import android.location.Location
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.cancelChildren
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -54,18 +55,14 @@ class GoogleCoordinateDeterminant(private var context: Context?) : BaseCoordinat
 
                             override fun onLocationAvailability(p0: LocationAvailability?) {
                                 p0?.let {pO -> takeUnless { pO.isLocationAvailable}?.run {
-                                    locationProviderClient?.removeLocationUpdates(lcb)
-                                    lcb = null
-                                    locationProviderClient = null
-                                    continuation.resumeWithException(Throwable())
-                                }
+                                        continuation.resumeWithException(Throwable())
+                                    }
                                 }
                             }
                         }
                         val task = locationProviderClient?.requestLocationUpdates(locationRequest, lcb, null)
 
                         task?.addOnFailureListener { e ->
-                            locationProviderClient?.removeLocationUpdates(lcb)
                             continuation.resumeWithException(e)
                         }
                     }
@@ -81,5 +78,19 @@ class GoogleCoordinateDeterminant(private var context: Context?) : BaseCoordinat
     private fun checkParameters(){
         taskSetting = context?.let { LocationServices.getSettingsClient(it)
                 .checkLocationSettings(builder.build()) }
+    }
+
+    override fun removeListener() {
+        lcb?.let {
+            locationProviderClient?.removeLocationUpdates(it)
+        }
+    }
+
+    override fun terminate() {
+        locationProviderClient = null
+        lcb = null
+        taskSetting = null
+        context = null
+        coroutineContext.cancelChildren()
     }
 }

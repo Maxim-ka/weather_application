@@ -7,11 +7,15 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 
-class ListPlaceModelFactory(private val derivable: Derivable) : ViewModelProvider.Factory {
+class ListPlaceModelFactory(private var derivable: Derivable?) : ViewModelProvider.Factory {
 
     @ExperimentalCoroutinesApi
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(Derivable::class.java, BroadcastChannel::class.java, BroadcastChannel::class.java)
-                .newInstance(derivable, BroadcastChannel<Throwable?>(Channel.CONFLATED), BroadcastChannel<Boolean>(Channel.CONFLATED))
+        val repository = derivable
+        derivable = null
+        return modelClass.getConstructor(BroadcastChannel::class.java, BroadcastChannel::class.java,
+                Derivable::class.java)
+            .newInstance(BroadcastChannel<Throwable?>(Channel.CONFLATED),
+                BroadcastChannel<Boolean>(Channel.CONFLATED), repository)
     }
 }

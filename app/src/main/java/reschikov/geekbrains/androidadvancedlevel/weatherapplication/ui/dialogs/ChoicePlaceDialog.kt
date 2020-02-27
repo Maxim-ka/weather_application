@@ -12,16 +12,15 @@ import androidx.navigation.navGraphViewModels
 import kotlinx.android.synthetic.main.place_frame.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
-import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_CODE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_PLACE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showAlertDialog
+import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
 class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<Place>  {
@@ -31,8 +30,8 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
     }
     private val navController : NavController by lazy { findNavController() }
     @ExperimentalCoroutinesApi
-    private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
-    private val resultPlacesRVAdapter: ResultPlacesRVAdapter by lazy { ResultPlacesRVAdapter(this) }
+    private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places)
+    private val resultPlacesRVAdapter: ResultPlacesRVAdapter by lazy { ResultPlacesRVAdapter(WeakReference(this)) }
     private var resultJob: Job? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -47,8 +46,8 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rv_items.adapter = resultPlacesRVAdapter
-        rv_items.setHasFixedSize(true)
+        rv_places.adapter = resultPlacesRVAdapter
+        rv_places.setHasFixedSize(true)
     }
 
     @ExperimentalCoroutinesApi
@@ -96,8 +95,9 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
         navController.navigate(R.id.action_choicePlaceDialog_to_fragmentOfListOfPlaces)
     }
 
-    override fun onDestroy () {
-        super .onDestroy()
-        coroutineContext.cancel()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rv_places.adapter = null
+        coroutineContext.cancelChildren()
     }
 }

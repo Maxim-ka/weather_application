@@ -10,6 +10,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import androidx.core.app.ActivityCompat
+import kotlinx.coroutines.cancelChildren
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -19,10 +20,12 @@ private const val DISTANCE = 0.0f
 
 class AndroidCoordinateDeterminant(private var context: Context?) : BaseCoordinateDeterminant(context){
 
-    private val lm: LocationManager by lazy {
-        context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private var lm: LocationManager? = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val provider by lazy {
+        lm?.getBestProvider(Criteria().apply { accuracy = Criteria.ACCURACY_MEDIUM },
+            true) ?: LocationManager.NETWORK_PROVIDER
     }
-    private lateinit var locationListener: LocationListener
+    private var locationListener: LocationListener? = null
 
     override fun isGoogleDefined(): Boolean = false
 
@@ -35,12 +38,13 @@ class AndroidCoordinateDeterminant(private var context: Context?) : BaseCoordina
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     continuation.resumeWithException(AppException.NoPermission())
                 } else {
+                    val prov = this.provider
                     locationListener = object : LocationListener {
                         override fun onLocationChanged(location: Location?) {
-                            location?.let {location ->
-                                if (location.accuracy <= setAccuracy) {
-                                    lm.removeUpdates(this)
-                                    continuation.resume(location)
+                            location?.let {locate ->
+                                if (locate.accuracy <= setAccuracy) {
+                                    lm?.removeUpdates(this)
+                                    continuation.resume(locate)
                                 } else setPeriod += setPeriod
                             }
                         }
@@ -50,18 +54,30 @@ class AndroidCoordinateDeterminant(private var context: Context?) : BaseCoordina
                         override fun onProviderEnabled(provider: String) {}
 
                         override fun onProviderDisabled(provider: String) {
-                            if (provider == LocationManager.NETWORK_PROVIDER) {
-                                lm.removeUpdates(this)
+                            if (prov == provider) {
                                 continuation.resumeWithException(Throwable(strNoNetwork))
                             }
                         }
                     }
 
-                    val provider = lm.getBestProvider(Criteria().apply { accuracy = Criteria.ACCURACY_MEDIUM },
-                            true) ?: LocationManager.NETWORK_PROVIDER
-                    lm.requestLocationUpdates(provider, setPeriod, DISTANCE, locationListener, Looper.getMainLooper())
+                    locationListener?.let {listener ->
+                        lm?.requestLocationUpdates(provider, setPeriod, DISTANCE, listener, Looper.getMainLooper())
+                    }
                 }
             }
         }
+    }
+
+    override fun removeListener() {
+        locationListener?.let {
+            lm?.removeUpdates(it)
+        }
+    }
+
+    override fun terminate() {
+        locationListener = null
+        lm = null
+        context = null
+        coroutineContext.cancelChildren()
     }
 }

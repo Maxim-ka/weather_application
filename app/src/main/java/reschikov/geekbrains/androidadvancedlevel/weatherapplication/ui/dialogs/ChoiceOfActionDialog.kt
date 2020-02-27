@@ -12,9 +12,7 @@ import androidx.navigation.navGraphViewModels
 import kotlinx.android.synthetic.main.button.*
 import kotlinx.android.synthetic.main.choice_dialog.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceViewModel
 
 private const val KEY_SET = "key set"
@@ -25,7 +23,7 @@ class ChoiceOfActionDialog : DialogFragment(){
     private val rectLocation : RectF = RectF()
     private val rectCity : RectF = RectF()
     @ExperimentalCoroutinesApi
-    private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places){get<ListPlaceModelFactory>()}
+    private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places)
     private val navController : NavController by lazy { findNavController() }
     @ExperimentalCoroutinesApi
     private val gestureDetector : GestureDetectorCompat by lazy { GestureDetectorCompat(context, createGesture()) }

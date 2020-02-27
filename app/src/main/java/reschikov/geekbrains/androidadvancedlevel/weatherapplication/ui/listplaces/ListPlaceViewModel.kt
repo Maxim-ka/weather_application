@@ -13,9 +13,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.D
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 
 @ExperimentalCoroutinesApi
-class ListPlaceViewModel(private var derivable: Derivable?,
-                         override val errorChannel: BroadcastChannel<Throwable?>,
-                         override val booleanChannel: BroadcastChannel<Boolean>) :
+class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
+                         override var booleanChannel: BroadcastChannel<Boolean>?,
+                         private var derivable: Derivable?) :
         BaseListViewModel<Place>(),
         AddablePlace{
 
@@ -31,7 +31,7 @@ class ListPlaceViewModel(private var derivable: Derivable?,
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
             derivable?.let {derivable ->
-                derivable.getListCities().run {
+                derivable.getListCities().apply {
                    toDistribute(first, second)
                 }
             }

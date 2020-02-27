@@ -13,33 +13,30 @@ import java.util.*
 
 private const val PADDING_DRAWABLE = 24
 
-class BindingDataTime : DisplayedDateTime {
+@BindingAdapter("date")
+fun setDate(textView: TextView, dt: Long){
+    textView.text = DateFormat.getDateInstance(DateFormat.FULL).format(Date(dt))
+}
 
-    @BindingAdapter("date")
-    override fun setDate(textView: TextView, dt: Long){
-        textView.text = DateFormat.getDateInstance(DateFormat.FULL).format(Date(dt))
+@BindingAdapter("current_time")
+fun setCurrentTime(textView: AppCompatTextView, dt: Long){
+    var warning: Drawable? = null
+    if (System.currentTimeMillis() - dt >= THREE_HOURS){
+        warning = getDrawable(textView.context, R.drawable.ic_warning)
+        textView.text = textView.context.getString(R.string.att_out_date)
+    } else {
+        setTime(textView, dt)
     }
+    textView.setCompoundDrawablesWithIntrinsicBounds(warning,null, null, null)
+    textView.compoundDrawablePadding = warning?.let { PADDING_DRAWABLE } ?: NAN_INT
+}
 
-    @BindingAdapter("current_time")
-    override fun setCurrentTime(textView: AppCompatTextView, dt: Long){
-        var warning: Drawable? = null
-        if (System.currentTimeMillis() - dt >= THREE_HOURS){
-            warning = getDrawable(textView.context, R.drawable.ic_warning)
-            textView.text = textView.context.getString(R.string.att_out_date)
-        } else {
-            setTime(textView, dt)
-        }
-        textView.setCompoundDrawablesWithIntrinsicBounds(warning,null, null, null)
-        textView.compoundDrawablePadding = warning?.let { PADDING_DRAWABLE } ?: NAN_INT
-    }
+@BindingAdapter("time")
+fun setTime(textView: TextView, dt: Long){
+    textView.text = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(Date(dt))
+}
 
-    @BindingAdapter("time")
-    override fun setTime(textView: TextView, dt: Long){
-        textView.text = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(Date(dt))
-    }
-
-    @BindingAdapter("date_time")
-    override fun setDataTime(textView: TextView, dt: Long){
-        textView.text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(Date(dt))
-    }
+@BindingAdapter("date_time")
+fun setDataTime(textView: TextView, dt: Long){
+    textView.text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM).format(Date(dt))
 }

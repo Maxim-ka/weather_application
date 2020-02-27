@@ -3,7 +3,6 @@ package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.networ
 import android.content.Context
 import kotlinx.coroutines.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Closable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
 import kotlin.coroutines.CoroutineContext
 
@@ -11,8 +10,8 @@ private const val INTERVAL_UPDATE = 2_000L
 private const val MIN_ACCURACY = 200.0f
 private const val SEARCH_TIME = 60_000L
 
-abstract class BaseCoordinateDeterminant(private var  context: Context?)
-    : DeterminedCoordinates, CoroutineScope, Closable {
+abstract class BaseCoordinateDeterminant(context: Context?)
+    : DeterminedCoordinates, CoroutineScope{
 
     override val coroutineContext: CoroutineContext by lazy { Dispatchers.IO + Job() }
     protected val strNoNetwork : String? by lazy {
@@ -30,16 +29,19 @@ abstract class BaseCoordinateDeterminant(private var  context: Context?)
                         val location = determineCoordinates()
                         Pair(GetByCoordinates(location.latitude, location.longitude), null)
                     } catch (e: Throwable) {
+                        removeListener()
                         Pair(null, e)
                     }
                 }
             } catch (e: TimeoutCancellationException) {
+                removeListener()
                 Pair(null, Throwable(strTimeout))
             }
         }
     }
 
     override fun toClose() {
-        context = null
+        terminate()
+        coroutineContext.cancel()
     }
 }

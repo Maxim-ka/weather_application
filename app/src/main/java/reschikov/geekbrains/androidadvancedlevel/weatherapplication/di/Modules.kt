@@ -1,16 +1,13 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.di
 
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_GEO
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_LOCAL
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_WEATHER
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.AppDatabase
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.DataBaseProvider
@@ -20,7 +17,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants.AndroidCoordinateDeterminant
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants.GoogleCoordinateDeterminant
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding.DataBindingAdapter
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.ListPlaceModelFactory
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notifications.Notice
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notifications.Notifiable
@@ -28,6 +24,7 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.Sende
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.TemperatureColor
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.WindDirection
+import java.lang.ref.WeakReference
 
 private const val NAME_DATABASE = "weather.db"
 
@@ -40,36 +37,33 @@ val appModule = module {
 }
 
 val weatherModule  = module {
-    scope(named(SCOPE_WEATHER)) {
-        scoped<RequestedWeather> { WeatherServiceProvider(androidContext()) }
-    }
+    factory<RequestedWeather> { WeatherServiceProvider(androidContext()) }
 }
 
 val geoModule  = module {
-    scope(named(SCOPE_GEO)) {
-        factory <Geocoded> { GeoCoordinatesProvider(androidContext()) }
-    }
+    factory <Geocoded> { GeoCoordinatesProvider(androidContext()) }
 }
 
 val locationModule  = module {
-    scope(named(SCOPE_LOCAL)) {
-        factory<IssuedCoordinates> { LocateCoordinatesProvider(androidContext(),
-            GoogleCoordinateDeterminant(androidContext()),
-            AndroidCoordinateDeterminant(androidContext()))}
+    factory<IssuedCoordinates> {
+        LocateCoordinatesProvider(androidContext(),
+        GoogleCoordinateDeterminant(androidContext()),
+        AndroidCoordinateDeterminant(androidContext()))
     }
 }
 
 @ExperimentalCoroutinesApi
 val viewModelModule = module {
-    viewModel { WeatherViewModel(get(), BroadcastChannel(Channel.CONFLATED), BroadcastChannel(Channel.CONFLATED)) }
-    single { ListPlaceModelFactory(get()) }
+    viewModel {
+        WeatherViewModel(BroadcastChannel(Channel.CONFLATED),
+                BroadcastChannel(Channel.CONFLATED), WeakReference(get()))
+    }
+    factory<ViewModelProvider.Factory> { ListPlaceModelFactory(get<Derivable>()) }
     viewModel { SenderViewModel() }
 }
 
-val dataBindingModule = module {
-    single { DataBindingAdapter() }
-}
-
 val notificationModule = module {
-    single<Notifiable> { Notice(get())}
+    single<Notifiable> {
+        Notice(get())
+    }
 }

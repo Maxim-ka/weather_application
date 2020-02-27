@@ -13,11 +13,12 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
+import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
-class WeatherViewModel(private var derivable: Derivable?,
-                       override val errorChannel: BroadcastChannel<Throwable?>,
-                       override val booleanChannel: BroadcastChannel<Boolean>) :
+class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
+                       override var booleanChannel: BroadcastChannel<Boolean>?,
+                       private val weakDerivable: WeakReference<Derivable>) :
         BaseListViewModel<ForecastTable>() {
 
     val fieldCurrentState = ObservableField<CurrentTable>()
@@ -25,7 +26,7 @@ class WeatherViewModel(private var derivable: Derivable?,
     fun getStatePlace(lat: Double, lon: Double){
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
-            derivable?.let {
+            weakDerivable.get()?.let {
                 it.getDataWeather(lat, lon).run {
                         state?.let { state -> setWeather(state)}
                         setError(error)
@@ -38,7 +39,7 @@ class WeatherViewModel(private var derivable: Derivable?,
     fun getStateLastPlace(){
         viewModelScope.launch(Dispatchers.IO){
             isProgressVisible.set(true)
-            val data= derivable?.getStateLastPlace()
+            val data= weakDerivable.get()?.getStateLastPlace()
             data?.let{
                 it.state?.let { state-> setWeather(state) }
                 setError(it.error)
@@ -51,7 +52,7 @@ class WeatherViewModel(private var derivable: Derivable?,
     override fun addStateOfCurrentPlace(){
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
-            derivable?.let {
+            weakDerivable.get()?.let {
                 it.getStateCurrentPlace().run {
                     state?.let { state -> setWeather(state) }
                     setError(error)
@@ -103,6 +104,6 @@ class WeatherViewModel(private var derivable: Derivable?,
 
     override fun onCleared() {
         super.onCleared()
-        derivable = null
+        weakDerivable.clear()
     }
 }

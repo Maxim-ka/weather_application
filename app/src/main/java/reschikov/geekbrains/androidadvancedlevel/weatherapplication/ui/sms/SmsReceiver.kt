@@ -5,17 +5,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.get
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.notifications.Notifiable
 
 class SmsReceiver : BroadcastReceiver(), KoinComponent {
 
-    private val notifiable: Notifiable by inject()
+    private var notifiable : Notifiable? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         intent.run {
             action?.let {
+                notifiable = get<Notifiable>()
                 var message: String? = null
                 when (it) {
                     ACTION_SENT_SMS -> {
@@ -25,7 +26,11 @@ class SmsReceiver : BroadcastReceiver(), KoinComponent {
                         message = if (resultCode != Activity.RESULT_OK) context.getString(R.string.err_msg_not_delivered) else context.getString(R.string.message_delivered)
                     }
                 }
-                message?.let {msg -> notifiable.show(notifiable.makeNote(getStringExtra(KEY_RECIPIENT), msg, CHANNEL_ID_SMS),null) }
+                message?.let {msg ->
+                    notifiable?.makeNote(getStringExtra(KEY_RECIPIENT), msg, CHANNEL_ID_SMS)?.let {notification ->
+                        notifiable?.show(notification,null) }
+                    }
+                notifiable = null
             }
         }
     }

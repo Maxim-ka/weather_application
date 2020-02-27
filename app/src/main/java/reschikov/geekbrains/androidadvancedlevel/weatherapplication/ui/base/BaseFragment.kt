@@ -8,7 +8,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ResolvableApiException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -25,25 +24,24 @@ private const val REQUEST_MY_PERMISSIONS_ACCESS_LOCATION = 10
 @ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment(), CoroutineScope {
 
-    override val coroutineContext: CoroutineContext by lazy {
+    override val coroutineContext : CoroutineContext by lazy {
         Dispatchers.Main + SupervisorJob()
     }
-
-    abstract val model: BaseViewModel
-    protected val navController : NavController by lazy { findNavController() }
-    private lateinit var successJob: Job
-    private lateinit var errorJob: Job
+    abstract val viewModel : BaseViewModel
+    protected var navController : NavController? = null
+    private lateinit var successJob : Job
+    private lateinit var errorJob : Job
 
     @ExperimentalCoroutinesApi
     override fun onStart() {
         super.onStart()
         successJob = launch {
-            model.getBooleanChannel().consumeEach {
+            viewModel.getBooleanChannel()?.consumeEach {
                 renderHaveCities(it)
             }
         }
         errorJob = launch{
-            model.getErrorChannel().consumeEach {e ->
+            viewModel.getErrorChannel()?.consumeEach { e ->
                 e?.let { renderError(it) }
             }
         }
@@ -83,7 +81,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
             REQUEST_MY_PERMISSIONS_ACCESS_LOCATION ->
                 if (permissions.size == 2 && (grantResults[0] == PackageManager.PERMISSION_GRANTED ||
                     grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
-                    model.addStateOfCurrentPlace()
+                    viewModel.addStateOfCurrentPlace()
                 } else {
                     showAlertDialog(R.string.disabling_location, getString(R.string.no_permission_determine_location))
                 }
@@ -95,7 +93,7 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
         when(requestCode){
             REQUEST_GOOGLE_COORDINATE -> {
                 if (resultCode == AppCompatActivity.RESULT_OK){
-                    model.addStateOfCurrentPlace()
+                    viewModel.addStateOfCurrentPlace()
                 } else {
                     context?.let { showMessage(bottom_navigation, getString(R.string.refusal_google),
                             ContextCompat.getColor(it, R.color.colorPrimaryDark)) }
@@ -122,8 +120,10 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
         errorJob.cancel()
     }
 
-    override fun onDestroy () {
-        super .onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        coroutineContext.cancelChildren()
         coroutineContext.cancel()
+        navController = null
     }
 }

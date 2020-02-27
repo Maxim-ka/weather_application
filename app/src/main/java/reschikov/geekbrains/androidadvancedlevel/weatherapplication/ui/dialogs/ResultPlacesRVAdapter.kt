@@ -8,8 +8,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseRVAdapter
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
+import java.lang.ref.WeakReference
 
-open class ResultPlacesRVAdapter(private val onItemClickListener: OnItemClickListener<Place>) : BaseRVAdapter<Place>() {
+open class ResultPlacesRVAdapter(private val weakOnItemClickListener: WeakReference<OnItemClickListener<Place>>) : BaseRVAdapter<Place>() {
 
     override var list: MutableList<Place> = mutableListOf()
         set(value){
@@ -26,12 +27,19 @@ open class ResultPlacesRVAdapter(private val onItemClickListener: OnItemClickLis
         return PlaceViewHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder<Place>, i: Int) {
-        super.onBindViewHolder(viewHolder, i)
-        viewHolder.itemView.setOnClickListener {onItemClickListener.onItemClick(list[i])}
+    override fun onViewAttachedToWindow(holder: ViewHolder<Place>) {
+        super.onViewAttachedToWindow(holder)
+        holder.itemView.setOnClickListener {
+            weakOnItemClickListener.get()?.onItemClick(list[holder.adapterPosition])
+        }
     }
 
-    class PlaceViewHolder(private val binding: ItemCityBinding) :
+    override fun onViewDetachedFromWindow(holder: ViewHolder<Place>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
+    }
+
+    class PlaceViewHolder(val binding: ItemCityBinding) :
             BaseRVAdapter.ViewHolder<Place>(binding.root){
 
         override fun bind(item: Place) {

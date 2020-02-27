@@ -4,41 +4,10 @@ import android.content.Context
 import android.content.res.Configuration
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.databinding.BindingAdapter
-import androidx.databinding.ObservableArrayList
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 
 abstract class BaseRVAdapter<T> :
-        RecyclerView.Adapter<BaseRVAdapter.ViewHolder<T>>(){
-
-    companion object{
-        @BindingAdapter("list")
-        @JvmStatic
-        fun <T> installDataIntoAdapter(recyclerView: RecyclerView, observableArrayList: ObservableArrayList<T>){
-            (recyclerView.adapter as BaseRVAdapter<T>).list = observableArrayList.toMutableList()
-        }
-
-        @BindingAdapter("orientation")
-        @JvmStatic
-        fun determineOrientation(recyclerView: RecyclerView, config: Int){
-            (recyclerView.layoutManager as LinearLayoutManager).apply {
-                orientation = if (config == Configuration.ORIENTATION_LANDSCAPE){
-                    LinearLayoutManager.HORIZONTAL
-                } else {
-                    LinearLayoutManager.VERTICAL
-                }
-            }
-        }
-
-        @BindingAdapter("size")
-        @JvmStatic
-        fun setWidth(cardView: MaterialCardView, size: Int){
-            cardView.layoutParams = LinearLayout.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT)
-        }
-    }
+        RecyclerView.Adapter<BaseRVAdapter.ViewHolder<T>>() {
 
     abstract var list: MutableList<T>
 
@@ -50,12 +19,6 @@ abstract class BaseRVAdapter<T> :
         return list.size
     }
 
-    abstract class ViewHolder<T>(view: View) :
-            RecyclerView.ViewHolder(view){
-
-        abstract fun bind(item: T)
-    }
-
     protected fun determineWidth(context: Context) : Int {
         val dm = context.resources.displayMetrics
         val width = dm.widthPixels
@@ -65,6 +28,12 @@ abstract class BaseRVAdapter<T> :
         } else {
             ViewGroup.LayoutParams.MATCH_PARENT
         }
+    }
+
+    abstract class ViewHolder<T>(view: View) :
+            RecyclerView.ViewHolder(view){
+
+        abstract fun bind(item: T)
     }
 }
 

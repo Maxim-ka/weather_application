@@ -7,7 +7,7 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="conf"
+            name="position"
             type="java.lang.Integer"/>
         <variable
             name="model"
@@ -25,10 +25,10 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_items"
+                android:id="@+id/rv_forecasts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:orientation="@{conf}"
+                app:orientation="@{position}"
                 app:list="@{model.observableList}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior = "@string/appbar_scrolling_view_behavior"

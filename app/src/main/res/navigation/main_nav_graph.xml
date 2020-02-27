@@ -36,7 +36,7 @@
             <action
                 android:id="@+id/action_fragmentOfListOfPlaces_to_fragmentWeather"
                 app:destination="@id/fragmentWeather"
-                app:popUpTo="@id/fragmentWeather" />
+                app:popUpTo="@id/fragmentWeather"/>
         </fragment>
         <dialog
             android:id="@+id/choiceOfActionDialog"

@@ -34,10 +34,40 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setNavController()
     }
 
-    @ExperimentalCoroutinesApi
-    private fun setNavController(){
-        setListenerBottomNavigation()
+    private fun setNavController() {
         NavigationUI.setupWithNavController(toolbar, navController)
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        if (destination.id != bottom_navigation.selectedItemId){
+            markItemBottomMenu(destination.id)
+        }
+        if(destination.id == R.id.fragmentWeather && arguments == null){
+            model.getStateLastPlace()
+        }
+    }
+
+    /*костыль*/
+    private fun markItemBottomMenu(id : Int){
+        for (item: MenuItem in bottom_navigation.menu.iterator()){
+            if (item.itemId == id){
+                item.isChecked = true
+                return
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main_activity, menu)
+        return true
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onStart() {
+        super.onStart()
+        setListenerBottomNavigation()
+        navController.addOnDestinationChangedListener(this)
     }
 
     @ExperimentalCoroutinesApi
@@ -71,38 +101,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    @ExperimentalCoroutinesApi
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        if (destination.id != bottom_navigation.selectedItemId){
-            markItemBottomMenu(destination.id)
-        }
-        if(destination.id == R.id.fragmentWeather && arguments == null){
-            model.getStateLastPlace()
-        }
-    }
-
-    /*костыль*/
-    private fun markItemBottomMenu(id : Int){
-        for (item: MenuItem in bottom_navigation.menu.iterator()){
-            if (item.itemId == id){
-                item.isChecked = true
-                return
-            }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main_activity, menu)
-        return true
-    }
-
-    override fun onStart() {
-        super.onStart()
-        navController.addOnDestinationChangedListener(this)
-    }
-
     override fun onStop() {
         super.onStop()
         navController.removeOnDestinationChangedListener(this)
+        bottom_navigation.setOnNavigationItemReselectedListener(null)
+        bottom_navigation.setOnNavigationItemSelectedListener(null)
     }
 }

@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_items"
+            android:id="@+id/rv_places"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

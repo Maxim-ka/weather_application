@@ -1,16 +1,12 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
+import leakcanary.AppWatcher
 import org.koin.core.KoinComponent
-import org.koin.core.qualifier.named
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_GEO
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_LOCAL
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.SCOPE_WEATHER
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Closable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Current
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.forecast.ForecastList
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
@@ -18,7 +14,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.AppEx
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Place
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
-import timber.log.Timber
 
 class Repository(private val storable: Storable,
                  private val mapping: Mapping,
@@ -26,7 +21,6 @@ class Repository(private val storable: Storable,
                  private var geocoded: Geocoded? = null,
                  private var issuedCoordinates: IssuedCoordinates? = null)
     : Derivable, KoinComponent{
-     
     
     /*Добавление города*/
     override suspend fun addPlace(requested: Requested): Pair<List<Place>?, Throwable?> {
@@ -39,7 +33,7 @@ class Repository(private val storable: Storable,
 
     private fun getRequestedWeather() : RequestedWeather{
         return requestedWeather?.let { it } ?: run{
-            requestedWeather = getKoin().getOrCreateScope(SCOPE_WEATHER, named(SCOPE_WEATHER)).get()
+            requestedWeather = getKoin().get<RequestedWeather>()
             requestedWeather as RequestedWeather
         }
     }
@@ -72,7 +66,7 @@ class Repository(private val storable: Storable,
 
     private fun getIssuedCoordinates() : IssuedCoordinates{
         return issuedCoordinates?.let { it } ?: run {
-            issuedCoordinates = getKoin().getOrCreateScope(SCOPE_LOCAL, named(SCOPE_LOCAL)).get()
+            issuedCoordinates = getKoin().get<IssuedCoordinates>()
             issuedCoordinates as IssuedCoordinates
         }
     }
@@ -87,8 +81,8 @@ class Repository(private val storable: Storable,
     }
 
     private fun getGeocoded() : Geocoded{
-        return geocoded?.let { it  } ?: run {
-            geocoded = getKoin().getOrCreateScope(SCOPE_GEO, named(SCOPE_GEO)).get()
+        return geocoded?.let { it } ?: run {
+            geocoded = getKoin().get<Geocoded>()
             geocoded as Geocoded
         }
     }
@@ -132,7 +126,6 @@ class Repository(private val storable: Storable,
     /*получение погоды с последнего просмотра*/
     override suspend fun getStateLastPlace(): Weather? {
         return  storable.getLastPlace()?.let {
-            Timber.i("$it")
             getDataWeather(it.coord.lat, it.coord.lon)
         }
     }
@@ -178,9 +171,14 @@ class Repository(private val storable: Storable,
 
     private fun closeModules(){
         issuedCoordinates?.let {
-            (it as Closable).toClose()
+            it.toClose()
+            AppWatcher.objectWatcher.watch(it, "TAG issuedCoordinates ${System.identityHashCode(it)}")
             issuedCoordinates = null
         }
-        geocoded = null
+        geocoded?.let {
+            it.toClose()
+            AppWatcher.objectWatcher.watch(it, "TAG geocoded ${System.identityHashCode(it)}")
+            geocoded = null
+        }
     }
 }

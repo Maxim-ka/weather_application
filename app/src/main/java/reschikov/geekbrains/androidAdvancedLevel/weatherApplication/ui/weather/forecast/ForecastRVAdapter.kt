@@ -9,10 +9,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.databas
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.ItemForecastdayBinding
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseRVAdapter
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.OnItemClickListener
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.databinding.DataBindingAdapter
+import java.lang.ref.WeakReference
 
-class ForecastRVAdapter(private val dataBindingAdapter: DataBindingAdapter,
-                        private val onItemClickListener: OnItemClickListener<ForecastTable>)
+class ForecastRVAdapter(private val weakOnItemClickListener: WeakReference<OnItemClickListener<ForecastTable>>)
     : BaseRVAdapter<ForecastTable>() {
 
     val isShownSelection = ObservableBoolean()
@@ -24,7 +23,8 @@ class ForecastRVAdapter(private val dataBindingAdapter: DataBindingAdapter,
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
-        val binding: ItemForecastdayBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_forecastday, viewGroup, false, dataBindingAdapter)
+        val binding: ItemForecastdayBinding = DataBindingUtil.inflate(layoutInflater,
+            R.layout.item_forecastday, viewGroup, false)
         binding.size = determineWidth(viewGroup.context)
         return ViewHolder(binding)
     }
@@ -33,15 +33,23 @@ class ForecastRVAdapter(private val dataBindingAdapter: DataBindingAdapter,
         super.onBindViewHolder(viewHolder, i)
         val holder = viewHolder as ViewHolder
         holder.binding.isDisplaySelecting = isShownSelection
-        holder.binding.root.setOnClickListener {
-            if (isShownSelection.get())  {
-                onItemClickListener.onItemClick(list[i])
-            }
-        }
         holder.binding.executePendingBindings()
     }
 
-    class ViewHolder(val binding: ItemForecastdayBinding) :
+    override fun onViewAttachedToWindow(holder: BaseRVAdapter.ViewHolder<ForecastTable>) {
+        super.onViewAttachedToWindow(holder)
+        holder.itemView.setOnClickListener{
+            if (isShownSelection.get())  {
+                weakOnItemClickListener.get()?.onItemClick(list[holder.adapterPosition])
+            }
+        }
+    }
+    override fun onViewDetachedFromWindow(holder: BaseRVAdapter.ViewHolder<ForecastTable>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
+    }
+
+    class ViewHolder(var binding: ItemForecastdayBinding) :
            BaseRVAdapter.ViewHolder<ForecastTable>(binding.root){
 
        override fun bind(item: ForecastTable) {

@@ -6,9 +6,8 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.weather_frame.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -17,35 +16,41 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_MESSAGE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.current.FragmentCurrentDisplay
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.forecast.FragmentForecastDisplay
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 
 private const val DEFAULT_LOCATION = 0.0
 
 @ExperimentalCoroutinesApi
 class FragmentWeather : BaseFragment(), Collectable {
 
-    override val model: WeatherViewModel by sharedViewModel()
-    private val listenerPage: ViewPager.SimpleOnPageChangeListener by lazy {
-        object : ViewPager.SimpleOnPageChangeListener(){
+    override val viewModel : WeatherViewModel by sharedViewModel()
+    private val fragmentAdapter : FragmentAdapter by lazy { createFragmentAdapter() }
+    private val titleForecast : String by lazy { getString(R.string.title_forecast) }
+    private val titleCurrent : String by lazy { getString(R.string.title_current_state) }
+    private val listenerPage : ViewPager.SimpleOnPageChangeListener by lazy { createListenerPage() }
+    private var lat : Double = 0.0
+    private var lon : Double = 0.0
+    private var asSMS : Boolean = false
+
+    private fun createFragmentAdapter() : FragmentAdapter{
+        return FragmentAdapter(childFragmentManager, listOf(titleCurrent, titleForecast))
+    }
+
+    private fun createListenerPage() : ViewPager.SimpleOnPageChangeListener{
+         return object : ViewPager.SimpleOnPageChangeListener(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val adapter = vp_pages.adapter as FragmentAdapter
-                takeUnless { adapter.getItem(position) is FragmentForecastDisplay }?.let{
-                    adapter.findFragment(titleForecast)?.let { (it as AvailableActionMode).checkAndClose() }
+                takeIf { fragmentAdapter.getPageTitle(position) != titleForecast }?.let{
+                    fragmentAdapter.findFragment(titleForecast)?.let { (it as AvailableActionMode).checkAndClose() }
                 }
             }
         }
     }
-    private val titleCurrent: String by lazy { getString(R.string.title_current_state) }
-    private val titleForecast: String by lazy { getString(R.string.title_forecast) }
-    private var lat: Double = 0.0
-    private var lon: Double = 0.0
-    private var asSMS: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.weather_frame, container, false)
         setHasOptionsMenu(true)
+        navController = findNavController()
         savedInstanceState?.let {
             lat = it.getDouble(KEY_LAT, DEFAULT_LOCATION)
             lon = it.getDouble(KEY_LON, DEFAULT_LOCATION)
@@ -55,12 +60,12 @@ class FragmentWeather : BaseFragment(), Collectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.toolbar?.setTitle(R.string.title_app_name)
+        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.title_app_name)}
         arguments?.let {
             val newLat = it.getDouble(KEY_LAT)
             val newLon = it.getDouble(KEY_LON)
             if (lat != newLat && lon != newLon) {
-                model.getStatePlace(newLat, newLon)
+                viewModel.getStatePlace(newLat, newLon)
                 lat = newLat
                 lon = newLon
             }
@@ -68,21 +73,8 @@ class FragmentWeather : BaseFragment(), Collectable {
         createReportWeather()
     }
 
-    /*При возникновении проблем просто перейти на Viewpager2*/
     private fun createReportWeather(){
-        vp_pages.adapter = FragmentAdapter(childFragmentManager, mutableListOf<Pair<String, Fragment>>().apply {
-            takeIf { childFragmentManager.fragments.isEmpty() }?.let {
-                add(Pair(titleCurrent, FragmentCurrentDisplay()))
-                add(Pair(titleForecast, FragmentForecastDisplay()))
-            } ?: apply {
-                for (frag: Fragment in childFragmentManager.fragments){
-                    when(frag){
-                        is FragmentCurrentDisplay -> add(Pair(titleCurrent, frag))
-                        is FragmentForecastDisplay -> add(Pair(titleForecast, frag))
-                    }
-                }
-            }
-        })
+        vp_pages.adapter = fragmentAdapter
         tl_tabs.setupWithViewPager(vp_pages)
     }
 
@@ -103,7 +95,7 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.locate ->{
-                model.addStateOfCurrentPlace()
+                viewModel.addStateOfCurrentPlace()
                 true
             }
             R.id.to_share -> {
@@ -112,7 +104,7 @@ class FragmentWeather : BaseFragment(), Collectable {
                 true
             }
             R.id.fragmentSensors ->{
-                navController.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
+                navController?.navigate(R.id.action_fragmentWeather_to_fragmentSensors)
                 true
             }
             R.id.fragmentSMS ->{
@@ -125,16 +117,18 @@ class FragmentWeather : BaseFragment(), Collectable {
     }
 
     private fun toShare(){
-        ((vp_pages.adapter as FragmentAdapter)
-            .getItem(vp_pages.currentItem) as Spreadable).toShare(this@FragmentWeather)
+        (fragmentAdapter.findFragment(fragmentAdapter.getPageTitle(vp_pages.currentItem)) as Spreadable)
+                .toShare(this@FragmentWeather)
     }
 
-    override fun collectData(string: String) {
-        takeIf { asSMS } ?.let { sendAsSms(string) } ?: shareWith(string)
+    override fun collectData(string: String?) {
+        string?.let {str ->
+            takeIf { asSMS } ?.let { sendAsSms(str) } ?: shareWith(str)
+        }
     }
 
     private fun sendAsSms(string: String){
-        navController.navigate(R.id.action_fragmentWeather_to_fragmentSMS, Bundle().apply {
+        navController?.navigate(R.id.action_fragmentWeather_to_fragmentSMS, Bundle().apply {
             putString(KEY_MESSAGE, string)
         })
     }
@@ -161,7 +155,7 @@ class FragmentWeather : BaseFragment(), Collectable {
 
     override fun renderHaveCities (hasCity: Boolean){
         hasCity.takeUnless { it }?.let {
-            navController.takeIf { it.currentDestination?.id == R.id.fragmentWeather
+            navController.takeIf { it?.currentDestination?.id == R.id.fragmentWeather
             }?.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
         }
     }
@@ -169,5 +163,13 @@ class FragmentWeather : BaseFragment(), Collectable {
     override fun onStop() {
         super.onStop()
         vp_pages.removeOnPageChangeListener(listenerPage)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        vp_pages.also {
+            it.clearOnPageChangeListeners()
+            it.adapter = null
+        }
     }
 }

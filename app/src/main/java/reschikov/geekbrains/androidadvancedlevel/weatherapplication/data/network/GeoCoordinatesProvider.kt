@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
@@ -55,6 +57,11 @@ class GeoCoordinatesProvider(context: Context) : RequestBaseProvider(context), G
             if (checkLackOfNetwork()) throw Throwable(strNoNetwork)
             request(place, code)
         }
+    }
+
+    override fun toClose() {
+        coroutineContext.cancelChildren()
+        coroutineContext.cancel()
     }
 
     private suspend fun request(place: String, code: String) : List<Result>{

@@ -31,7 +31,7 @@ class FragmentSMS : Fragment() {
     private val model: SenderViewModel by viewModel()
     private val smsManager by lazy { SmsManager.getDefault() }
     private var snackbar: Snackbar? = null
-    private lateinit var binding: SenderFrameBinding
+    private var binding: SenderFrameBinding? = null
     private val errorPhone:(Boolean) -> Unit = {isPhone: Boolean ->
         isPhone.takeUnless{it} ?.let {
             til_phone.error = getString(R.string.err_only_numbers)
@@ -49,18 +49,22 @@ class FragmentSMS : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.sender_frame, container, false)
-        binding.model = model
+        binding?.model = model
         if (savedInstanceState == null){
             arguments?.let {bundle -> bundle.getString(KEY_MESSAGE)?.let { model.setText(it) } }
         }
         setHasOptionsMenu(true)
-        setAddRecipientNumber()
         activity?.let { (it as MainActivity).supportActionBar?.setTitle(getString(R.string.title_send_sms)) }
-        return binding.root
+        return binding?.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setAddRecipientNumber()
     }
 
     private fun setAddRecipientNumber(){
-        binding.acivPhoneContact.setOnClickListener{
+        binding?.acivPhoneContact?.setOnClickListener{
             startActivityForResult(Intent(Intent.ACTION_PICK).apply {
                 type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
             }, REQUEST_SELECT_PHONE_NUMBER)
@@ -107,7 +111,7 @@ class FragmentSMS : Fragment() {
 
     private fun sendMessage(): Boolean {
         if (!model.hasPhone(errorPhone)) return false
-        if (binding.acetSms.text.isNullOrBlank()) {
+        if (binding?.acetSms?.text.isNullOrBlank()) {
             snackbar = showMessage(acet_sms, getString(R.string.empty_message), Color.RED)
             return false
         }
@@ -141,11 +145,11 @@ class FragmentSMS : Fragment() {
                 .setTitle(getString(R.string.title_send_SMS))
                 .setIcon(R.drawable.ic_question)
                 .setMessage("${getString(R.string.send)} ${model.getNumberSMS()}" +
-                    " ${getString(R.string.sms_subscriber)} ${binding.tveNumberPhone.text} ?")
+                    " ${getString(R.string.sms_subscriber)} ${binding?.tveNumberPhone?.text} ?")
                 .setCancelable(false)
                 .setPositiveButton(R.string.but_ok){ dialog, which ->
-                    binding.acetSms.text?.let {text ->
-                        binding.tveNumberPhone.text?.let {phone->
+                    binding?.acetSms?.text?.let {text ->
+                        binding?.tveNumberPhone?.text?.let {phone->
                             sendSms(text.toString(), phone.toString())
                             dialog.dismiss()
                         }
@@ -181,6 +185,15 @@ class FragmentSMS : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        binding?.acivPhoneContact?.setOnClickListener(null)
         closeShownMessage()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.let {
+            it.model = null
+            binding = null
+        }
     }
 }

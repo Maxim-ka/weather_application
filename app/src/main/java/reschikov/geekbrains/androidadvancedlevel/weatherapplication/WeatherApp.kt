@@ -1,10 +1,10 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication
 
-import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -14,7 +14,7 @@ import org.koin.core.logger.Logger
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.di.*
 import timber.log.Timber
 
-class WeatherApp : Application() {
+class WeatherApp : MultiDexApplication() {
 
     @ExperimentalCoroutinesApi
     override fun onCreate() {
@@ -24,7 +24,7 @@ class WeatherApp : Application() {
             logger(setLogger())
             androidContext (this@WeatherApp)
             modules(listOf(appModule, weatherModule, locationModule, geoModule,
-                viewModelModule, dataBindingModule, notificationModule))
+                viewModelModule, notificationModule))
         }
         Timber.plant(Timber.DebugTree())
     }
