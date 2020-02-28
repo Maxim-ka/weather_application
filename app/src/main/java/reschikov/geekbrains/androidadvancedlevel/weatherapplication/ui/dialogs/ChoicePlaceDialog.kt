@@ -32,7 +32,7 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
     @ExperimentalCoroutinesApi
     private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places)
     private val resultPlacesRVAdapter: ResultPlacesRVAdapter by lazy { ResultPlacesRVAdapter(WeakReference(this)) }
-    private var resultJob: Job? = null
+    private lateinit var resultJob: Job
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -82,7 +82,7 @@ class ChoicePlaceDialog : DialogFragment(), CoroutineScope, OnItemClickListener<
 
     override fun onStop() {
         super.onStop()
-        resultJob?.cancel()
+        resultJob.cancel()
     }
 
     private fun setResult(results: List<Place>){

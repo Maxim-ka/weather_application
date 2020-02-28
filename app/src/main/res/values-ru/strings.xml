@@ -16,7 +16,6 @@
     <string name="err_consist_letters">Код должен быть из 2-х букв</string>
     <string name="err_contains_numbers">Содержит числа</string>
     <string name="err_empty_field">Пустое поле</string>
-    <string name="err_not_filled">Поле не заполнено</string>
     <string name="err_no_network">Нет соединения</string>
     <string name="error_writing_database">Ошибка записи в БД</string>
     <string name="err_database_error">Ошибка БД</string>

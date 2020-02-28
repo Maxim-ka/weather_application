@@ -117,15 +117,15 @@ class FragmentForecastDisplay : Fragment(),
 
     private fun createString(sb: StringBuilder, forecast: ForecastTable){
         forecast.run{
-            sb.append("\n${DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM).format(Date(dt))}\n" +
-                    "${weather.description}\n" +
-                    "${getString(R.string.min_temp)} $tempMin $C\n" +
-                    "${getString(R.string.max_temp)} $tempMax $C\n" +
-                    "${getString(R.string.humidity)} $humidity ${getString(R.string.pct)}\n" +
-                    "${getString(R.string.rainfall)} $precipitation ${getString(R.string.mm)}\n" +
-                    "${getString(R.string.overcast)} $clouds ${getString(R.string.pct)}\n" +
-                    "${getString(R.string.wind)} $wind ${getString(R.string.m_c)}\n" +
-                    "${getString(R.string.pressure)} $pressure ${getString(R.string.mm_Hg)}\n")
+            sb.append("\n${DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM).format(Date(dt))}\n")
+                .append("${weather.description}\n")
+                .append("${getString(R.string.min_temp)} $tempMin $C\n")
+                .append("${getString(R.string.max_temp)} $tempMax $C\n")
+                .append("${getString(R.string.humidity)} $humidity ${getString(R.string.pct)}\n")
+                .append("${getString(R.string.rainfall)} $precipitation ${getString(R.string.mm)}\n")
+                .append("${getString(R.string.overcast)} $clouds ${getString(R.string.pct)}\n")
+                .append("${getString(R.string.wind)} $wind ${getString(R.string.m_c)}\n")
+                .append("${getString(R.string.pressure)} $pressure ${getString(R.string.mm_Hg)}\n")                                
         }
     }
 

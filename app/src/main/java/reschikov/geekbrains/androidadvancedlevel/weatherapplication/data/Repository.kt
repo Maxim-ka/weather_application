@@ -110,16 +110,21 @@ class Repository(private val storable: Storable,
         return try {
             val saved = storable.getData(lat, lon)
             takeIf {(System.currentTimeMillis() -  saved.first.dt > THREE_HOURS)}?.let {
-                try {
-                    getWeather(getRequestedWeather().requestServer(GetByCoordinates(lat, lon))).run {
-                        state?.let { this } ?: Weather(saved, error)
-                    }
-                } catch (e: Throwable) {
-                    Weather(saved, e)
+                getNewDataWeather(GetByCoordinates(lat, lon)).run {
+                    state?.let { this } ?: Weather(saved, error)
                 }
             } ?: Weather(saved, null)
         } catch (e: Throwable) {
             Weather(null, AppException.Database(e.message))
+        }
+    }
+
+    /*Получение новых данных с сервера погоды*/
+    override suspend fun getNewDataWeather(requested: Requested): Weather {
+        return try {
+            getWeather(getRequestedWeather().requestServer(requested))
+        } catch (e: Throwable) {
+            Weather(null, e)
         }
     }
 

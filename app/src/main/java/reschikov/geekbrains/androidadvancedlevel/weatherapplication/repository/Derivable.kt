@@ -13,5 +13,6 @@ interface Derivable {
     suspend fun getListCities(): Pair<List<Place>?, Throwable?>
     suspend fun deletePlace(lat: Double, lon: Double): Pair<List<Place>?, Throwable?>
     suspend fun getDataWeather(lat: Double, lon: Double): Weather
+    suspend fun getNewDataWeather(requested: Requested): Weather
     suspend fun getStateLastPlace(): Weather?
 }

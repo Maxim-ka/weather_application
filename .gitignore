@@ -714,3 +714,8 @@
 /.idea/libraries/Gradle__com_squareup_leakcanary_shark_hprof_2_2_jar.xml
 /.idea/libraries/Gradle__com_squareup_leakcanary_shark_log_2_2_jar.xml
 /.idea/libraries/Gradle__com_squareup_okio_okio_2_2_2_jar.xml
+/local.properties
+/.idea/libraries/Gradle__androidx_room_room_common_2_2_4_jar.xml
+/.idea/libraries/Gradle__androidx_room_room_ktx_2_2_4_aar.xml
+/.idea/libraries/Gradle__androidx_room_room_runtime_2_2_4_aar.xml
+/.idea/libraries/Gradle__com_google_android_material_material_1_2_0_alpha05_aar.xml

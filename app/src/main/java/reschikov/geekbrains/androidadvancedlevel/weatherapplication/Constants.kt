@@ -54,7 +54,3 @@ const val LON = "lon"
 const val APP_ID = "appid"
 const val UNITS = "units"
 const val LANG = "lang"
-
-const val SCOPE_LOCAL = "scope local"
-const val SCOPE_GEO = "scope geo"
-const val SCOPE_WEATHER = "scope weather"

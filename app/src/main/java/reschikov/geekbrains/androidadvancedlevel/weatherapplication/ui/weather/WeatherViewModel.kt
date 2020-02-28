@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 import java.lang.ref.WeakReference
@@ -27,23 +29,26 @@ class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
             weakDerivable.get()?.let {
-                it.getDataWeather(lat, lon).run {
-                        state?.let { state -> setWeather(state)}
-                        setError(error)
-                    }
-                }
-            isProgressVisible.set(false)
+                toDistribute(it.getDataWeather(lat, lon))
             }
+            isProgressVisible.set(false)
+        }
+    }
+
+    fun getNewStatePlace(requested: Requested): ReceiveChannel<Boolean>{
+        return viewModelScope.produce(Dispatchers.IO) {
+            weakDerivable.get()?.let {
+                toDistribute(it.getNewDataWeather(requested))
+                send(false)
+            }
+        }
     }
 
     fun getStateLastPlace(){
         viewModelScope.launch(Dispatchers.IO){
             isProgressVisible.set(true)
             val data= weakDerivable.get()?.getStateLastPlace()
-            data?.let{
-                it.state?.let { state-> setWeather(state) }
-                setError(it.error)
-            }
+            data?.let{ toDistribute(it)}
             hasCities(data != null)
             isProgressVisible.set(false)
         }
@@ -53,13 +58,15 @@ class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
         viewModelScope.launch(Dispatchers.IO) {
             isProgressVisible.set(true)
             weakDerivable.get()?.let {
-                it.getStateCurrentPlace().run {
-                    state?.let { state -> setWeather(state) }
-                    setError(error)
-                }
+                toDistribute(it.getStateCurrentPlace())
             }
             isProgressVisible.set(false)
         }
+    }
+
+    private suspend fun toDistribute(weather: Weather){
+        weather.state?.let { state -> setWeather(state) }
+        setError(weather.error)
     }
 
     private fun setWeather(data: Pair<CurrentTable, List<ForecastTable>>){

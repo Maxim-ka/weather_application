@@ -19,7 +19,6 @@
     <string name="err_consist_letters">The code does NOT consist of TWO letters</string>
     <string name="err_contains_numbers">Contains numbers</string>
     <string name="err_empty_field">Empty fieldCurrentState</string>
-    <string name="err_not_filled">The fieldCurrentState is not filled</string>
     <string name="err_msg_not_sent">error message not sent</string>
     <string name="err_msg_not_delivered">error message not delivered</string>
     <string name="err_only_numbers">only numbers without spaces and dashes</string>
