@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuCompat
 import androidx.core.view.iterator
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -14,14 +15,20 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener{
+class MainActivity : AppCompatActivity(),
+        NavController.OnDestinationChangedListener,
+        CoroutineScope{
 
+    override val coroutineContext: CoroutineContext by lazy {
+        Dispatchers.Main + SupervisorJob()
+    }
     private val navController: NavController by lazy { Navigation.findNavController(this, R.id.frame_master) }
     @ExperimentalCoroutinesApi
     private val model: WeatherViewModel by viewModel()
@@ -44,8 +51,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             markItemBottomMenu(destination.id)
         }
         if(destination.id == R.id.fragmentWeather && arguments == null){
-            model.getStateLastPlace()
+            launch {
+                if (model.getStateLastPlace().receive() && navController.currentDestination?.id == R.id.fragmentWeather){
+                    navController.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
+                    bottom_navigation.menu.findItem(R.id.nav_places).isChecked = true
+                }
+            }
         }
+        title = destination.label
     }
 
     /*костыль*/
@@ -60,6 +73,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
+        MenuCompat.setGroupDividerEnabled(menu, true)
         return true
     }
 
@@ -106,5 +120,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         navController.removeOnDestinationChangedListener(this)
         bottom_navigation.setOnNavigationItemReselectedListener(null)
         bottom_navigation.setOnNavigationItemSelectedListener(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineContext.cancelChildren()
+        coroutineContext.cancel()
     }
 }

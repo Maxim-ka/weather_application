@@ -16,7 +16,6 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_LON
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.KEY_MESSAGE
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseFragment
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 
 private const val DEFAULT_LOCATION = 0.0
 
@@ -60,7 +59,6 @@ class FragmentWeather : BaseFragment(), Collectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.title_app_name)}
         arguments?.let {
             val newLat = it.getDouble(KEY_LAT)
             val newLon = it.getDouble(KEY_LON)
@@ -78,9 +76,12 @@ class FragmentWeather : BaseFragment(), Collectable {
         tl_tabs.setupWithViewPager(vp_pages)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_update, menu)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.setGroupVisible(R.id.coord, true)
+        menu.setGroupVisible(R.id.weather, true)
         menu.findItem(R.id.fragmentSensors).isVisible = areThereSensors()
+        menu.setGroupVisible(R.id.places, false)
+        menu.setGroupVisible(R.id.letter, false)
     }
 
     private fun areThereSensors(): Boolean{
@@ -151,13 +152,6 @@ class FragmentWeather : BaseFragment(), Collectable {
         super.onSaveInstanceState(outState)
         outState.putDouble(KEY_LAT, lat)
         outState.putDouble(KEY_LON, lon)
-    }
-
-    override fun renderHaveCities (hasCity: Boolean){
-        hasCity.takeUnless { it }?.let {
-            navController.takeIf { it?.currentDestination?.id == R.id.fragmentWeather
-            }?.navigate(R.id.action_fragmentWeather_to_fragmentOfListOfPlaces)
-        }
     }
 
     override fun onStop() {

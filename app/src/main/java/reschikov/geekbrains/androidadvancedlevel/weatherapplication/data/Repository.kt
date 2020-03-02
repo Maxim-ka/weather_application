@@ -1,6 +1,6 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data
 
-import leakcanary.AppWatcher
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.core.KoinComponent
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.THREE_HOURS
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
@@ -27,6 +27,7 @@ class Repository(private val storable: Storable,
         return try {
             updateListPlace(getRequestedWeather().requestServer(requested))
         } catch (e: Throwable) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             Pair(null, e)
         }
     }
@@ -45,6 +46,7 @@ class Repository(private val storable: Storable,
                 try {
                     updateListPlace(getRequestedWeather().requestServer(it))
                 } catch (e: Throwable) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     Pair(null, e)
                 }
             } ?: Pair(null, second)
@@ -58,6 +60,7 @@ class Repository(private val storable: Storable,
                 try {
                     getWeather(getRequestedWeather().requestServer(it))
                 } catch (e: Throwable) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     Weather(null, e)
                 }
             } ?: Weather(null, second)
@@ -76,6 +79,7 @@ class Repository(private val storable: Storable,
         return try {
             Pair(mapping.createListPlaceResult(getGeocoded().requestDirectGeocoding(place, code)), null)
         } catch (e: Throwable) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             Pair( null, e)
         }
     }
@@ -92,6 +96,7 @@ class Repository(private val storable: Storable,
         return try {
             Pair(mapping.createListPlaceCity(storable.getListCities()), null)
         } catch (e: Throwable){
+            FirebaseCrashlytics.getInstance().recordException(e)
             Pair(null, e)
         }
     }
@@ -101,6 +106,7 @@ class Repository(private val storable: Storable,
         return try {
             Pair(mapping.createListPlaceCity(storable.delete(lat, lon)), null)
         } catch (e: Throwable){
+            FirebaseCrashlytics.getInstance().recordException(e)
             Pair(null, AppException.Database(e.message))
         }
     }
@@ -110,20 +116,27 @@ class Repository(private val storable: Storable,
         return try {
             val saved = storable.getData(lat, lon)
             takeIf {(System.currentTimeMillis() -  saved.first.dt > THREE_HOURS)}?.let {
-                getNewDataWeather(GetByCoordinates(lat, lon)).run {
+                getFromServer(GetByCoordinates(lat, lon)).run {
                     state?.let { this } ?: Weather(saved, error)
                 }
             } ?: Weather(saved, null)
         } catch (e: Throwable) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             Weather(null, AppException.Database(e.message))
         }
     }
 
     /*Получение новых данных с сервера погоды*/
-    override suspend fun getNewDataWeather(requested: Requested): Weather {
+    override suspend fun getNewDataWeather(place: String): Weather {
+        val coord = storable.getCoordinatePlace(place)
+        return getFromServer(GetByCoordinates(coord.lat, coord.lon))
+    }
+
+    private suspend fun getFromServer(requested: Requested): Weather{
         return try {
             getWeather(getRequestedWeather().requestServer(requested))
         } catch (e: Throwable) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             Weather(null, e)
         }
     }
@@ -141,6 +154,7 @@ class Repository(private val storable: Storable,
                 writeToDatabase(first, second, third)
                 Weather(Pair(second, third), null)
             } catch (e: Throwable) {
+                FirebaseCrashlytics.getInstance().recordException(e)
                 Weather(null, AppException.Saved(e.message))
             }
         }
@@ -152,6 +166,7 @@ class Repository(private val storable: Storable,
                     writeToDatabase(first, second, third)
                     getListCities()
                 } catch (e: Throwable) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     Pair(null, AppException.Saved(e.message))
                 }
             }
@@ -177,12 +192,10 @@ class Repository(private val storable: Storable,
     private fun closeModules(){
         issuedCoordinates?.let {
             it.toClose()
-            AppWatcher.objectWatcher.watch(it, "TAG issuedCoordinates ${System.identityHashCode(it)}")
             issuedCoordinates = null
         }
         geocoded?.let {
             it.toClose()
-            AppWatcher.objectWatcher.watch(it, "TAG geocoded ${System.identityHashCode(it)}")
             geocoded = null
         }
     }

@@ -21,7 +21,6 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/feeling"
             android:text='@{model.fieldCurrentState.feelsLike + " ℃"}'
-            android:textSize="@dimen/text_size_properties"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/indent"
@@ -32,8 +31,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/wind"
-            android:text='@{model.fieldCurrentState.wind + " " + @string/m_c}'
-            android:textSize="@dimen/text_size_properties"
+            app:string='@{model.fieldCurrentState.wind + " " + @string/m_c}'
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/indent"
@@ -48,8 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
-            android:text="@{model.fieldCurrentState.humidity + @string/pct}"
-            android:textSize="@dimen/text_size_properties"
+            app:string='@{model.fieldCurrentState.humidity + " " + @string/pct}'
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_humidity"
@@ -61,8 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
-            android:text='@{model.fieldCurrentState.pressure + " " + @string/mm_Hg}'
-            android:textSize="@dimen/text_size_properties"
+            app:string='@{model.fieldCurrentState.pressure + " " + @string/mm_Hg}'
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_atmospheric_pressure"
@@ -74,8 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
-            android:text='@{model.fieldCurrentState.cloud + " " + @string/pct}'
-            android:textSize="@dimen/text_size_properties"
+            app:string='@{model.fieldCurrentState.cloud + " " + @string/pct}'
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_clouds_fill"
@@ -87,8 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
-            android:text='@{model.fieldCurrentState.precipitation + " " + @string/mm}'
-            android:textSize="@dimen/text_size_properties"
+            app:string='@{model.fieldCurrentState.precipitation + " " + @string/mm}'
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_umbrella"
@@ -101,7 +95,6 @@
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
             app:time="@{model.fieldCurrentState.sunrise}"
-            android:textSize="@dimen/text_size_properties"
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_sunrise"
@@ -114,7 +107,6 @@
             android:layout_marginTop="@dimen/indent"
             android:layout_marginBottom="@dimen/indent"
             app:time="@{model.fieldCurrentState.sunset}"
-            android:textSize="@dimen/text_size_properties"
             android:drawablePadding="@dimen/indent_big"
             android:gravity="center_vertical"
             app:drawableStartCompat="@drawable/ic_sunset"

@@ -26,11 +26,12 @@
         android:name=".WeatherApp"
         android:installLocation="auto"
         android:uiOptions="splitActionBarWhenNarrow"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
 
         <activity
-            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity"
-            android:label="@string/title_app_name">
+            android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

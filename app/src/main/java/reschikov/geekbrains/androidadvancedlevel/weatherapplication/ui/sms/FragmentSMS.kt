@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.sender_frame.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.SenderFrameBinding
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.showMessage
 
 private const val REQUEST_SELECT_PHONE_NUMBER = 2
@@ -28,11 +27,11 @@ private const val REQUEST_MY_PERMISSIONS_SEND_SMS = 1
 
 class FragmentSMS : Fragment() {
 
-    private val model: SenderViewModel by viewModel()
+    private val model : SenderViewModel by viewModel()
     private val smsManager by lazy { SmsManager.getDefault() }
-    private var snackbar: Snackbar? = null
-    private var binding: SenderFrameBinding? = null
-    private val errorPhone:(Boolean) -> Unit = {isPhone: Boolean ->
+    private var snackbar : Snackbar? = null
+    private var binding : SenderFrameBinding? = null
+    private val errorPhone :(Boolean) -> Unit = {isPhone: Boolean ->
         isPhone.takeUnless{it} ?.let {
             til_phone.error = getString(R.string.err_only_numbers)
             snackbar = showMessage(til_phone, getString(R.string.enter_phone_number), Color.RED)
@@ -54,7 +53,6 @@ class FragmentSMS : Fragment() {
             arguments?.let {bundle -> bundle.getString(KEY_MESSAGE)?.let { model.setText(it) } }
         }
         setHasOptionsMenu(true)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(getString(R.string.title_send_sms)) }
         return binding?.root
     }
 
@@ -95,9 +93,11 @@ class FragmentSMS : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_sender, menu)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.setGroupVisible(R.id.coord, false)
+        menu.setGroupVisible(R.id.weather, false)
+        menu.setGroupVisible(R.id.places, false)
+        menu.setGroupVisible(R.id.letter, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -192,6 +192,7 @@ class FragmentSMS : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding?.let {
+            it.unbind()
             it.model = null
             binding = null
         }

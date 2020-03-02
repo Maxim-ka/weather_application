@@ -64,6 +64,7 @@
     <string name="title_change_current_key">change currentTable key</string>
     <string name="title_send_SMS">send SMS</string>
     <string name="title_sensors">Phone sensors</string>
+    <string name="title_prediction_location">Set Prediction Location</string>
 
 <!--    кнопки-->
     <string name="but_ok" translatable="false">OK</string>
@@ -102,8 +103,8 @@
     <string name="longitude">longitude:</string>
 
 <!--    единицы измерения-->
-    <string name="mm_Hg"> mmHg</string>
-    <string name="pct"> %</string>
+    <string name="mm_Hg">mmHg</string>
+    <string name="pct">%</string>
     <string name="m_c">m/c</string>
     <string name="mm">mm</string>
 

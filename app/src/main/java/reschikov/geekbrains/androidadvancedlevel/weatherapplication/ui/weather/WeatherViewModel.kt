@@ -11,15 +11,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.Requested
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.domain.Weather
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.Derivable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
-class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
-                       override var booleanChannel: BroadcastChannel<Boolean>?,
+class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>,
                        private val weakDerivable: WeakReference<Derivable>) :
         BaseListViewModel<ForecastTable>() {
 
@@ -35,21 +33,21 @@ class WeatherViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
         }
     }
 
-    fun getNewStatePlace(requested: Requested): ReceiveChannel<Boolean>{
+    fun getNewStatePlace(place: String): ReceiveChannel<Boolean>{
         return viewModelScope.produce(Dispatchers.IO) {
             weakDerivable.get()?.let {
-                toDistribute(it.getNewDataWeather(requested))
+                toDistribute(it.getNewDataWeather(place))
                 send(false)
             }
         }
     }
 
-    fun getStateLastPlace(){
-        viewModelScope.launch(Dispatchers.IO){
+    fun getStateLastPlace() : ReceiveChannel<Boolean>{
+        return viewModelScope.produce(Dispatchers.IO){
             isProgressVisible.set(true)
             val data= weakDerivable.get()?.getStateLastPlace()
             data?.let{ toDistribute(it)}
-            hasCities(data != null)
+            send(data == null)
             isProgressVisible.set(false)
         }
     }

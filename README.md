@@ -1,6 +1,9 @@
 # weather_application  
 
-версия 2.0  
+###### 02.03.2020 version 2.0
+
+Скачать [**weather_application_release.apk**](https://cloud.mail.ru/public/2SSL/aaarF1zPn) 
+ 
 * Добавлена новая функция SwipeRefresh обновление данных по свайпу сверху
 вниз на экране текущего сотояния погоды (прямой запрос на сервер).  
 * Сохранен старый функционал, кроме отправки данных на прямую, минуя
@@ -15,8 +18,8 @@
 - почтовый индекс места, 
 - запрос на [сервис прямого геокодирования](https://opencagedata.com) 
   
-Приложение пишется целиком на kotlin, используется Navigation component,
-Data Binding Library, ViewModel, Room, Koin, kotlin coroutines, проект
+Приложение написано на kotlin, использованы: Navigation component, Data
+Binding Library, ViewModel, Room, Koin, kotlin coroutines, проект
 построен на Clean Architecture, MVVM.
 
 Проверка на утечки LeakCanary 2.2 на Api 28

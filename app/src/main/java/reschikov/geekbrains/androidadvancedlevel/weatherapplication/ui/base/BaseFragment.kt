@@ -29,25 +29,17 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
     }
     abstract val viewModel : BaseViewModel
     protected var navController : NavController? = null
-    private lateinit var successJob : Job
     private lateinit var errorJob : Job
 
     @ExperimentalCoroutinesApi
     override fun onStart() {
         super.onStart()
-        successJob = launch {
-            viewModel.getBooleanChannel()?.consumeEach {
-                renderHaveCities(it)
-            }
-        }
         errorJob = launch{
             viewModel.getErrorChannel()?.consumeEach { e ->
                 e?.let { renderError(it) }
             }
         }
     }
-
-    abstract fun renderHaveCities (hasCity: Boolean)
 
     private fun renderError (error: Throwable) {
         error.run {
@@ -116,7 +108,6 @@ abstract class BaseFragment : Fragment(), CoroutineScope {
 
     override fun onStop () {
         super .onStop()
-        successJob.cancel()
         errorJob.cancel()
     }
 

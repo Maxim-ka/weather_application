@@ -4,12 +4,15 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.Storabl
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CityTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.CurrentTable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.database.model.ForecastTable
+import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.model.data.openweather.current.Coord
 
 class DataBaseProvider(private val appDatabase: AppDatabase) : Storable{
 
     override suspend fun getLastTimeShow(): Long? = appDatabase.weatherDataDao().getLastShowTime()
 
     override suspend fun getLastPlace(): CityTable? = appDatabase.weatherDataDao().getLastCity()
+
+    override suspend fun getCoordinatePlace(name: String): Coord = appDatabase.weatherDataDao().getCoordPlace(name)
 
     @Throws
     override suspend fun getData(lat: Double, lon: Double): Pair<CurrentTable, List<ForecastTable>> {

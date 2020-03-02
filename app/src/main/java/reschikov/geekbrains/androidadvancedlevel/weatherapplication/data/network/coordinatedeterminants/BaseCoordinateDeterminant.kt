@@ -1,6 +1,7 @@
 package reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.coordinatedeterminants
 
 import android.content.Context
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByCoordinates
@@ -29,11 +30,14 @@ abstract class BaseCoordinateDeterminant(context: Context?)
                         val location = determineCoordinates()
                         Pair(GetByCoordinates(location.latitude, location.longitude), null)
                     } catch (e: Throwable) {
+                        FirebaseCrashlytics.getInstance().recordException(e)
                         removeListener()
                         Pair(null, e)
                     }
                 }
             } catch (e: TimeoutCancellationException) {
+                FirebaseCrashlytics.getInstance().log("TimeoutCancellationException")
+                FirebaseCrashlytics.getInstance().recordException(e)
                 removeListener()
                 Pair(null, Throwable(strTimeout))
             }

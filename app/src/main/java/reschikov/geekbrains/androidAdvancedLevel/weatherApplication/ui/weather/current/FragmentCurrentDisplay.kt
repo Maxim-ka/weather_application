@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.R
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.data.network.request.command.GetByName
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.databinding.CurrentFrameBinding
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Collectable
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.Spreadable
@@ -73,7 +72,7 @@ class FragmentCurrentDisplay : Fragment(),
     override fun onRefresh() {
         updateJob = launch {
             binding?.swrlCurrent?.isRefreshing = viewModel
-                .getNewStatePlace(GetByName(binding?.city?.text.toString()))
+                .getNewStatePlace(binding?.city?.text.toString())
                 .receive()
         }
     }

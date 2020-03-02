@@ -15,6 +15,9 @@
         <item name="actionModeBackground">?attr/colorSecondaryVariant</item>
         <item name="actionModeCloseDrawable">@drawable/ic_cancel</item>
 
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/text_size_properties</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -34,9 +37,9 @@
         <item name="errorIconTint">@color/colorAccent</item>
         <item name="hintTextColor">@color/colorPrimaryDark</item>
         <item name="hintTextAppearance">@android:style/TextAppearance.DeviceDefault.Small</item>
-        <item name="counterTextAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
+        <item name="counterTextAppearance">@android:style/TextAppearance.DeviceDefault.Small</item>
         <item name="helperTextTextColor">@color/colorPrimaryDark</item>
-        <item name="helperTextTextAppearance">@android:style/TextAppearance.DeviceDefault.Medium</item>
+        <item name="helperTextTextAppearance">@android:style/TextAppearance.DeviceDefault.Small</item>
     </style>
 
     <style name="materialCardView">

@@ -9,28 +9,19 @@ import kotlinx.coroutines.channels.ReceiveChannel
 @ExperimentalCoroutinesApi
 abstract class BaseViewModel : ViewModel(){
 
-    abstract var errorChannel : BroadcastChannel<Throwable?>?
-    abstract var booleanChannel : BroadcastChannel<Boolean>?
+    abstract var errorChannel : BroadcastChannel<Throwable?>
     val isProgressVisible = ObservableBoolean()
 
-    fun getBooleanChannel(): ReceiveChannel<Boolean>? = booleanChannel?.openSubscription()
-    fun getErrorChannel(): ReceiveChannel<Throwable?>? = errorChannel?.openSubscription()
+    fun getErrorChannel(): ReceiveChannel<Throwable?>? = errorChannel.openSubscription()
 
     protected suspend fun setError (e : Throwable?) {
-        errorChannel?.send(e)
-    }
-
-    protected suspend fun hasCities (hasCities: Boolean) {
-        booleanChannel?.send(hasCities)
+        errorChannel.send(e)
     }
 
     abstract fun addStateOfCurrentPlace()
 
     override fun onCleared() {
         super.onCleared()
-        errorChannel?.cancel()
-        booleanChannel?.cancel()
-        errorChannel = null
-        booleanChannel = null
+        errorChannel.cancel()
     }
 }

@@ -23,16 +23,15 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplace
 private const val ONLY_LETTER = "[^`~!@#\$%&*()_=+|/{};:'\",<.>?№\\d]+"
 private const val ONLY_DIGIT = "\\d+"
 private const val NOT_NUMBER = "\\D+"
-private const val SPACE = ' '
 private const val NUMBER_CHARS_IN_CODE = 2
 
 @ExperimentalCoroutinesApi
 class PlaceNameInputDialog : DialogFragment() {
 
     private val navController : NavController by lazy { findNavController() }
-    private val model: ListPlaceViewModel by navGraphViewModels(R.id.nav_places)
+    private val model : ListPlaceViewModel by navGraphViewModels(R.id.nav_places)
     private val defaultRequest : String by lazy { resources.getStringArray(R.array.request).first() }
-    private lateinit var request: String
+    private lateinit var request : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +57,7 @@ class PlaceNameInputDialog : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setModeRequest()
+        dialog?.setTitle(getString(R.string.title_prediction_location))
         exit.requestFocus()
     }
 
@@ -65,20 +65,21 @@ class PlaceNameInputDialog : DialogFragment() {
         when(request){
             getString(R.string.fld_place_name) -> {
                 dialog?.let {
-                    it.setTitle(R.string.title_specify_place_name)
+                    it.actv_dialog_title.setText(R.string.title_specify_place_name)
                     it.setTilNamePlace(getString(R.string.city_name), getString(R.string.city_name))
                     it.exit.setOnClickListener { requestByName() }
                 }
             }
             getString(R.string.fld_postcode) -> {
                 dialog?.let{
-                    it.setTitle(R.string.title_specify_place_zip_code)
+                    it.actv_dialog_title.setText(R.string.title_specify_place_zip_code)
                     it.setTilNamePlace(getString(R.string.zip_code), getString(R.string.zip_code_example))
-                    it.exit.setOnClickListener { requestByPostCode() } }
+                    it.exit.setOnClickListener { requestByPostCode() }
+                }
             }
             getString(R.string.fld_opencage) ->{
                 dialog?.let {
-                    it.setTitle(R.string.title_indicate_in_ascending_order)
+                    it.actv_dialog_title.setText(R.string.title_indicate_in_ascending_order)
                     it.setTilNamePlace(getString(R.string.street_district_city_region_country),
                             getString(R.string.street_district_city_region_country))
                     it.exit.setOnClickListener { requestOpenCage() }

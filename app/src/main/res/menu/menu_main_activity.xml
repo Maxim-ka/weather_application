@@ -3,11 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/locate"
-        android:icon="@drawable/ic_my_location"
-        android:orderInCategory="1"
-        android:title="@string/menu_location"
-        app:showAsAction="always" />
+    <group
+        android:id="@+id/coord">
+        <item
+            android:id="@+id/locate"
+            android:icon="@drawable/ic_my_location"
+            android:orderInCategory="1"
+            android:title="@string/menu_location"
+            app:showAsAction="ifRoom" />
+    </group>
+    <group
+        android:id="@+id/weather">
+        <item
+            android:id="@+id/fragmentSensors"
+            android:icon="@drawable/ic_group_work_black_24dp"
+            android:orderInCategory="3"
+            android:title="@string/menu_sensors"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/to_share"
+            android:orderInCategory="5"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="@string/menu_to_share"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/fragmentSMS"
+            android:icon="@drawable/ic_textsms_black_24dp"
+            android:orderInCategory="7"
+            android:title="@string/menu_sms"
+            app:showAsAction="ifRoom" />
+    </group>
+    <group
+        android:id="@+id/places">
+        <item
+            android:id="@+id/placeNameInputDialog"
+            android:orderInCategory="2"
+            android:icon="@drawable/ic_add_circle_outline"
+            android:title="@string/menu_add_city"
+            app:showAsAction="ifRoom" />
+    </group>
+    <group
+        android:id="@+id/letter">
+        <item
+            android:id="@+id/action_send"
+            android:icon="@drawable/ic_send_black_24dp"
+            android:orderInCategory="10"
+            android:title="@string/menu_send"
+            app:showAsAction="ifRoom"/>
+    </group>
 
 </menu>

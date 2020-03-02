@@ -11,20 +11,19 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import java.text.DateFormat
 import java.util.*
 
 class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-    private var textKeyWeather: EditTextPreference? = null
-    private var textKeyOpenCage: EditTextPreference? = null
-    private var viewBalanceRequests: Preference? = null
-    private var viewResetDate: Preference? = null
-    private var listPreference: ListPreference? = null
-    private lateinit var spWeather: SharedPreferences
-    private lateinit var spCage: SharedPreferences
-    private lateinit var spRequest: SharedPreferences
+    private var textKeyWeather : EditTextPreference? = null
+    private var textKeyOpenCage : EditTextPreference? = null
+    private var viewBalanceRequests : Preference? = null
+    private var viewResetDate : Preference? = null
+    private var listPreference : ListPreference? = null
+    private lateinit var spWeather : SharedPreferences
+    private lateinit var spCage : SharedPreferences
+    private lateinit var spRequest : SharedPreferences
 
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         setPreferencesFromResource(R.xml.setting, s)
@@ -49,13 +48,11 @@ class FragmentSettings : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         setHasOptionsMenu(true)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(R.string.title_preference) }
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.clear()
+        menu.setGroupVisible(R.id.coord, false)
+        menu.setGroupVisible(R.id.weather, false)
+        menu.setGroupVisible(R.id.places, false)
+        menu.setGroupVisible(R.id.letter, false)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

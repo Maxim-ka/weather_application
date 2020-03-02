@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/fragmentWeather"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.FragmentWeather"
-        android:label="FragmentWeather">
+        android:label="@string/title_app_name">
         <action
             android:id="@+id/action_fragmentWeather_to_fragmentOfListOfPlaces"
             app:destination="@id/nav_places"/>
@@ -26,7 +26,7 @@
         <fragment
             android:id="@+id/fragmentOfListOfPlaces"
             android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.listplaces.FragmentOfListOfPlaces"
-            android:label="FragmentOfListOfPlaces">
+            android:label="@string/title_cities">
             <action
                 android:id="@+id/action_fragmentOfListOfPlaces_to_placeNameInputDialog"
                 app:destination="@id/placeNameInputDialog" />
@@ -41,7 +41,7 @@
         <dialog
             android:id="@+id/choiceOfActionDialog"
             android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.ChoiceOfActionDialog"
-            android:label="ChoiceOfActionDialog"
+            android:label="@string/title_cities"
             tools:layout="@layout/choice_dialog">
             <action
                 android:id="@+id/action_choiceOfActionDialog_to_placeNameInputDialog"
@@ -54,7 +54,7 @@
         <dialog
             android:id="@+id/placeNameInputDialog"
             android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.PlaceNameInputDialog"
-            android:label="PlaceNameInputDialog"
+            android:label="@string/title_cities"
             tools:layout="@layout/city_input_dialog">
             <action
                 android:id="@+id/action_placeNameInputDialog_to_choicePlaceDialog"
@@ -67,7 +67,7 @@
         <dialog
             android:id="@+id/choicePlaceDialog"
             android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.dialogs.ChoicePlaceDialog"
-            android:label="ChoicePlaceDialog">
+            android:label="@string/title_cities">
             <action
                 android:id="@+id/action_choicePlaceDialog_to_fragmentOfListOfPlaces"
                 app:destination="@id/fragmentOfListOfPlaces"
@@ -77,7 +77,7 @@
     <fragment
         android:id="@+id/fragmentSensors"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sensors.FragmentSensors"
-        android:label="FragmentSensors" >
+        android:label="@string/title_sensors" >
         <action
             android:id="@+id/action_fragmentSensors_to_fragmentWeather"
             app:destination="@id/fragmentWeather"
@@ -86,11 +86,11 @@
     <fragment
         android:id="@+id/fragmentSettings"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.settings.FragmentSettings"
-        android:label="FragmentSettings" />
+        android:label="@string/title_preference" />
     <fragment
         android:id="@+id/fragmentSMS"
         android:name="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.sms.FragmentSMS"
-        android:label="FragmentSMS" >
+        android:label="@string/title_send_sms" >
         <action
             android:id="@+id/action_fragmentSMS_to_fragmentWeather"
             app:destination="@id/fragmentWeather"

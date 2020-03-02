@@ -64,6 +64,7 @@
     <string name="title_select_request">Выберите способ определения места</string>
     <string name="title_send_SMS">Отправка СМС</string>
     <string name="title_sensors">Датчики телефона</string>
+    <string name="title_prediction_location">Задать место прогноза</string>
 
 <!--    кнопки-->
     <string name="but_exit">Выход</string>
@@ -96,10 +97,10 @@
     <string name="longitude">долгота:</string>
 
 <!--    единицы измерения-->
-    <string name="pct"> %</string>
-    <string name="mm"> мм</string>
-    <string name="mm_Hg">"мм.рт.ст."</string>
-    <string name="m_c"> м/с</string>
+    <string name="pct">%</string>
+    <string name="mm">мм</string>
+    <string name="mm_Hg">мм.рт.ст.</string>
+    <string name="m_c">м/с</string>
 
 <!--    menu-->
     <string name="menu_update">Обновить</string>

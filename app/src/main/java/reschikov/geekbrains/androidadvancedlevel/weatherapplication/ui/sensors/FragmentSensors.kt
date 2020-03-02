@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.sensor_frame.*
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.*
-import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.mainactivity.MainActivity
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.unit.convertToSize
 
 
@@ -21,10 +20,10 @@ private const val INTERVAL_MIC_SEC = 15_000_000
 
 class FragmentSensors : Fragment(), SensorEventListener {
 
-    private lateinit var sm: SensorManager
-    private var pressureMeter: Sensor? = null
-    private var temperatureSensor: Sensor? = null
-    private var humiditySensor: Sensor? = null
+    private lateinit var sm : SensorManager
+    private var pressureMeter : Sensor? = null
+    private var temperatureSensor : Sensor? = null
+    private var humiditySensor : Sensor? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.sensor_frame, container, false)
@@ -35,7 +34,6 @@ class FragmentSensors : Fragment(), SensorEventListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let { (it as MainActivity).supportActionBar?.setTitle(getString(R.string.title_sensors)) }
         initSensors()
     }
 
@@ -51,7 +49,10 @@ class FragmentSensors : Fragment(), SensorEventListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.clear()
+        menu.setGroupVisible(R.id.coord, false)
+        menu.setGroupVisible(R.id.weather, false)
+        menu.setGroupVisible(R.id.places, false)
+        menu.setGroupVisible(R.id.letter, false)
     }
 
     override fun onResume() {

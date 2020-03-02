@@ -22,7 +22,7 @@ fun showMessage(view: View, message: String, color: Int): Snackbar{
 
 fun Fragment.showAlertDialog(title: Int, message: String){
     activity?.let {
-        AlertDialog.Builder(it, R.style.Theme_MaterialComponents_Light_Dialog_Alert)
+        AlertDialog.Builder(it, R.style.ThemeOverlay_MaterialComponents_Dialog_Alert)
             .setTitle(title)
             .setIcon(R.drawable.ic_warning)
             .setMessage(message)

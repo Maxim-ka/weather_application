@@ -13,9 +13,9 @@ import reschikov.geekbrains.androidadvancedlevel.weatherapplication.repository.D
 import reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.base.BaseListViewModel
 
 @ExperimentalCoroutinesApi
-class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>?,
-                         override var booleanChannel: BroadcastChannel<Boolean>?,
-                         private var derivable: Derivable?) :
+open class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>,
+                              private  var booleanChannel: BroadcastChannel<Boolean>,
+                              private var derivable: Derivable?) :
         BaseListViewModel<Place>(),
         AddablePlace{
 
@@ -26,6 +26,8 @@ class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>
     init {
         loadSavePlaces()
     }
+
+    fun getBooleanChannel(): ReceiveChannel<Boolean> = booleanChannel.openSubscription()
 
     private fun loadSavePlaces() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -105,7 +107,7 @@ class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>
 
     private suspend fun toDistribute(list: List<Place>?, error: Throwable?){
         list?.let { setObservableList(it) }
-        hasCities(observableList.isNotEmpty())
+        booleanChannel.send(observableList.isNotEmpty())
         setError(error)
     }
 
@@ -116,5 +118,6 @@ class ListPlaceViewModel(override var errorChannel: BroadcastChannel<Throwable?>
     override fun onCleared() {
         super.onCleared()
         derivable = null
+        booleanChannel.cancel()
     }
 }

@@ -55,8 +55,7 @@ val locationModule  = module {
 @ExperimentalCoroutinesApi
 val viewModelModule = module {
     viewModel {
-        WeatherViewModel(BroadcastChannel(Channel.CONFLATED),
-                BroadcastChannel(Channel.CONFLATED), WeakReference(get()))
+        WeatherViewModel(BroadcastChannel(Channel.CONFLATED), WeakReference(get()))
     }
     factory<ViewModelProvider.Factory> { ListPlaceModelFactory(get<Derivable>()) }
     viewModel { SenderViewModel() }
