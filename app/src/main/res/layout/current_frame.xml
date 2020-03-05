@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="reschikov.geekbrains.androidadvancedlevel.weatherapplication.ui.weather.WeatherViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swrl_current"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/indent"
+            app:layout_behavior = "@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/materialCardView"
+                app:cardBackgroundColor="@{model.fieldCurrentState.tempColor}">
+
+                <ProgressBar
+                    android:id="@+id/pb_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{model.isProgressVisible() ? View.VISIBLE : View.GONE}"
+                    android:layout_gravity="center"
+                    tools:visibility="visible"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/separator"
+                    android:showDividers="middle"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/indent"
+                        android:layout_marginBottom="@dimen/indent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/city"
+                            android:text="@{model.fieldCurrentState.name}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_name_city"
+                            android:padding="@dimen/indent"
+                            android:textAlignment="gravity"
+                            android:gravity="center"
+                            tools:text="Иркутск"/>
+
+                        <include layout="@layout/block_current_date_time"
+                            android:id="@+id/day_time"
+                            app:model="@{model}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/indent"
+                        android:layout_marginBottom="@dimen/indent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icon"
+                                android:layout_width="@dimen/size_big_imageView"
+                                android:layout_height="@dimen/size_big_imageView"
+                                android:padding="@dimen/indent_little"
+                                android:contentDescription="@{model.fieldCurrentState.weather.icon}"
+                                android:scaleType="centerCrop"
+                                app:src="@{model.fieldCurrentState.weather.icon}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/temperature"
+                                android:text='@{String.valueOf(model.fieldCurrentState.temp) + " ℃"}'
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:textSize="@dimen/text_size_current_temp"
+                                app:autoSizeTextType="uniform"
+                                app:autoSizeMaxTextSize="@dimen/text_size_current_temp"
+                                tools:text="-00,0 ℃" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:text='@{model.fieldCurrentState.weather.description}'
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="@dimen/text_size_state_current"
+                            tools:text="солнечно"/>
+
+                    </LinearLayout>
+
+                    <include layout="@layout/properties_weather"
+                        android:id="@+id/properties"
+                        app:model="@{model}"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>
+
+
+
+

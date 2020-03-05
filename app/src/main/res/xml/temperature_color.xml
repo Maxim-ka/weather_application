@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+    <entry temperature="-35" color="#8181F7"/>
+    <entry temperature="-30" color="#819FF7"/>
+    <entry temperature="-25" color="#81BEF7"/>
+    <entry temperature="-20" color="#81DAF5"/>
+    <entry temperature="-15" color="#81F7F3"/>
+    <entry temperature="-10" color="#81F7D8"/>
+    <entry temperature="-5" color="#81F7BE"/>
+    <entry temperature="0" color="#81F79F"/>
+    <entry temperature="5" color="#81F781"/>
+    <entry temperature="10" color="#9FF781"/>
+    <entry temperature="15" color="#BEF781"/>
+    <entry temperature="20" color="#D8F781"/>
+    <entry temperature="25" color="#F3F781"/>
+    <entry temperature="30" color="#F5DA81"/>
+    <entry temperature="35" color="#F7BE81"/>
+    <entry temperature="40" color="#F79F81"/>
+</map>

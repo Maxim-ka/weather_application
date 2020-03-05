@@ -1,0 +1,161 @@
+<resources>
+<!--    field-->
+    <string name="fld_current_location">Current location</string>
+    <string name="fld_set_city">Set city</string>
+    <string name="fld_place_name">Place name</string>
+    <string name="fld_postcode">Postcode</string>
+    <string name="fld_opencage">OpenCage</string>
+
+<!--    error-->
+    <string name="err_no_network">No network connection</string>
+    <string name="err_unable_determine_coordinates">Unable to determine coordinates. Can try again</string>
+    <string name="error_code">Error code: </string>
+    <string name="error_message"> message: </string>
+    <string name="err_location_not_found">Specified location not found</string>
+    <string name="error_writing_database">Error writing to database</string>
+    <string name="err_database_error">Database Error</string>
+    <string name="err_title">Title contains extra characters</string>
+    <string name="err_not_number">Not a number</string>
+    <string name="err_consist_letters">The code does NOT consist of TWO letters</string>
+    <string name="err_contains_numbers">Contains numbers</string>
+    <string name="err_empty_field">Empty fieldCurrentState</string>
+    <string name="err_msg_not_sent">error message not sent</string>
+    <string name="err_msg_not_delivered">error message not delivered</string>
+    <string name="err_only_numbers">only numbers without spaces and dashes</string>
+
+<!--    warning-->
+    <string name="warning">Warning!</string>
+    <string name="warning_requests_per_day">The number of requests per day is exceeded, you can re-request after</string>
+    <string name="warning_no_application">There is no application to send a test message</string>
+
+<!--    attention-->
+    <string name="attention">Attention!</string>
+    <string name="att_out_date">data is out of date</string>
+    <string name="att_nothing_selected">Nothing selected!</string>
+
+<!--    message-->
+    <string name="disabling_location">disabling network location</string>
+    <string name="no_permission_determine_location">no permission to determine location</string>
+    <string name="refusal_google">refusal to request coordinates via google</string>
+    <string name="message_sent">Message sent</string>
+    <string name="message_delivered">Message delivered</string>
+    <string name="enter_phone_number">number in the format: 89012345678 or +79012345678</string>
+    <string name="empty_message">Empty message</string>
+
+<!--    title-->
+    <string name="title_app_name">weather_application</string>
+    <string name="title_determine_location">Determine the location of the weather forecast</string>
+    <string name="title_specify_place_name">Specify place name</string>
+    <string name="title_specify_place_zip_code">Specify a place zip code</string>
+    <string name="title_indicate_in_ascending_order">Indicate in ascending order, separated by commas
+         part or all of the location parameters: street,district,city,region,country.
+        Without numbers.</string>
+    <string name="title_choose_place">Choose the nearest place</string>
+    <string name="title_cities">List of cities</string>
+    <string name="title_how_to_send">How to send</string>
+    <string name="title_preference">Preference</string>
+    <string name="title_send_sms">Send SMS</string>
+    <string name="title_submit">Submit</string>
+    <string name="title_current_state">Current state</string>
+    <string name="title_forecast">Forecast</string>
+    <string name="title_select_request">Select weather request location</string>
+    <string name="title_request">Request weather</string>
+    <string name="title_request_geocoder">Request geocoder</string>
+    <string name="title_change_current_key">change currentTable key</string>
+    <string name="title_send_SMS">send SMS</string>
+    <string name="title_sensors">Phone sensors</string>
+    <string name="title_prediction_location">Set Prediction Location</string>
+
+<!--    кнопки-->
+    <string name="but_ok" translatable="false">OK</string>
+    <string name="but_cancel" translatable="false">Cancel</string>
+    <string name="but_exit">exit</string>
+    <string name="but_get_data">to get data</string>
+    <string name="but_select">Select</string>
+
+<!--    text-->
+    <string name="city_name">city name</string>
+    <string name="zip_code">zip code</string>
+    <string name="zip_code_example" translatable="false">664049</string>
+    <string name="street_district_city_region_country">street,district,city,region,country</string>
+    <string name="subject">review, wishes, recommendations</string>
+    <string name="letter_country_code">2-letter country code</string>
+    <string name="enter_phone_of_recipient">Enter the phone of the recipient</string>
+
+<!--    parameter-->
+    <string name="type_text_plain" translatable="false">text/plain</string>
+    <string name="mailto" translatable="false">mailto:</string>
+    <string name="email" translatable="false">Reschikov@list.ru</string>
+    <string name="absent">Absent</string>
+    <string name="temp">temperature:</string>
+    <string name="state">state:</string>
+    <string name="felt">felt:</string>
+    <string name="wind">wind: </string>
+    <string name="humidity">humidity:</string>
+    <string name="pressure">pressure:</string>
+    <string name="overcast">overcast:</string>
+    <string name="rainfall">rainfall:</string>
+    <string name="sunrise">sunrise:</string>
+    <string name="sunset">sunset:</string>
+    <string name="min_temp">min temperature:</string>
+    <string name="max_temp">max temperature:</string>
+    <string name="latitude">latitude:</string>
+    <string name="longitude">longitude:</string>
+
+<!--    единицы измерения-->
+    <string name="mm_Hg">mmHg</string>
+    <string name="pct">%</string>
+    <string name="m_c">m/c</string>
+    <string name="mm">mm</string>
+
+<!--    menu-->
+    <string name="menu_update">Update</string>
+    <string name="menu_select_city">Select city</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_feedback_email">Feedback email</string>
+    <string name="menu_all">All</string>
+    <string name="menu_select">Select</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_add_city">Add city</string>
+    <string name="menu_location">Location</string>
+    <string name="menu_sensors">Use of internal sensors</string>
+    <string name="menu_to_share">To share</string>
+    <string name="menu_sms">SMS</string>
+
+<!--    pref-->
+    <string name="pref_request_selection">Request selection</string>
+    <string name="pref_current_key">Current key for obtaining weather conditions</string>
+    <string name="pref_balance_requests">balance of requests</string>
+    <string name="pref_reset_date">reset date</string>
+    <string name="pref_key_OpenCage">CurrentTable key OpenCage</string>
+
+<!--    сенсоры-->
+    <string name="pressure_meter">Pressure</string>
+    <string name="temperature_sensor">Temperature</string>
+    <string name="humidity_sensor">Humidity</string>
+
+<!--    notifications-->
+    <string name="notif_name_simple_notice">SimpleNotice</string>
+    <string name="notif_name_sms">SMS sending and receiving notification</string>
+    <string name="notif_push">Notice Push</string>
+    <string name="notif_sms">Notice SMS</string>
+
+<!--    images-->
+    <string name="str_add" translatable="false">ADD</string>
+    <string name="str_image" translatable="false">image</string>
+
+<!--    rhumb-->
+    <string name="n">N</string>
+    <string name="ne">NE</string>
+    <string name="e">E</string>
+    <string name="se">SE</string>
+    <string name="s">S</string>
+    <string name="sw">SW</string>
+    <string name="w">W</string>
+    <string name="nw">NW</string>
+
+    <string name="send">Send</string>
+    <string name="sms_subscriber">SMS to subscriber</string>
+    <string name="number_sms">number of sms: </string>
+
+</resources>
